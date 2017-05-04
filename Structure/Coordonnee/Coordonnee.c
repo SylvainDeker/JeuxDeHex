@@ -9,6 +9,7 @@
 #include "Coordonnee.h"
 
 Coordonnee Coord(int x, int y){
+    assert(x>=0&&y>=0);
     Coordonnee new;
     new.x=x;
     new.y=y;

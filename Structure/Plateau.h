@@ -11,6 +11,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <stdbool.h>
+    #include <assert.h>
     #include "Coordonnee/Coordonnee.h"
     #define GRILLE char**
     typedef struct _plateau*Plateau;
@@ -32,7 +33,7 @@
        \param Joueur est definit dans Plateau.h (#define)
        \return bool=false si impossible de positionner le pion (effet de bords, place deja prise)
     */
-    bool placer_Pion(Plateau plateau,Joueur joueur,Coordonnee c);
+    void placer_Pion(Plateau plateau,Joueur joueur,Coordonnee c);
 
     /*!
        \brief Libération de la mémoire

@@ -40,14 +40,7 @@ int main(int argc, char const *argv[]) {
     afficher_plateau(plateau);
 
 
-    printf("Verification dees effets de bords\n" );
-    for (size_t i = 0; i < 6; i++) {
-
-        Coordonnee voisin=obtenir_voisin(Coord(7,4),i);
-        placer_Pion(plateau,JOUEUR_2,voisin);
-
-    }
-    afficher_plateau(plateau);
+    
 
     freed_Plateau( plateau);
     return 0;

@@ -9,6 +9,7 @@
 #ifndef _COORDONNEE_H_
 #define _COORDONNEE_H_
 
+#include <assert.h>
 typedef struct _coordonnee{
     int x;
     int y;

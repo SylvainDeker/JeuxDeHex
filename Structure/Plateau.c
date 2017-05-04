@@ -17,6 +17,7 @@ struct _plateau{
 };
 
 Plateau construction_Plateau(unsigned int dimension){
+    assert(dimension>0);
     Plateau plateau=(Plateau)malloc(sizeof(struct _plateau));
     plateau->dimension=dimension;
     plateau->grille=(GRILLE)malloc(sizeof(char*)*dimension);
@@ -30,28 +31,24 @@ Plateau construction_Plateau(unsigned int dimension){
     }
     return plateau;
 }
-bool placer_Pion(Plateau plateau,Joueur joueur,Coordonnee c){
-    bool application_changement;
-    if(c.x>plateau->dimension-1
-        || c.y>plateau->dimension-1
-        || c.x<0
-        || c.y<0
-        || plateau->grille[c.x][c.y]!=VIDE
-    ){
-        application_changement=false;
-    }
-    else{
-        application_changement=true;
-        plateau->grille[c.x][c.y]=joueur;
-    }
-    return application_changement;
+
+void placer_Pion(Plateau plateau,Joueur joueur,Coordonnee c){
+    assert(c.x>=0 && c.x< plateau->dimension);
+    assert(c.y>=0 && c.y< plateau->dimension);
+    assert(plateau->grille[c.x][c.y]==VIDE);
+
+    plateau->grille[c.x][c.y]=joueur;
+
 }
 
 Joueur connaitre_Pion(Plateau plateau,Coordonnee c){
+    assert(c.x>=0 && c.x< plateau->dimension);
+    assert(c.y>=0 && c.y< plateau->dimension);
     return plateau->grille[c.x][c.y];
 }
 
 Coordonnee obtenir_voisin(Coordonnee c,int link){
+    assert(link>=0&&link<7);
     Coordonnee voisin;
     switch (link) {
         case 0:
@@ -78,13 +75,12 @@ Coordonnee obtenir_voisin(Coordonnee c,int link){
             voisin.x=c.x;
             voisin.y=c.y-1;
             break;
-        default:
-            fprintf(stderr, "Erreur : obtenir_voisin link=%d \n",link );
     }
     return voisin;
 }
 
 void freed_Plateau(Plateau plateau){
+    assert(plateau);
     for (int i = 0; i < plateau->dimension; i++) {
         free(plateau->grille[i]);
     }
@@ -92,8 +88,9 @@ void freed_Plateau(Plateau plateau){
     free(plateau);
 }
 
-
+//////////////////////////////////////////////////////DEV
 void afficher_plateau(Plateau plateau){
+    assert(plateau);
     printf("=============================================\n" );
     for (int i = 0; i < plateau->dimension; i++) {
         for (size_t h = 0; h < i; h++) {
