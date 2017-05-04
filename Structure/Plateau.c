@@ -9,99 +9,70 @@
 #include "Plateau.h"
 
 
-struct _plateau{
+typedef struct _groupe{
+    bool extremite1_atteind;
+    bool extremite2_atteind;
+}*Groupe;
 
-    unsigned int dimension;
-    GRILLE grille;
+typedef struct _case{
+    Pion pion;
+    Groupe groupe;
+}*Case;
+
+
+struct _plateau{
+    unsigned int dim;//dimention
+    Case**c;
+    Groupe*Joueur1;//liste des groupes du Joueur 1
+    unsigned int nb_grp_joueur_1;
+    Groupe*Joueur2;//listes des groupes du Joueur 2
+    unsigned int nb_grp_joueur_2;
 
 };
 
-Plateau construction_Plateau(unsigned int dimension){
-    assert(dimension>0);
-    Plateau plateau=(Plateau)malloc(sizeof(struct _plateau));
-    plateau->dimension=dimension;
-    plateau->grille=(GRILLE)malloc(sizeof(char*)*dimension);
-    for (int i = 0; i < dimension; i++) {
-        plateau->grille[i]=(char*)malloc(sizeof(char)*dimension);
+/////////////////////////FONCTIONS PRIVES////////////////////////////
+Case construction_case(){
+    Case new = (Case)malloc(sizeof(struct _case));
+    new->pion=VIDE;
+    return new;
+}
+/////////////////////////////FONCTIONS PUBLIQUES////////////////////////
+Plateau constructeur_plateau(unsigned int dimention){
+    Plateau p=(Plateau)malloc(sizeof(struct _plateau));
+    p->c=(Case**)malloc(sizeof(Case*)*dimention);
+
+    for (unsigned int i = 0; i < dimention; i++) {
+        p->c[i]=(Case*)malloc(sizeof(Case*)*dimention);
     }
-    for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension; j++) {
-            plateau->grille[i][j]=VIDE;
+    for (unsigned int i = 0; i < dimention; i++) {
+        for (unsigned int j = 0; j < dimention; j++) {
+            p->c[i][j]= construction_case();
         }
     }
-    return plateau;
+    p->dim=dimention;
+    p->nb_grp_joueur_1=0;
+    p->nb_grp_joueur_2=0;
+
+    return p;
 }
 
-void placer_Pion(Plateau plateau,Joueur joueur,Coordonnee c){
-    assert(c.x>=0 && c.x< plateau->dimension);
-    assert(c.y>=0 && c.y< plateau->dimension);
-    assert(plateau->grille[c.x][c.y]==VIDE);
 
-    plateau->grille[c.x][c.y]=joueur;
-
-}
-
-Joueur connaitre_Pion(Plateau plateau,Coordonnee c){
-    assert(c.x>=0 && c.x< plateau->dimension);
-    assert(c.y>=0 && c.y< plateau->dimension);
-    return plateau->grille[c.x][c.y];
-}
-
-Coordonnee obtenir_voisin(Coordonnee c,int link){
-    assert(link>=0&&link<7);
-    Coordonnee voisin;
-    switch (link) {
-        case 0:
-            voisin.x=c.x-1;
-            voisin.y=c.y;
-            break;
-        case 1:
-            voisin.x=c.x-1;
-            voisin.y=c.y+1;
-            break;
-        case 2:
-            voisin.x=c.x;
-            voisin.y=c.y+1;
-            break;
-        case 3:
-            voisin.x=c.x+1;
-            voisin.y=c.y;
-            break;
-        case 4:
-            voisin.x=c.x+1;
-            voisin.y=c.y-1;
-            break;
-        case 5:
-            voisin.x=c.x;
-            voisin.y=c.y-1;
-            break;
-    }
-    return voisin;
-}
-
-void freed_Plateau(Plateau plateau){
-    assert(plateau);
-    for (int i = 0; i < plateau->dimension; i++) {
-        free(plateau->grille[i]);
-    }
-    free(plateau->grille);
-    free(plateau);
-}
-
-//////////////////////////////////////////////////////DEV
-void afficher_plateau(Plateau plateau){
-    assert(plateau);
-    printf("=============================================\n" );
-    for (int i = 0; i < plateau->dimension; i++) {
-        for (size_t h = 0; h < i; h++) {
-            printf("  " );
+void freed_Plateau(Plateau p){
+    for (unsigned int i = 0; i < p->dim; i++) {
+        for (unsigned int j = 0; j < p->dim; j++) {
+            free(p->c[i][j]);
         }
-        for (int j = 0; j < plateau->dimension; j++) {
-            if(plateau->grille[i][j]==JOUEUR_1) printf("\\ 1 " );
-            else if (plateau->grille[i][j]==JOUEUR_2) printf("\\ 2 " );
-            else printf("\\   " );
-        }
-        printf("\\\n" );
     }
-    printf("=============================================\n" );
+    for (unsigned int i = 0; i < p->dim; i++) {
+        free(p->c[i]);
+    }
+    free(p->c);
+    for (unsigned int i = 0; i < p->nb_grp_joueur_1; i++) {
+        free(p->Joueur1[i]);
+    }
+    for (unsigned int i = 0; i < p->nb_grp_joueur_2; i++) {
+        free(p->Joueur2[i]);
+    }
+
+    free(p);
 }
