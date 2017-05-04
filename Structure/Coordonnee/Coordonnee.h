@@ -16,6 +16,6 @@ typedef struct _coordonnee{
 }Coordonnee;
 
 Coordonnee Coord(int x, int y);
-
+Coordonnee Coord_voisin(Coordonnee c,int link);
 
 #endif

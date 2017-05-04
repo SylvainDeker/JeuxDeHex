@@ -20,8 +20,8 @@
     typedef struct _plateau*Plateau;
     Plateau constructeur_plateau(unsigned int dimention);
     void freed_Plateau(Plateau p);
-
-
+    void afficher_plateau(Plateau plateau);
+    Plateau insersion_plateau(Plateau p,Coordonnee c,Pion pion);
 
 
 

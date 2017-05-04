@@ -15,3 +15,36 @@ Coordonnee Coord(int x, int y){
     new.y=y;
     return new;
 }
+
+
+Coordonnee Coord_voisin(Coordonnee c,int link){
+    
+    Coordonnee voisin;
+    switch (link) {
+        case 0:
+            voisin.x=c.x-1;
+            voisin.y=c.y;
+            break;
+        case 1:
+            voisin.x=c.x-1;
+            voisin.y=c.y+1;
+            break;
+        case 2:
+            voisin.x=c.x;
+            voisin.y=c.y+1;
+            break;
+        case 3:
+            voisin.x=c.x+1;
+            voisin.y=c.y;
+            break;
+        case 4:
+            voisin.x=c.x+1;
+            voisin.y=c.y-1;
+            break;
+        case 5:
+            voisin.x=c.x;
+            voisin.y=c.y-1;
+            break;
+    }
+    return voisin;
+}
