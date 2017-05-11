@@ -211,10 +211,10 @@ bool Case_Vide(Plateau p,Coordonnee c){
     return p->cellule[c.x][c.y]->groupe==NULL;
 }
 Joueur Joueur1(Plateau p){
-    return p->joueur[1];
+    return p->joueur[0];
 }
 Joueur Joueur2(Plateau p){
-    return p->joueur[2];
+    return p->joueur[1];
 }
 
 

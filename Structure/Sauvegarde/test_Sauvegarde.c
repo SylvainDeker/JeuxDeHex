@@ -1,31 +1,23 @@
 /*!
-   \file test_Plateau.c
-   \brief test_Plateau.c
+   \file test_Sauvegarde.c
+   \brief test_Sauvegarde.c
    \author Sylvain DEKER
-   \date 1/05/2017
+   \date 11/05/2017
 */
 
 #define _POSIX_C_SOURCE 1
-#include "Plateau.h"
-
-#define TAILLE_PLAT 8
+#include "Sauvegarde.h"
+#define TAILLE_PLAT 5
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
 
 int main(int argc, char const *argv[]) {
 
-    printf("======================TEST : contructeur_Joueur(){ ==========================\n" );
+    printf("======================Construction d'un jeu ==========================\n" );
     Joueur patrick=contructeur_Joueur();
     Joueur robert=contructeur_Joueur();
-
-
-
-    printf("======================TEST : contructeur_plateu(){ ==========================\n" );
     Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
-
-
-    printf("======================TEST : Poser_un_pion(){ ==========================\n" );
 
     srand((long int)p);
     while(!Existe_Gangnant(p)){
@@ -41,18 +33,22 @@ int main(int argc, char const *argv[]) {
         afficher_plateau(p);
         bilan(p);
     }
+    sauvegarder_partie(p,"save1.txt","Mon premier test");
+
 
 
 
 
 
     freed_all(p);
+
+
+
+
+
+
     return 0;
 }
-
-
-
-
 
 
 void afficher_plateau(Plateau p){
