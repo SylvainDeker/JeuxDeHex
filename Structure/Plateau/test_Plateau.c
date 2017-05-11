@@ -124,6 +124,28 @@ void bilan(Plateau p){
     freed_liste_iterateur(itr_grp);
     printf("---------------\n" );
 
+    itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur2(p)));
+    for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
+
+            Groupe g=(Groupe)liste_iterateur_courant(itr_grp);
+            printf("Groupe: %p  ",g );
+            if(Groupe_co_au_mur1(g))printf("Mur1 ");
+            if(Groupe_co_au_mur2(g))printf("Mur2 ");
+            printf(": ");
+        itr_case=constructeur_liste_iterateur(Liste_Case_du_Groupe(g));
+        for(start_liste_iterateur(itr_case);!fin_liste_iterateur(itr_case);suivant_liste_iterateur(itr_case)){
+
+            Case ca=(Case)liste_iterateur_courant(itr_case);
+            Coordonnee co = Coordonne_de_la_Case(ca);
+            printf("\t(%d,%d)",co.x,co.y );
+
+        }
+        printf("\n");
+        freed_liste_iterateur(itr_case);
+    }
+    freed_liste_iterateur(itr_grp);
+    printf("---------------\n" );
+
     if(Existe_Gangnant(p))printf("Joueur gagnant : %p\n",Existe_Gangnant(p) );
 
 
