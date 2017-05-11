@@ -31,6 +31,12 @@ struct _case{
     Groupe groupe;
 };
 
+void freed_Joueur(Joueur j);
+void freed_plateau(Plateau p);
+void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l );
+bool check_case_vide(Plateau p,Coordonnee c);
+void fusionner_groupe(Groupe g1, Groupe g2);
+
 ///////////////////////////////////Constructeur / Liberateur
 Joueur contructeur_Joueur(){
     Joueur new=(Joueur)malloc(sizeof(struct _joueur));
@@ -119,7 +125,7 @@ void freed_all(Plateau p){
 
 
 }
-////////////////////////////////////////////////////////OPERATEURS
+////////////////////////////////////////////////////////OPERATEURS LOCALS
 
 Coordonnee Coordonnee_Case(Case ca){
     return ca->c;
@@ -137,9 +143,47 @@ void ajouter_case_a_un_groupe(Groupe g,Case ca){
     ajout_liste(g->list_case,ca);
 }
 
+Joueur joueur_de_case(Case ca){
+    assert(ca->groupe);
+    return ca->groupe->joueur;
+}
+
+void fusionner_groupe(Groupe g1, Groupe g2){
+    assert(g1!=g2);
+    Joueur j=g1->joueur;
+    if(g2->connecter_au_mur1)g1->connecter_au_mur1=true;
+    if(g2->connecter_au_mur2)g1->connecter_au_mur2=true;
+    ListeItr itera = constructeur_liste_iterateur(g2->list_case);
+    for(start_liste_iterateur(itera);!fin_liste_iterateur(itera);suivant_liste_iterateur(itera)){
+
+        Case ca=(Case)liste_iterateur_courant(itera);
+        ca->groupe=g1;
+
+    }
+    liste_fusion(g1->list_case,g2->list_case);
+    supprim_element_liste(j->list_groupe,g2);
+    freed_liste_iterateur(itera);
+    freed_groupe(g2);
+}
+
+void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l ){
+
+    Coordonnee voisin;
+    for (size_t i = 0; i < 6; i++) {
+        voisin=Coord_voisin(c,i);
+        if(Coord_valide(voisin,0,p->dim)){
+            if(p->cellule[voisin.x][voisin.y]->groupe){
+                if(p->cellule[voisin.x][voisin.y]->groupe->joueur == j){
+                    ajout_liste(l,(Case) p->cellule[voisin.x][voisin.y]);
+                }
+            }
+        }
+    }
+}
 
 
 
+/////////////////////////////////////////////////////// OPERATEURS PUBLIQUE
 
 Case poser_un_pion(Plateau p, Joueur j,Coordonnee c){
     assert(p->cellule[c.x][c.y]->groupe==NULL);//Check emplacement libre
@@ -173,52 +217,37 @@ Case poser_un_pion(Plateau p, Joueur j,Coordonnee c){
         }
 
 
-    freed_liste(voisin);
+        freed_liste(voisin);
     return p->cellule[c.x][c.y];
 }
 
-Joueur joueur_de_case(Case ca){
-    assert(ca->groupe);
-    return ca->groupe->joueur;
-}
+
+Joueur Existe_Gangnant(Plateau p){
+    Joueur joueur_gagnant=NULL;
+    ListeItr itr_grp;
+    for (int i = 0; i < NB_JOUEUR; i++) {
 
 
+        itr_grp=constructeur_liste_iterateur(p->joueur[i]->list_groupe);
+        for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
 
+            Groupe grp=liste_iterateur_courant(itr_grp);
+            if(grp->connecter_au_mur1 && grp->connecter_au_mur2){
+                joueur_gagnant=(Joueur)(p->joueur+i);
 
-void fusionner_groupe(Groupe g1, Groupe g2){
-    assert(g1!=g2);
-    Joueur j=g1->joueur;
-    if(g2->connecter_au_mur1)g1->connecter_au_mur1=true;
-    if(g2->connecter_au_mur2)g1->connecter_au_mur2=true;
-    ListeItr itera = constructeur_liste_iterateur(g2->list_case);
-    for(start_liste_iterateur(itera);!fin_liste_iterateur(itera);suivant_liste_iterateur(itera)){
-
-        Case ca=(Case)liste_iterateur_courant(itera);
-        ca->groupe=g1;
-
-    }
-    liste_fusion(g1->list_case,g2->list_case);
-    supprim_element_liste(j->list_groupe,g2);
-    freed_liste_iterateur(itera);
-    freed_groupe(g2);
-}
-
-
-
-void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l ){
-
-    Coordonnee voisin;
-    for (size_t i = 0; i < 6; i++) {
-        voisin=Coord_voisin(c,i);
-        if(Coord_valide(voisin,0,p->dim)){
-            if(p->cellule[voisin.x][voisin.y]->groupe){
-                if(p->cellule[voisin.x][voisin.y]->groupe->joueur == j){
-                    ajout_liste(l,(Case) p->cellule[voisin.x][voisin.y]);
-                }
             }
+
         }
+        freed_liste_iterateur(itr_grp);
+
     }
+    return joueur_gagnant;
 }
+
+
+
+
+
 
 
 
@@ -277,7 +306,7 @@ void bilan(Plateau p){
         freed_liste_iterateur(itr_grp);
         printf("---------------\n" );
     }
-
+    if(Existe_Gangnant(p))printf("Joueur gagnant : %p\n",Existe_Gangnant(p) );
 
 
 }

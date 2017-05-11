@@ -20,18 +20,67 @@
     typedef struct _groupe * Groupe;
     typedef struct _plateau * Plateau;
 
+    /*!
+       \brief Constructeur Joueur
+       \return Joueur
+    */
     Joueur contructeur_Joueur();
+    /*!
+       \brief Constructeur du Plateau (construit aussi toute les autre structure nécéssaire)
+       \return Plateau
+    */
     Plateau constructeur_plateau(unsigned int taille_grille, Joueur j1,Joueur j2);
-    void freed_Joueur(Joueur j);
-    void freed_plateau(Plateau p);
+
+    /*!
+       \brief Pose un pion dans une case
+       \param Plateau
+       \param Joueur
+       \param Coordonnee ou poser le pion
+       \pre La case doit etre vide
+       \post La case est pleinne
+       \return poiteur vers la case
+    */
     Case poser_un_pion(Plateau p, Joueur j,Coordonnee c);
-    void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l );
-    void fusionner_groupe(Groupe g1, Groupe g2);
+
+    /*!
+       \brief Determine si une case est vide on non
+       \param Plateau
+       \param Coordonnee de la case
+       \pre "Pre-conditions"
+       \post "Post-conditions"
+       \return "Return of the function"
+    */
     bool check_case_vide(Plateau p,Coordonnee c);
 
+    /*!
+       \brief Freed tout les malloc du plateau et joueur
+       \param Plateau
+    */
     void freed_all(Plateau p);
-    Groupe Groupe_de_la_Case(Case ca);
-    Coordonnee Coordonnee_Case(Case ca);
+    /*!
+       \brief Determine si il existe un gagnant
+       \param Plateau
+       \return NULL si pas de gagnant, pointeur sur Joueur designat le gagnant sinon
+    */
+    Joueur Existe_Gangnant(Plateau p);
+
+
+
+    //Tests !
+    /*
+                    Mur 1
+                    Joueur 0
+        \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
+          \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
+            \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
+              \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
+    Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
+    Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
+                    \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
+                      \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
+                                    Mur 2
+                                    joueur 0
+    */
     void afficher_plateau(Plateau p);
     void bilan(Plateau p);
 
