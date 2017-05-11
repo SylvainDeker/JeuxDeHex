@@ -34,7 +34,7 @@ struct _case{
 void freed_Joueur(Joueur j);
 void freed_plateau(Plateau p);
 void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l );
-bool check_case_vide(Plateau p,Coordonnee c);
+bool Case_Vide(Plateau p,Coordonnee c);
 void fusionner_groupe(Groupe g1, Groupe g2);
 
 ///////////////////////////////////Constructeur / Liberateur
@@ -127,18 +127,6 @@ void freed_all(Plateau p){
 }
 ////////////////////////////////////////////////////////OPERATEURS LOCALS
 
-Coordonnee Coordonnee_Case(Case ca){
-    return ca->c;
-}
-
-Groupe Groupe_de_la_Case(Case ca){
-    return ca->groupe;
-}
-
-bool check_case_vide(Plateau p,Coordonnee c){
-    return p->cellule[c.x][c.y]->groupe==NULL;
-}
-
 void ajouter_case_a_un_groupe(Groupe g,Case ca){
     ajout_liste(g->list_case,ca);
 }
@@ -184,6 +172,51 @@ void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l ){
 
 
 /////////////////////////////////////////////////////// OPERATEURS PUBLIQUE
+
+Coordonnee Coordonne_de_la_Case(Case ca){
+    return ca->c;
+}
+
+Groupe Groupe_de_la_Case(Case ca){
+    return ca->groupe;
+}
+
+Case Case_de_la_Coordonnee(Plateau p,Coordonnee c){
+    return p->cellule[c.x][c.y];
+}
+
+Liste Liste_Groupe_du_Joueur(Joueur j){
+    return j->list_groupe;
+}
+
+Liste Liste_Case_du_Groupe(Groupe g){
+    return g->list_case;
+}
+Joueur Joueur_du_groupe(Groupe g){
+    return g->joueur;
+}
+
+bool Groupe_co_au_mur1(Groupe g){
+    return g->connecter_au_mur1;
+}
+bool Groupe_co_au_mur2(Groupe g){
+    return g->connecter_au_mur2;
+}
+
+unsigned int Dimention_plateau(Plateau p){
+    return p->dim;
+}
+
+bool Case_Vide(Plateau p,Coordonnee c){
+    return p->cellule[c.x][c.y]->groupe==NULL;
+}
+Joueur Joueur1(Plateau p){
+    return p->joueur[1];
+}
+Joueur Joueur2(Plateau p){
+    return p->joueur[2];
+}
+
 
 Case poser_un_pion(Plateau p, Joueur j,Coordonnee c){
     assert(p->cellule[c.x][c.y]->groupe==NULL);//Check emplacement libre
@@ -242,71 +275,4 @@ Joueur Existe_Gangnant(Plateau p){
 
     }
     return joueur_gagnant;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////DEV
-void afficher_plateau(Plateau p){
-    assert(p);
-    printf("================================================\n" );
-    for (int i = 0; i < p->dim; i++) {
-        for (size_t h = 0; h < i; h++) {
-            printf("  " );
-        }
-        for (int j = 0; j < p->dim; j++) {
-            if(p->cellule[i][j]->groupe){
-                if(p->cellule[i][j]->groupe->joueur==p->joueur[0])
-                    printf("\\ o " );
-                else
-                    printf("\\ 1 " );
-            }
-            else printf("\\ . " );
-        }
-        printf("\\\n" );
-    }
-    printf("================================================\n" );
-}
-
-
-void bilan(Plateau p){
-    ListeItr itr_grp,itr_case;
-    for (int i = 0; i < NB_JOUEUR; i++) {
-
-        printf("joueur %d = %p\n",i,p->joueur+i);
-        itr_grp=constructeur_liste_iterateur(p->joueur[i]->list_groupe);
-        for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
-
-                Groupe g=(Groupe)liste_iterateur_courant(itr_grp);
-                printf("Groupe: %p  ",g );
-                if(g->connecter_au_mur1)printf("Mur1 ");
-                if(g->connecter_au_mur2)printf("Mur2 ");
-                printf(": ");
-            itr_case=constructeur_liste_iterateur(g->list_case);
-            for(start_liste_iterateur(itr_case);!fin_liste_iterateur(itr_case);suivant_liste_iterateur(itr_case)){
-
-                Case ca=(Case)liste_iterateur_courant(itr_case);
-                Coordonnee co = Coordonnee_Case(ca);
-                printf("\t(%d,%d)",co.x,co.y );
-
-            }
-            printf("\n");
-            freed_liste_iterateur(itr_case);
-        }
-        freed_liste_iterateur(itr_grp);
-        printf("---------------\n" );
-    }
-    if(Existe_Gangnant(p))printf("Joueur gagnant : %p\n",Existe_Gangnant(p) );
-
-
 }

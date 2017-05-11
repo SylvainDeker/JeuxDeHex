@@ -15,6 +15,8 @@
     #include "../Coordonnee/Coordonnee.h"
     #include "../Liste/Liste.h"
 
+    /* /!\    Si le groupe associé a la case == NULL ca veut dire que la case est vide  /!\ */
+
     typedef struct _joueur * Joueur;
     typedef struct _case * Case;
     typedef struct _groupe * Groupe;
@@ -32,6 +34,13 @@
     Plateau constructeur_plateau(unsigned int taille_grille, Joueur j1,Joueur j2);
 
     /*!
+       \brief Freed tout les malloc du plateau et joueur
+       \param Plateau
+    */
+    void freed_all(Plateau p);
+
+
+    /*!
        \brief Pose un pion dans une case
        \param Plateau
        \param Joueur
@@ -42,21 +51,9 @@
     */
     Case poser_un_pion(Plateau p, Joueur j,Coordonnee c);
 
-    /*!
-       \brief Determine si une case est vide on non
-       \param Plateau
-       \param Coordonnee de la case
-       \pre "Pre-conditions"
-       \post "Post-conditions"
-       \return "Return of the function"
-    */
-    bool check_case_vide(Plateau p,Coordonnee c);
 
-    /*!
-       \brief Freed tout les malloc du plateau et joueur
-       \param Plateau
-    */
-    void freed_all(Plateau p);
+
+
     /*!
        \brief Determine si il existe un gagnant
        \param Plateau
@@ -65,23 +62,96 @@
     Joueur Existe_Gangnant(Plateau p);
 
 
-
-    //Tests !
-    /*
-                    Mur 1
-                    Joueur 0
-        \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
-          \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
-            \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
-              \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
-    Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
-    Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
-                    \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
-                      \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
-                                    Mur 2
-                                    joueur 0
+    /*!
+       \brief Determine si une case est vide on non
+       \param Plateau
+       \param Coordonnee de la case
+       \pre "Pre-conditions"
+       \post "Post-conditions"
+       \return "Return of the function"
     */
-    void afficher_plateau(Plateau p);
-    void bilan(Plateau p);
+    bool Case_Vide(Plateau p,Coordonnee c);
+
+    /*!
+       \brief Determine les Coordonnee d'une case à partir de son pointeur
+       \param Case
+       \return Coordonnee
+    */
+    Coordonnee Coordonne_de_la_Case(Case ca);
+
+    /*!
+       \brief Determine le groupe auquel appartient la case
+       \param Case
+       \return Groupe si la case n'est pas vide sinon NULL
+    */
+    Groupe Groupe_de_la_Case(Case ca);
+    /*!
+       \brief Renvoi la case à partir de sa Coordonnee
+       \param Plateau
+       \return Case
+    */
+    Case Case_de_la_Coordonnee(Plateau p,Coordonnee c);
+    /*!
+       \brief Revoi un poiteur vers la liste des groupe de cases associé à un joueur
+       \param Joueur
+       \return Liste
+       \WARN ne pas oublier de caster !
+       \note: Utiliser l'itarteur pour ne pas depiler
+    */
+
+    Liste Liste_Groupe_du_Joueur(Joueur j);
+    /*!
+       \brief Revoi un poiteur vers la liste des cases associé à un groupe
+       \param Joueur
+       \return Liste
+       \WARN ne pas oublier de caster !
+       \note: Utiliser l'itarteur pour ne pas depiler
+    */
+    Liste Liste_Case_du_Groupe(Groupe g);
+
+    /*!
+       \brief Determine le joueur associé à un groupe
+       \param Groupe
+       \return "Return of the function"
+    */
+    Joueur Joueur_du_groupe(Groupe g);
+
+    /*!
+       \brief Determine si une case du groupe est connecter au mur 1
+       \param Groupe
+       \pre Groupe != NULL
+       \return bool 1 si connecter 0 sinon
+    */
+    bool Groupe_co_au_mur1(Groupe g);
+
+
+    /*!
+       \brief Determine si une case du groupe est connecter au mur 1
+       \param Groupe
+       \pre Groupe != NULL
+       \return bool 1 si connecter 0 sinon
+    */
+    bool Groupe_co_au_mur2(Groupe g);
+    /*!
+       \brief Determine N la dimention N * N du Plateau
+       \param Plateau
+       \return unsigned int !
+    */
+    unsigned int Dimention_plateau(Plateau p);
+
+    /*!
+       \brief Renvoi Joueur1
+       \param Plateau
+       \return Joueur1
+    */
+    Joueur Joueur1(Plateau p);
+
+
+    /*!
+       \brief Renvoi Joueur1
+       \param Plateau
+       \return Joueur1
+    */
+    Joueur Joueur2(Plateau p);
 
 #endif
