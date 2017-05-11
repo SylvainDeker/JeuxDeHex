@@ -14,5 +14,7 @@ int main(int argc, char const *argv[]) {
     Coordonnee c=Coord(2,3);
     printf("%d,%d\n",c.x,c.y );
     printf("%d\n",Coord(7,8).x );
+
+
     return 0;
 }

@@ -18,8 +18,10 @@ Coordonnee Coord(int x, int y){
 
 
 Coordonnee Coord_voisin(Coordonnee c,int link){
-    
+    assert(link<6);
+    assert(link>=0);
     Coordonnee voisin;
+
     switch (link) {
         case 0:
             voisin.x=c.x-1;
@@ -47,4 +49,9 @@ Coordonnee Coord_voisin(Coordonnee c,int link){
             break;
     }
     return voisin;
+}
+
+
+bool Coord_valide(Coordonnee c,unsigned int min,unsigned int max){
+    return c.x>=min && c.x<max&&c.y>=min && c.y<max;
 }
