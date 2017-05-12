@@ -1,3 +1,0 @@
-/home/salimcherifi/ClionProjects/SystemeTP3/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/salimcherifi/ClionProjects/SystemeTP3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/salimcherifi/ClionProjects/SystemeTP3/cmake-build-debug/CMakeFiles/SystemeTP3.dir

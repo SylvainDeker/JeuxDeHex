@@ -1,1 +1,0 @@
-/usr/bin/cc  -g   CMakeFiles/SystemeTP3.dir/TP3/manipulation.c.o CMakeFiles/SystemeTP3.dir/TP3/manipulationMain.c.o  -o SystemeTP3 

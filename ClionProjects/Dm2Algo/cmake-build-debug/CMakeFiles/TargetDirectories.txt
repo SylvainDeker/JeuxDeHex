@@ -1,3 +1,0 @@
-/home/salimcherifi/ClionProjects/Dm2Algo/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/salimcherifi/ClionProjects/Dm2Algo/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/salimcherifi/ClionProjects/Dm2Algo/cmake-build-debug/CMakeFiles/DmAlgo.dir
