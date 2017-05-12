@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/salimcherifi/ClionProjects/SystemeTP3/TP3/manipulation.c
+stdio.h
+-
+fcntl.h
+-
+zconf.h
+-
+stdlib.h
+-
+manipulation.h
+/home/salimcherifi/ClionProjects/SystemeTP3/TP3/manipulation.h
+
+/home/salimcherifi/ClionProjects/SystemeTP3/TP3/manipulation.h
+
+/home/salimcherifi/ClionProjects/SystemeTP3/TP3/manipulationMain.c
+stdio.h
+-
+stdlib.h
+-
+manipulation.h
+/home/salimcherifi/ClionProjects/SystemeTP3/TP3/manipulation.h
+

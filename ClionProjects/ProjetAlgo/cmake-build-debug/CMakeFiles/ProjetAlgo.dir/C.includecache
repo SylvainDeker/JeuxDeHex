@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/salimcherifi/ClionProjects/ProjetAlgo/sudoku.c
+stdio.h
+-
+assert.h
+-
+sudoku.h
+/home/salimcherifi/ClionProjects/ProjetAlgo/sudoku.h
+
+/home/salimcherifi/ClionProjects/ProjetAlgo/sudoku.h
+
+/home/salimcherifi/ClionProjects/ProjetAlgo/sudokumain.c
+stdio.h
+-
+stdlib.h
+-
+sudoku.h
+/home/salimcherifi/ClionProjects/ProjetAlgo/sudoku.h
+

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/salimcherifi/ClionProjects/Dm2Algo/dmAlgomain.c
+stdio.h
+-
+dmalgo.h
+/home/salimcherifi/ClionProjects/Dm2Algo/dmalgo.h
+time.h
+-
+stdlib.h
+-
+
+/home/salimcherifi/ClionProjects/Dm2Algo/dmalgo.c
+dmalgo.h
+/home/salimcherifi/ClionProjects/Dm2Algo/dmalgo.h
+stdio.h
+-
+assert.h
+-
+
+/home/salimcherifi/ClionProjects/Dm2Algo/dmalgo.h
+
