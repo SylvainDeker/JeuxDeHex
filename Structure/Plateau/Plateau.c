@@ -12,6 +12,7 @@
 
 struct _joueur{
     Liste list_groupe;
+    Liste list_historique_case;
 };
 
 struct _groupe{
@@ -42,10 +43,12 @@ void fusionner_groupe(Groupe g1, Groupe g2);
 Joueur contructeur_Joueur(){
     Joueur new=(Joueur)malloc(sizeof(struct _joueur));
     new->list_groupe=constructeur_liste();
+    new->list_historique_case=constructeur_liste();
     return new;
 }
 void freed_Joueur(Joueur j){
     freed_liste(j->list_groupe);
+    freed_liste(j->list_historique_case);
     free(j);
 }
 
@@ -217,10 +220,17 @@ Joueur Joueur1(Plateau p){
 Joueur Joueur2(Plateau p){
     return p->joueur[1];
 }
+Liste Historique_Joueur(Joueur j){
+    return j->list_historique_case;
+
+
+}
 
 
 Case poser_un_pion(Plateau p, Joueur j,Coordonnee c){
     assert(p->cellule[c.x][c.y]->groupe==NULL);//Check emplacement libre
+    //Ajout a l'historique
+    ajout_liste(j->list_historique_case,Case_de_la_Coordonnee(p,c));
     Liste voisin=constructeur_liste();
     voisin_etant_du_joueur(p,j,c,voisin);
         //Constuction d'un nouveau groupe

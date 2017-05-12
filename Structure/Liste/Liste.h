@@ -11,6 +11,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
+
+
+
 typedef struct _liste*Liste;
 typedef struct _list_itr*ListeItr;
 

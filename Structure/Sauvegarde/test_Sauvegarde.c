@@ -146,4 +146,28 @@ void bilan(Plateau p){
     if(Existe_Gangnant(p))printf("Joueur gagnant : %p\n",Existe_Gangnant(p) );
 
 
+    printf("Historique joueur 0\n" );
+    ListeItr itr_histo;
+    itr_histo=constructeur_liste_iterateur(Historique_Joueur(Joueur1(p)));
+    for(start_liste_iterateur(itr_histo);!fin_liste_iterateur(itr_histo);suivant_liste_iterateur(itr_histo)){
+
+        Case cas=(Case)liste_iterateur_courant(itr_histo);
+        Coordonnee cd = Coordonne_de_la_Case(cas);
+        printf("(%d,%d) ",cd.x,cd.y );
+
+    }
+    printf("\n");
+    freed_liste_iterateur(itr_histo);
+    printf("Historique joueur 1\n" );
+    itr_histo=constructeur_liste_iterateur(Historique_Joueur(Joueur2(p)));
+    for(start_liste_iterateur(itr_histo);!fin_liste_iterateur(itr_histo);suivant_liste_iterateur(itr_histo)){
+
+        Case cas=(Case)liste_iterateur_courant(itr_histo);
+        Coordonnee cd = Coordonne_de_la_Case(cas);
+        printf("(%d,%d) ",cd.x,cd.y );
+
+    }
+    printf("\n");
+    freed_liste_iterateur(itr_histo);
+
 }

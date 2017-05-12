@@ -154,4 +154,11 @@
     */
     Joueur Joueur2(Plateau p);
 
+    /*!
+       \brief Retourne Liste de cases ou un pion à été placé par un joueurs depuis le debut de la partie
+       \param Joueur
+       \return Liste de case
+    */
+    Liste Historique_Joueur(Joueur j);
+
 #endif

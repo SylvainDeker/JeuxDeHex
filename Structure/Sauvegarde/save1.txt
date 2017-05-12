@@ -2,11 +2,11 @@
 \dim 5
 \board Mon premier test
 W W W W W/B
-B * o * o o B
-  B * * o * * B
-    B * o o o * B
-      B o * * * * B
-        B o o o o * B
+B o * * . * B
+  B . . * . o B
+    B * o . o * B
+      B o . * * o B
+        B * * o o . B
           B/W W W W W 
 \game
 \endgame
