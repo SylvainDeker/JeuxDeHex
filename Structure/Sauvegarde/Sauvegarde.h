@@ -16,5 +16,6 @@
     #include "../Liste/Liste.h"
     #include "../Plateau/Plateau.h"
     bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description);
+    bool restaurer_partie(const char * nom_fichier,Plateau *out);
 
 #endif

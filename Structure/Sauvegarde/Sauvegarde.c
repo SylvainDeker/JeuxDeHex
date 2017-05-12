@@ -75,25 +75,47 @@ bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description)
         }
         freed_liste_iterateur(itr_historique_joueur1);
         freed_liste_iterateur(itr_historique_joueur2);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         fprintf(fichier_sauvegarde, "\\endgame\n");
         fprintf(fichier_sauvegarde, "\\endhex\n");
 
         fclose(fichier_sauvegarde);
     }
-
     return (bool)fichier_sauvegarde;
+}
+
+
+bool restaurer_partie(const char * nom_fichier,Plateau *p){
+
+    Joueur j1=contructeur_Joueur();
+    Joueur j2=contructeur_Joueur();
+
+    *p=constructeur_plateau(4,j1,j2);
+
+    FILE*fichier_sauvegarde=fopen(nom_fichier,"r");
+    if(fichier_sauvegarde){
+
+
+
+
+
+
+
+
+
+
+
+
+        fclose(fichier_sauvegarde);
+    }
+    return (bool)fichier_sauvegarde;
+
+
+
+
+
+
+
+
+
+
 }

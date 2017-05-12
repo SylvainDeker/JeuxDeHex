@@ -7,42 +7,58 @@
 
 #define _POSIX_C_SOURCE 1
 #include "Sauvegarde.h"
-#define TAILLE_PLAT 11
+#define TAILLE_PLAT 5
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
 
 int main(int argc, char const *argv[]) {
 
-    printf("======================Construction d'un jeu ==========================\n" );
-    Joueur patrick=contructeur_Joueur();
-    Joueur robert=contructeur_Joueur();
-    Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
+    printf("======================TEST SAUVEGARDE ==========================\n" );
+    // Joueur patrick=contructeur_Joueur();
+    // Joueur robert=contructeur_Joueur();
+    // Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
+    //
+    // srand((long int)p);
+    // // for (size_t i = 0; i < 3; i++) {
+    // while(!Existe_Gangnant(p)){
+    //
+    //     int x=rand()%Dimention_plateau(p);
+    //     int y=rand()%Dimention_plateau(p);
+    //     if(Case_Vide(p,Coord(x,y)))
+    //         poser_un_pion(p,patrick,Coord(x,y));
+    //     x=rand()%Dimention_plateau(p);
+    //     y=rand()%Dimention_plateau(p);
+    //     if(Case_Vide(p,Coord(x,y)))
+    //         poser_un_pion(p,robert,Coord(x,y));
+    //
+    // }
+    // afficher_plateau(p);
+    // bilan(p);
+    // sauvegarder_partie(p,"save1.txt","Mon premier test");
+    //
+    //
+    //
+    //
+    //
+    //
+    // freed_all(p);
+    printf("========================TEST DE RESTAURATION====================================\n" );
 
-    srand((long int)p);
-    for (size_t i = 0; i < 3; i++) {
+
+    Plateau p;
+    restaurer_partie("save1.txt",&p);
 
 
-        int x=rand()%Dimention_plateau(p);
-        int y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,patrick,Coord(x,y));
-        x=rand()%Dimention_plateau(p);
-        y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,robert,Coord(x,y));
-
-    }
     afficher_plateau(p);
     bilan(p);
-    sauvegarder_partie(p,"save1.txt","Mon premier test");
-
-
-
-
-
 
     freed_all(p);
+
+
+
+
+
 
 
 
