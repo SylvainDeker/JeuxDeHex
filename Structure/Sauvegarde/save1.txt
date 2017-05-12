@@ -1,13 +1,25 @@
 \hex
-\dim 5
+\dim 11
 \board Mon premier test
-W W W W W/B
-B o * * . * B
-  B . . * . o B
-    B * o . o * B
-      B o . * * o B
-        B * * o o . B
-          B/W W W W W 
+W W W W W W W W W W W/B
+B . . o . . . . . . . . B
+  B . . . . . . . . . . . B
+    B . . . . . . . . . . . B
+      B . . . o . . . . . . . B
+        B . . . . . . . . . * . B
+          B . . . . . . . . . . . B
+            B . . * . . . . . . . . B
+              B . o . . . . . . . . . B
+                B * . . . . . . . . . . B
+                  B . . . . . . . . . . . B
+                    B . . . . . . . . . . . B
+                      B/W W W W W W W W W W W 
 \game
+\play * 4 9
+\play o 3 3
+\play * 8 0
+\play o 0 2
+\play * 6 2
+\play o 7 1
 \endgame
 \endhex

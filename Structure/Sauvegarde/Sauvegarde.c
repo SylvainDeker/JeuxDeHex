@@ -46,7 +46,49 @@ bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description)
             fprintf(fichier_sauvegarde, "W ");
         }
         fprintf(fichier_sauvegarde, "\n\\game\n");
-        //TODO historique
+        ListeItr itr_historique_joueur1,itr_historique_joueur2;
+        itr_historique_joueur1=constructeur_liste_iterateur(Historique_Joueur(Joueur1(p)));
+        itr_historique_joueur2=constructeur_liste_iterateur(Historique_Joueur(Joueur2(p)));
+
+        start_liste_iterateur(itr_historique_joueur1);
+        start_liste_iterateur(itr_historique_joueur2);
+        Case cas;
+        Coordonnee cd;
+        while(!fin_liste_iterateur(itr_historique_joueur1) || !fin_liste_iterateur(itr_historique_joueur2) ){
+
+
+            if(!fin_liste_iterateur(itr_historique_joueur1)){
+                cas=(Case)liste_iterateur_courant(itr_historique_joueur1);
+                cd=Coordonne_de_la_Case(cas);
+                fprintf(fichier_sauvegarde, "\\play * %d %d\n",cd.x,cd.y );
+            }
+            if(!fin_liste_iterateur(itr_historique_joueur2)){
+                cas=(Case)liste_iterateur_courant(itr_historique_joueur2);
+                cd=Coordonne_de_la_Case(cas);
+                fprintf(fichier_sauvegarde, "\\play o %d %d\n",cd.x,cd.y );
+
+            }
+
+            suivant_liste_iterateur(itr_historique_joueur1);
+            suivant_liste_iterateur(itr_historique_joueur2);
+
+        }
+        freed_liste_iterateur(itr_historique_joueur1);
+        freed_liste_iterateur(itr_historique_joueur2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         fprintf(fichier_sauvegarde, "\\endgame\n");
         fprintf(fichier_sauvegarde, "\\endhex\n");
 

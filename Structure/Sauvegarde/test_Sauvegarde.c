@@ -7,7 +7,7 @@
 
 #define _POSIX_C_SOURCE 1
 #include "Sauvegarde.h"
-#define TAILLE_PLAT 5
+#define TAILLE_PLAT 11
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
@@ -20,7 +20,8 @@ int main(int argc, char const *argv[]) {
     Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
 
     srand((long int)p);
-    while(!Existe_Gangnant(p)){
+    for (size_t i = 0; i < 3; i++) {
+
 
         int x=rand()%Dimention_plateau(p);
         int y=rand()%Dimention_plateau(p);
@@ -30,9 +31,10 @@ int main(int argc, char const *argv[]) {
         y=rand()%Dimention_plateau(p);
         if(Case_Vide(p,Coord(x,y)))
             poser_un_pion(p,robert,Coord(x,y));
-        afficher_plateau(p);
-        bilan(p);
+
     }
+    afficher_plateau(p);
+    bilan(p);
     sauvegarder_partie(p,"save1.txt","Mon premier test");
 
 
