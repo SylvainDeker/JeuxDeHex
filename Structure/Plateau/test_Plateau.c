@@ -28,8 +28,8 @@ int main(int argc, char const *argv[]) {
     printf("======================TEST : Poser_un_pion(){ ==========================\n" );
 
     srand((long int)p);
-    // while(!Existe_Gangnant(p)){
-    for (size_t i = 0; i < 5; i++) {
+    while(!Existe_Gangnant(p)){
+    // for (size_t i = 0; i < 5; i++) {
 
         int x=rand()%Dimention_plateau(p);
         int y=rand()%Dimention_plateau(p);
@@ -177,18 +177,5 @@ void bilan(Plateau p){
     }
     printf("\n");
     freed_liste_iterateur(itr_histo);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
