@@ -122,8 +122,8 @@ bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description)
 
 
 
-bool insersion_graphique()
-
+// bool insersion_graphique()
+//
 
 
 
