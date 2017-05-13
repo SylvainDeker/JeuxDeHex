@@ -32,4 +32,8 @@
     */
     bool restaurer_partie(const char * nom_fichier,Plateau *out);
 
+
+
+    
+
 #endif

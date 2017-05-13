@@ -21,19 +21,26 @@ int main(int argc, char const *argv[]) {
 
     srand((long int)p);
     // for (size_t i = 0; i < 3; i++) {
+    int x=0,y=0;
+
     while(!Existe_Gangnant(p)){
 
-        int x=rand()%Dimention_plateau(p);
-        int y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,patrick,Coord(x,y));
-        x=rand()%Dimention_plateau(p);
-        y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,robert,Coord(x,y));
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        poser_un_pion(p, Joueur1(p), Coord(x,y) );
+        afficher_plateau(p);
+        bilan(p);
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        if(!Existe_Gangnant(p))
+            poser_un_pion(p,Joueur2(p),Coord(x,y));
 
-            afficher_plateau(p);
-            bilan(p);
+        afficher_plateau(p);
+        bilan(p);
     }
     sauvegarder_partie(p,"save1.txt","Mon premier test");
 

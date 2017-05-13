@@ -17,5 +17,15 @@
     #include "../Liste/Liste.h"
     #include "../Plateau/Plateau.h"
 
-    bool undo(Plateau *p, int nb_undo);
+    /*!
+       \brief Permet de retirer les nb_undo derniers pions posés sur le jeux
+       \param * Plateau
+       \pre assert(taille_listes-nb_undo >= 0);
+       \post - nb_undo pion sur le jeux
+    */
+    void undo(Plateau *p,unsigned int nb_undo);
+
+
+
+    
 #endif

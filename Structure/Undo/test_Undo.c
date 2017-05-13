@@ -8,6 +8,7 @@
 #define _POSIX_C_SOURCE 1
 #include "Undo.h"
 #define TAILLE_PLAT 2
+#define NB_UNDO 2
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
@@ -20,40 +21,32 @@ int main(int argc, char const *argv[]) {
 
     srand((long int)p);
     // for (size_t i = 0; i < 3; i++) {
+    int x=0,y=0;
+
     while(!Existe_Gangnant(p)){
 
-        int x=rand()%Dimention_plateau(p);
-        int y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,patrick,Coord(x,y));
-        x=rand()%Dimention_plateau(p);
-        y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,robert,Coord(x,y));
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        poser_un_pion(p, Joueur1(p), Coord(x,y) );
+        afficher_plateau(p);
+        bilan(p);
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        if(!Existe_Gangnant(p))
+            poser_un_pion(p,Joueur2(p),Coord(x,y));
 
-            afficher_plateau(p);
-            bilan(p);
+        afficher_plateau(p);
+        bilan(p);
     }
 
-    undo(&p,1);
+    printf("======================TEST Undo ==========================\n" );
+    undo(&p,NB_UNDO);
     afficher_plateau(p);
     bilan(p);
-
-    printf("======================TEST Undo ==========================\n" );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -63,6 +56,22 @@ int main(int argc, char const *argv[]) {
 
 
 
+
+//Tests !
+/*
+                Mur 1
+                Joueur 0
+    \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
+      \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
+        \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
+          \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
+Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
+Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
+                \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
+                  \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
+                                Mur 2
+                                joueur 0
+*/
 
 
 void afficher_plateau(Plateau p){
@@ -88,22 +97,6 @@ void afficher_plateau(Plateau p){
 
 
 
-
-//Tests !
-/*
-                Mur 1
-                Joueur 0
-    \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
-      \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
-        \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
-          \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
-Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
-Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
-                \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
-                  \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
-                                Mur 2
-                                joueur 0
-*/
 
 
 

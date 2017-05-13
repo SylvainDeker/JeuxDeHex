@@ -2,12 +2,12 @@
 \dim 2
 \board Mon premier test
 W W/B
-B * o B
+B * * B
   B . o B
     B/W W 
 \game
-\play o 1 1
 \play * 0 0
-\play o 0 1
+\play o 1 1
+\play * 0 1
 \endgame
 \endhex
