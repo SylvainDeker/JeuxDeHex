@@ -18,4 +18,4 @@ all: structure.o
 
 
 structure.o: ${SAUVEGARDE}.h ${COORDONNEE}.h ${LISTE}.h ${LISTE}.h
-	gcc -o {NAME}.o -c ${NAME}.c ${FLAG}
+	gcc -o ${NAME}.o -c ${NAME}.c ${FLAG}
