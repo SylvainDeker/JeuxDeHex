@@ -31,11 +31,9 @@ int main(int argc, char const *argv[]) {
 
     liste_fusion(masuperliste,masuperliste2);
     supprim_element_liste(masuperliste,tableau_de_test+0);
-    // while(!liste_vide(masuperliste)){
-    //     printf("%d\n",*((int*)retirer_liste(masuperliste,"l")) );
-    // }
 
-    ListeItr i=constructeur_liste_iterateur(masuperliste);
+
+    ListeItr i=constructeur_liste_iterateur(masuperliste,"fifo");
     for (start_liste_iterateur(i);!fin_liste_iterateur(i);suivant_liste_iterateur(i)) {
 
         printf("itr=%d\n",*((int*)liste_iterateur_courant(i)) );

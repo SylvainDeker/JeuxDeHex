@@ -28,7 +28,6 @@
        \param Nome et chemin du fichier de sauvegarde
        \param Plateau
        \pre fichier formaté avec la fonction sauvegarder_partie()
-       \post Fichier ecraseé si existant
        \return 1 si la restauration s'est bien passé, 0 sinon
     */
     bool restaurer_partie(const char * nom_fichier,Plateau *out);

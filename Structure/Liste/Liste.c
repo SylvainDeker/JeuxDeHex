@@ -47,7 +47,7 @@ unsigned int liste_taille(Liste l){
 Liste liste_fusion(Liste l1,Liste l2){
     assert(l1!=l2);
     while(!liste_vide(l2)){
-        ajout_liste(l1,retirer_liste(l2,"listemode"));
+        ajout_liste(l1,retirer_liste(l2,FIFO));
     }
     // freed_liste(l2);
     return l1;
@@ -104,20 +104,20 @@ bool liste_vide(Liste list){
     return list->taille ==0;
 }
 
-void*retirer_liste(Liste list,const char*methode){
+void*retirer_liste(Liste list,const char methode){
     assert(list->taille>0);
 
     void*adr;
     Element del,tmp;
 
-    switch (methode[0]) {
-        case 'p':
+    switch (methode) {
+        case 'l'://filo
             del=list->sentinelle->next;
             tmp=del->next;
             adr=del->adr;
             connexion(list->sentinelle,tmp);
             break;
-        case 'l':
+        case 'f'://fifo
             del=list->sentinelle->prev;
             tmp=del->prev;
             adr=del->adr;
@@ -150,11 +150,13 @@ void afficher(Liste l){
 struct _list_itr{
     Liste l;
     Element courant;
+    char methode;
 };
 
-ListeItr constructeur_liste_iterateur(Liste l){
+ListeItr constructeur_liste_iterateur(Liste l,const char methode){
     ListeItr new=(ListeItr)malloc(sizeof(struct _list_itr));
     new->l=l;
+    new->methode=methode;
 
     return new;
 }
@@ -165,12 +167,18 @@ void*liste_iterateur_courant(ListeItr i){
 }
 
 ListeItr start_liste_iterateur(ListeItr i){
-    i->courant=i->l->sentinelle->next;
+    if(i->methode =='l')//fifo
+        i->courant=i->l->sentinelle->next;
+    if(i->methode == 'f')//fifo
+        i->courant=i->l->sentinelle->prev;
     return i;
 }
 
 ListeItr suivant_liste_iterateur(ListeItr i){
-    i->courant=i->courant->next;
+    if(i->methode =='l')//fifo
+        i->courant=i->courant->next;
+    if(i->methode =='f')//fifo
+        i->courant=i->courant->prev;
     return i;
 }
 

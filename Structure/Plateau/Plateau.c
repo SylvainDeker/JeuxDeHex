@@ -85,6 +85,7 @@ void freed_case(Case ca){
 
 
 Plateau constructeur_plateau(unsigned int taille_grille, Joueur j1,Joueur j2){
+    assert(taille_grille>0);
     Plateau p=(Plateau)malloc(sizeof(struct _plateau));
     p->dim=taille_grille;
     p->joueur[0]=j1;
@@ -118,7 +119,7 @@ void freed_all(Plateau p){
     for (size_t i = 0; i < NB_JOUEUR; i++) {
         while(!liste_vide(p->joueur[i]->list_groupe)){
 
-            Groupe grp=(Groupe)retirer_liste(p->joueur[i]->list_groupe,"listemode");
+            Groupe grp=(Groupe)retirer_liste(p->joueur[i]->list_groupe,FIFO);
             freed_groupe(grp);
             // free(grp);
         }
@@ -145,7 +146,7 @@ void fusionner_groupe(Groupe g1, Groupe g2){
     Joueur j=g1->joueur;
     if(g2->connecter_au_mur1)g1->connecter_au_mur1=true;
     if(g2->connecter_au_mur2)g1->connecter_au_mur2=true;
-    ListeItr itera = constructeur_liste_iterateur(g2->list_case);
+    ListeItr itera = constructeur_liste_iterateur(g2->list_case,FIFO);
     for(start_liste_iterateur(itera);!fin_liste_iterateur(itera);suivant_liste_iterateur(itera)){
 
         Case ca=(Case)liste_iterateur_courant(itera);
@@ -251,7 +252,7 @@ Case poser_un_pion(Plateau p, Joueur j,Coordonnee c){
         //On determine si il connecter a un autre groupe
 
         while(!liste_vide(voisin)){
-            Case c_vois=retirer_liste(voisin,"listemode");
+            Case c_vois=retirer_liste(voisin,FIFO);
             Groupe g1 = Groupe_de_la_Case(p->cellule[c.x][c.y]);
             Groupe g2 = Groupe_de_la_Case(c_vois);
             if(g1!=g2){
@@ -272,7 +273,7 @@ Joueur Existe_Gangnant(Plateau p){
     for (int i = 0; i < NB_JOUEUR; i++) {
 
 
-        itr_grp=constructeur_liste_iterateur(p->joueur[i]->list_groupe);
+        itr_grp=constructeur_liste_iterateur(p->joueur[i]->list_groupe,FIFO);
         for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
 
             Groupe grp=liste_iterateur_courant(itr_grp);

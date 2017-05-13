@@ -7,7 +7,7 @@
 
 #define _POSIX_C_SOURCE 1
 #include "Sauvegarde.h"
-#define TAILLE_PLAT 3
+#define TAILLE_PLAT 2
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
@@ -32,9 +32,9 @@ int main(int argc, char const *argv[]) {
         if(Case_Vide(p,Coord(x,y)))
             poser_un_pion(p,robert,Coord(x,y));
 
+            afficher_plateau(p);
+            bilan(p);
     }
-    afficher_plateau(p);
-    bilan(p);
     sauvegarder_partie(p,"save1.txt","Mon premier test");
 
 
@@ -67,6 +67,9 @@ int main(int argc, char const *argv[]) {
 
     return 0;
 }
+
+
+
 
 
 void afficher_plateau(Plateau p){
@@ -116,7 +119,7 @@ void bilan(Plateau p){
 
 
     printf("joueur 0\n");
-    itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur1(p)));
+    itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur1(p)),FIFO);
     for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
 
             Groupe g=(Groupe)liste_iterateur_courant(itr_grp);
@@ -124,7 +127,7 @@ void bilan(Plateau p){
             if(Groupe_co_au_mur1(g))printf("Mur1 ");
             if(Groupe_co_au_mur2(g))printf("Mur2 ");
             printf(": ");
-        itr_case=constructeur_liste_iterateur(Liste_Case_du_Groupe(g));
+        itr_case=constructeur_liste_iterateur(Liste_Case_du_Groupe(g),FIFO);
         for(start_liste_iterateur(itr_case);!fin_liste_iterateur(itr_case);suivant_liste_iterateur(itr_case)){
 
             Case ca=(Case)liste_iterateur_courant(itr_case);
@@ -139,7 +142,7 @@ void bilan(Plateau p){
     printf("---------------\n" );
 
     printf("joueur 1\n");
-    itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur2(p)));
+    itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur2(p)),FIFO);
     for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
 
             Groupe g=(Groupe)liste_iterateur_courant(itr_grp);
@@ -147,7 +150,7 @@ void bilan(Plateau p){
             if(Groupe_co_au_mur1(g))printf("Mur1 ");
             if(Groupe_co_au_mur2(g))printf("Mur2 ");
             printf(": ");
-        itr_case=constructeur_liste_iterateur(Liste_Case_du_Groupe(g));
+        itr_case=constructeur_liste_iterateur(Liste_Case_du_Groupe(g),FIFO);
         for(start_liste_iterateur(itr_case);!fin_liste_iterateur(itr_case);suivant_liste_iterateur(itr_case)){
 
             Case ca=(Case)liste_iterateur_courant(itr_case);
@@ -164,9 +167,11 @@ void bilan(Plateau p){
     if(Existe_Gangnant(p))printf("Joueur gagnant : %p\n",Existe_Gangnant(p) );
 
 
+
+
     printf("Historique joueur 0\n" );
     ListeItr itr_histo;
-    itr_histo=constructeur_liste_iterateur(Historique_Joueur(Joueur1(p)));
+    itr_histo=constructeur_liste_iterateur(Historique_Joueur(Joueur1(p)),FIFO);
     for(start_liste_iterateur(itr_histo);!fin_liste_iterateur(itr_histo);suivant_liste_iterateur(itr_histo)){
 
         Case cas=(Case)liste_iterateur_courant(itr_histo);
@@ -177,7 +182,7 @@ void bilan(Plateau p){
     printf("\n");
     freed_liste_iterateur(itr_histo);
     printf("Historique joueur 1\n" );
-    itr_histo=constructeur_liste_iterateur(Historique_Joueur(Joueur2(p)));
+    itr_histo=constructeur_liste_iterateur(Historique_Joueur(Joueur2(p)),FIFO);
     for(start_liste_iterateur(itr_histo);!fin_liste_iterateur(itr_histo);suivant_liste_iterateur(itr_histo)){
 
         Case cas=(Case)liste_iterateur_courant(itr_histo);

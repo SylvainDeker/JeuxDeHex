@@ -1,35 +1,26 @@
 /*!
-   \file test_Plateau.c
-   \brief test_Plateau.c
+   \file test_Undo.c
+   \brief test_Undo.c
    \author Sylvain DEKER
-   \date 1/05/2017
+   \date 13/05/2017
 */
 
 #define _POSIX_C_SOURCE 1
-#include "Plateau.h"
-
-#define TAILLE_PLAT 8
+#include "Undo.h"
+#define TAILLE_PLAT 2
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
 
 int main(int argc, char const *argv[]) {
 
-    printf("======================TEST : contructeur_Joueur(){ ==========================\n" );
     Joueur patrick=contructeur_Joueur();
     Joueur robert=contructeur_Joueur();
-
-
-
-    printf("======================TEST : contructeur_plateu(){ ==========================\n" );
     Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
 
-
-    printf("======================TEST : Poser_un_pion(){ ==========================\n" );
-
     srand((long int)p);
+    // for (size_t i = 0; i < 3; i++) {
     while(!Existe_Gangnant(p)){
-    // for (size_t i = 0; i < 5; i++) {
 
         int x=rand()%Dimention_plateau(p);
         int y=rand()%Dimention_plateau(p);
@@ -39,10 +30,28 @@ int main(int argc, char const *argv[]) {
         y=rand()%Dimention_plateau(p);
         if(Case_Vide(p,Coord(x,y)))
             poser_un_pion(p,robert,Coord(x,y));
-        afficher_plateau(p);
-        bilan(p);
+
+            afficher_plateau(p);
+            bilan(p);
     }
-    // }
+
+    undo(&p,1);
+    afficher_plateau(p);
+    bilan(p);
+
+    printf("======================TEST Undo ==========================\n" );
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -51,7 +60,6 @@ int main(int argc, char const *argv[]) {
     freed_all(p);
     return 0;
 }
-
 
 
 

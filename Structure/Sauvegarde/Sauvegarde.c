@@ -69,28 +69,38 @@ bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description)
         */
         fprintf(fichier_sauvegarde, "\n\\game\n");
         ListeItr itr_historique_joueur1,itr_historique_joueur2;
-        itr_historique_joueur1=constructeur_liste_iterateur(Historique_Joueur(Joueur1(p)));
-        itr_historique_joueur2=constructeur_liste_iterateur(Historique_Joueur(Joueur2(p)));
+        itr_historique_joueur1=constructeur_liste_iterateur(Historique_Joueur(Joueur1(p)),FIFO);
+        itr_historique_joueur2=constructeur_liste_iterateur(Historique_Joueur(Joueur2(p)),FIFO);
 
         start_liste_iterateur(itr_historique_joueur1);
         start_liste_iterateur(itr_historique_joueur2);
         Case cas;
         Coordonnee cd;
+        //premier if à l'exterieur du for permet d'assuré l'altérnance  o * o * o au lieu de * o * o o ds le fichier sauvé.
+        if(!fin_liste_iterateur(itr_historique_joueur1)&& liste_taille(Historique_Joueur(Joueur1(p))) > liste_taille(Historique_Joueur(Joueur2(p))) ){
+            cas=(Case)liste_iterateur_courant(itr_historique_joueur2);
+            cd=Coordonne_de_la_Case(cas);
+            fprintf(fichier_sauvegarde, "\\play o %d %d\n",cd.x,cd.y );
+            suivant_liste_iterateur(itr_historique_joueur2);
+
+        }
+
         while(!fin_liste_iterateur(itr_historique_joueur1) || !fin_liste_iterateur(itr_historique_joueur2) ){
 
 
-            if(!fin_liste_iterateur(itr_historique_joueur1)){
-                cas=(Case)liste_iterateur_courant(itr_historique_joueur1);
-                cd=Coordonne_de_la_Case(cas);
-                fprintf(fichier_sauvegarde, "\\play * %d %d\n",cd.x,cd.y );
-                suivant_liste_iterateur(itr_historique_joueur1);
-            }
+
             if(!fin_liste_iterateur(itr_historique_joueur2)){
                 cas=(Case)liste_iterateur_courant(itr_historique_joueur2);
                 cd=Coordonne_de_la_Case(cas);
                 fprintf(fichier_sauvegarde, "\\play o %d %d\n",cd.x,cd.y );
                 suivant_liste_iterateur(itr_historique_joueur2);
 
+            }
+            if(!fin_liste_iterateur(itr_historique_joueur1)){
+                cas=(Case)liste_iterateur_courant(itr_historique_joueur1);
+                cd=Coordonne_de_la_Case(cas);
+                fprintf(fichier_sauvegarde, "\\play * %d %d\n",cd.x,cd.y );
+                suivant_liste_iterateur(itr_historique_joueur1);
             }
 
 

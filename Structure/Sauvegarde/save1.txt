@@ -1,20 +1,13 @@
 \hex
-\dim 3
+\dim 2
 \board Mon premier test
-W W W/B
-B * * o B
-  B * * o B
-    B o o o B
-      B/W W W 
+W W/B
+B * o B
+  B . o B
+    B/W W 
 \game
-\play * 0 1
-\play o 1 2
-\play * 1 1
-\play o 2 1
+\play o 1 1
 \play * 0 0
-\play o 0 2
-\play * 1 0
-\play o 2 0
-\play o 2 2
+\play o 0 1
 \endgame
 \endhex

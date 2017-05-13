@@ -12,6 +12,8 @@
 #include <assert.h>
 #include <stdbool.h>
 
+#define FIFO 'f'
+#define FILO 'l'
 
 
 typedef struct _liste*Liste;
@@ -26,11 +28,11 @@ Liste constructeur_liste(void);
 /*!
    \brief Retirer un element
    \param Liste
-   \param methode de retrait "liste" ou "pile"
+   \param methode de retrait FIFO ou FILO
    \pre taille > 0
    \return adresse de l'element un cast est nécéssaire !
 */
-void*retirer_liste(Liste list,const char*methode);
+void*retirer_liste(Liste list,const char methode);
 
 
 /*!
@@ -74,7 +76,7 @@ Liste liste_fusion(Liste l1,Liste l2);
 
 
 
-ListeItr constructeur_liste_iterateur(Liste l);
+ListeItr constructeur_liste_iterateur(Liste l,const char methode);
 void*liste_iterateur_courant(ListeItr i);
 ListeItr start_liste_iterateur(ListeItr i);
 ListeItr suivant_liste_iterateur(ListeItr i);
