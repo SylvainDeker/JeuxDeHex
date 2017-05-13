@@ -121,6 +121,11 @@ bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description)
 }
 
 
+
+// void insersion_graphique(Plateau p,FILE)
+
+
+
 bool restaurer_partie(const char * nom_fichier,Plateau *p){
 
     Joueur j1=contructeur_Joueur();
