@@ -6,8 +6,8 @@
 */
 
 #define _POSIX_C_SOURCE 1
-#include "../Plateau/Plateau.h"
-#include "../Sauvegarde/Sauvegarde.h"
+#include "./Plateau/Plateau.h"
+#include "./Sauvegarde/Sauvegarde.h"
 #define TAILLE_PLAT 8
 
 
