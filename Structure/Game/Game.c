@@ -6,48 +6,77 @@
 */
 
 #define _POSIX_C_SOURCE 1
-#include "Plateau.h"
-
+#include "../Plateau/Plateau.h"
+#include "../Sauvegarde/Sauvegarde.h"
 #define TAILLE_PLAT 8
+
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
-void afficher_menu(int *c);
+void afficher_menu(int *c, Plateau p, char* name1, char* name2);
+
 int main(int argc, char const *argv[]) {
-    printf("======================TEST : contructeur_Joueur(){ ==========================\n" );
-    Joueur patrick=contructeur_Joueur();
-    Joueur robert=contructeur_Joueur();
+    int c = 0;
+    char name1;
+    char name2;
+    Joueur un=contructeur_Joueur();
+    Joueur deux=contructeur_Joueur();
 
+    Plateau p=constructeur_plateau(TAILLE_PLAT,un,deux);
 
+    afficher_menu(&c, p, &name1, &name2);
 
-    printf("======================TEST : contructeur_plateu(){ ==========================\n" );
-    Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
-
-
-    printf("======================TEST : Poser_un_pion(){ ==========================\n" );
-
-    srand((long int)p);
-    while(!Existe_Gangnant(p)){
-    // for (size_t i = 0; i < 5; i++) {
-
-        int x=rand()%Dimention_plateau(p);
-        int y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,patrick,Coord(x,y));
-        x=rand()%Dimention_plateau(p);
-        y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,robert,Coord(x,y));
-        afficher_plateau(p);
-        bilan(p);
-    }
-    // }
-
-
-
-
+    
     freed_all(p);
     return 0;
+}
+
+
+
+void afficher_menu(int *c, Plateau p, char* name1, char* name2){
+  int choice = -1;
+
+  char *nameFile = NULL;
+  system("clear");
+  printf("\t1 - New game\n");
+  printf("\t2 - Restore game\n\n");
+  printf("\tWhat do you want to do ? ");
+
+
+  scanf("%d", &choice);
+  switch (choice) {
+    case 1:
+      system("clear");
+      printf("\t1 - Human vs Human \n");
+      printf("\t2 - Human vs AI \n\n");
+      printf("\tWhat do you want to do ? ");
+      scanf("%d", &choice);
+      switch (choice) {
+        case 1 :
+          printf("\tWhat is the name of the first player ? ");
+          scanf("%s", name1);
+          printf("\tPLAYER 1 : %s\n", name1);
+          printf("\tWhat is the name of the second player ? ");
+          scanf("%s", name2);
+          printf("\tPLAYER 2 : %s\n", name2);
+          break;
+        case 2 :
+        printf("\tWhat is the name of the player ? ");
+        scanf("%s", name1);
+
+      }
+      break;
+      //LANCER PARTIE SELON CHOIX
+
+    case 2 :
+      printf("\tWhat is the name of the file to restore ? ");
+      scanf("%s", nameFile);
+      restaurer_partie(nameFile, &p);
+      //REPRENDRE LE JEU
+      afficher_plateau(p);
+  }
+
+
 }
 
 
@@ -77,22 +106,6 @@ void afficher_plateau(Plateau p){
 
 
 
-
-//Tests !
-/*
-                Mur 1
-                Joueur 0
-    \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
-      \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
-        \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
-          \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
-Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
-Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
-                \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
-                  \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
-                                Mur 2
-                                joueur 0
-*/
 
 
 
