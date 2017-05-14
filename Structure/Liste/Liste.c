@@ -1,14 +1,15 @@
 /*!
    \file Liste.c
-   \brief Module Liste
+   \brief Structure de donnée Liste pouvant etre utilisé à la fois mode FILO et FIFO
    \author Sylvain DEKER
    \date 10/04/2017
+   \info Liste Simple, doublement chainée avec sentinelle.
+        Le mode FIFO et FILO se distincte que au moment de la lecture des données soit avec retirer_liste(); soit avec l'itérateur liste_iterateur_courant();
 */
 
 #include "Liste.h"
 
 typedef struct _element{
-
     void*adr;
     struct _element *next;
     struct _element *prev;

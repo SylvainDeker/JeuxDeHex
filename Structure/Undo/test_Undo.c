@@ -44,7 +44,9 @@ int main(int argc, char const *argv[]) {
     }
 
     printf("======================TEST Undo ==========================\n" );
+    printf("UNDO de %d\n",NB_UNDO );
     undo(&p,NB_UNDO);
+
     afficher_plateau(p);
     bilan(p);
 
