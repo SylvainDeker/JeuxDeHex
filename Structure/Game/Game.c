@@ -13,27 +13,85 @@
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
-void afficher_menu(int *c, Plateau p, char* name1, char* name2);
+bool afficher_menu(int *c, Plateau p, char* name1, char* name2);
 
 int main(int argc, char const *argv[]) {
     int c = 0;
-    char name1;
-    char name2;
+    bool legalMove = false;
+    bool choice = false;
+    char name1[256];
+    char name2[256];
+    int x;
+    int y;
     Joueur un=contructeur_Joueur();
     Joueur deux=contructeur_Joueur();
 
     Plateau p=constructeur_plateau(TAILLE_PLAT,un,deux);
 
-    afficher_menu(&c, p, &name1, &name2);
+    do {
+      choice = afficher_menu(&c, p, name1, name2);
+    } while(choice == false);
+    system("clear");
+    srand((long int)p);
+    switch (c) {
+      //case 2 : RESTAURATION NE MARCHE PAS
+      case 3 :
+        while (!Existe_Gangnant(p)) {
+          printf("====================== JOUEUR %s ======================\n\n\n",name1);
+          afficher_plateau(p);
+          //ajouter random pick beginner
+          while (legalMove == false) {
 
-    
+            printf("\tCoordonnées du pion à placer (x,y) : \n");
+            printf("\t\tx : ");
+            scanf("%d", &x);
+            printf("\t\ty : ");
+            scanf("%d", &y);
+            if(Case_Vide(p,Coord(x,y))){
+              poser_un_pion(p,un,Coord(x,y));
+              legalMove = true;
+            }else{
+              printf("\n\tAlready used, choose another one!\n");
+
+            }
+
+          }
+          legalMove = false;
+          system("clear");
+          printf("====================== JOUEUR %s ======================\n\n\n",name2);
+          afficher_plateau(p);
+          while (legalMove == false) {
+            printf("\tCoordonnées du pion à placer (x,y) : \n");
+            printf("\t\tx : ");
+            scanf("%d", &x);
+            printf("\t\ty : ");
+            scanf("%d", &y);
+            if(Case_Vide(p,Coord(x,y))){
+              poser_un_pion(p,deux,Coord(x,y));
+              legalMove = true;
+            }else{
+              printf("\n\tAlready used, choose another one!\n");
+
+            }
+
+          }
+          legalMove = false;
+          bilan(p);
+        }
+        break;
+
+      default :
+        break;
+    }
+
+
     freed_all(p);
     return 0;
 }
 
 
 
-void afficher_menu(int *c, Plateau p, char* name1, char* name2){
+bool afficher_menu(int *c, Plateau p, char* name1, char* name2){
   int choice = -1;
 
   char *nameFile = NULL;
@@ -47,35 +105,49 @@ void afficher_menu(int *c, Plateau p, char* name1, char* name2){
   switch (choice) {
     case 1:
       system("clear");
-      printf("\t1 - Human vs Human \n");
-      printf("\t2 - Human vs AI \n\n");
+      printf("\t3 - Human vs Human \n");
+      printf("\t4 - Human vs AI \n\n");
       printf("\tWhat do you want to do ? ");
       scanf("%d", &choice);
       switch (choice) {
-        case 1 :
+        case 3 :
           printf("\tWhat is the name of the first player ? ");
           scanf("%s", name1);
           printf("\tPLAYER 1 : %s\n", name1);
           printf("\tWhat is the name of the second player ? ");
           scanf("%s", name2);
           printf("\tPLAYER 2 : %s\n", name2);
+
           break;
-        case 2 :
-        printf("\tWhat is the name of the player ? ");
-        scanf("%s", name1);
+        case 4 :
+          printf("\tWhat is the name of the player ? ");
+          scanf("%s", name1);
+          break;
+
+        default :
+          printf("Please enter a valid option\n");
+          return false;
 
       }
       break;
-      //LANCER PARTIE SELON CHOIX
+
 
     case 2 :
       printf("\tWhat is the name of the file to restore ? ");
       scanf("%s", nameFile);
       restaurer_partie(nameFile, &p);
+      break;
       //REPRENDRE LE JEU
-      afficher_plateau(p);
+
+    default :
+      printf("Please enter a valid option\n");
+      return false;
+
+
   }
 
+  *c = choice;
+  return true;
 
 }
 
