@@ -161,4 +161,11 @@
     */
     Liste Historique_Joueur(Joueur j);
 
+    /*!
+       \brief Parcours les emplacements et retourne les Coordonnee du primier vide
+       \param Plateau
+       \return Coordonnee
+    */
+    Coordonnee Emplacement_libre(Plateau p);
+
 #endif

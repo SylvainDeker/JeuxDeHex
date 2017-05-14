@@ -178,6 +178,21 @@ void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l ){
 
 /////////////////////////////////////////////////////// OPERATEURS PUBLIQUE
 
+Coordonnee Emplacement_libre(Plateau p){
+    assert(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p)))<Dimention_plateau(p)*Dimention_plateau(p)  );
+    bool found =false;
+    int i=0,j=0;
+    while (i<Dimention_plateau(p)&& !found) {
+        while (j<Dimention_plateau(p)&& !found) {
+
+            if(Case_Vide(p,Coord(i++,j++)))found=true;
+
+        }
+    }
+    return Coord(i-1,j-1);
+}
+
+
 Coordonnee Coordonne_de_la_Case(Case ca){
     return ca->c;
 }

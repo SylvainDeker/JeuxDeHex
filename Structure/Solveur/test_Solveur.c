@@ -1,59 +1,89 @@
 /*!
-   \file test_Plateau.c
-   \brief test_Plateau.c
+   \file test_Solveur.c
+   \brief test_Solveur.c
    \author Sylvain DEKER
-   \date 1/05/2017
+   \date 13/05/2017
 */
 
 #define _POSIX_C_SOURCE 1
-#include "Plateau.h"
+#include "Solveur.h"
+#define TAILLE_PLAT 3
 
-#define TAILLE_PLAT 8
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
-void afficher_menu(int *c);
+
 int main(int argc, char const *argv[]) {
-    printf("======================TEST : contructeur_Joueur(){ ==========================\n" );
     Joueur patrick=contructeur_Joueur();
     Joueur robert=contructeur_Joueur();
-
-
-
-    printf("======================TEST : contructeur_plateu(){ ==========================\n" );
     Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
 
-
-    printf("======================TEST : Poser_un_pion(){ ==========================\n" );
-
     srand((long int)p);
-    while(!Existe_Gangnant(p)){
-    // for (size_t i = 0; i < 5; i++) {
+    int x=0,y=0;
 
-        int x=rand()%Dimention_plateau(p);
-        int y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,patrick,Coord(x,y));
-        x=rand()%Dimention_plateau(p);
-        y=rand()%Dimention_plateau(p);
-        if(Case_Vide(p,Coord(x,y)))
-            poser_un_pion(p,robert,Coord(x,y));
+    for (size_t i = 0; i < 1; i++) {
+    // while(!Existe_Gangnant(p)){
+
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        poser_un_pion(p, Joueur1(p), Coord(x,y) );
+        // afficher_plateau(p);
+        // bilan(p);
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        if(!Existe_Gangnant(p))
+            poser_un_pion(p,Joueur2(p),Coord(x,y));
+
         afficher_plateau(p);
         bilan(p);
     }
-    // }
-    printf("=====================TEST Emplacement_libre() ===================================\n" );
+    printf("=============================TEST DE copie_plus_un_pion()=================================\n" );
+    // Plateau pnew=copie_de_plateau(p);
+    //
+    // freed_all(p);
+    // afficher_plateau(pnew);
+    // bilan(pnew);
+    //freed_all(pnew);
 
-    Coordonnee cd_libre = Emplacement_libre(p);
-    printf("Emplacement_libre à %d,%d\n",cd_libre.x, cd_libre.y);
-
-
+    printf("=============================TEST DE constructeur_arbre_solveur()=================================\n" );
+    Arbre_solveur arbr_s=constructeur_arbre_solveur(p);
+    affichage_as(arbr_s);
     freed_all(p);
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
 
 
 
+
+//Tests !
+/*
+                Mur 1
+                Joueur 0
+    \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
+      \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
+        \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
+          \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
+Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
+Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
+                \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
+                  \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
+                                Mur 2
+                                joueur 0
+*/
 
 
 void afficher_plateau(Plateau p){
@@ -80,29 +110,13 @@ void afficher_plateau(Plateau p){
 
 
 
-//Tests !
-/*
-                Mur 1
-                Joueur 0
-    \ 1 \ 1 \ o \ o \ o \ o \ o \ o \
-      \ o \ 1 \ o \ o \ o \ o \ 1 \ 1 \
-        \ 1 \ o \ o \ 1 \ 1 \ 1 \ 1 \ o \
-          \ 1 \ o \ . \ 1 \ 1 \ o \ o \ o \     Mur2
-Mur1        \ 1 \ . \ 1 \ o \ . \ o \ o \ o \   Joueur 1
-Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
-                \ o \ 1 \ 1 \ . \ o \ 1 \ 1 \ 1 \
-                  \ 1 \ o \ o \ 1 \ o \ 1 \ . \ 1 \
-                                Mur 2
-                                joueur 0
-*/
-
 
 
 void bilan(Plateau p){
     ListeItr itr_grp,itr_case;
 
 
-    printf("Joueur 0\n");
+    printf("joueur 0\n");
     itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur1(p)),FIFO);
     for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
 
@@ -125,7 +139,7 @@ void bilan(Plateau p){
     freed_liste_iterateur(itr_grp);
     printf("---------------\n" );
 
-    printf("Joueur 1\n");
+    printf("joueur 1\n");
     itr_grp=constructeur_liste_iterateur(Liste_Groupe_du_Joueur(Joueur2(p)),FIFO);
     for(start_liste_iterateur(itr_grp);!fin_liste_iterateur(itr_grp);suivant_liste_iterateur(itr_grp)){
 
