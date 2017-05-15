@@ -20,45 +20,56 @@ struct _arbre_possibilites{
     // unsigned int nb_possibilite_gagnante_j2;
 };
 
+void affichage_plateau(Plateau p);
+
 void feed_arbre_solveur_rec(Plateau p,Noeud nd,unsigned int possibilites,int joueur);
 
-Noeud constructeur_noeud(unsigned int nb_fils){
+Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     Noeud nd=(Noeud)malloc(sizeof(struct _noeud));
     nd->nb_fils=nb_fils;
+    nd->plateau=p;
     nd->fils=(Noeud*)malloc(sizeof(Noeud)*nb_fils);
     return nd;
 }
 
 Arbre_solveur constructeur_arbre_solveur(Plateau p){
     Arbre_solveur as=(Arbre_solveur)malloc(sizeof(struct _arbre_possibilites));
-    unsigned int dim=Dimention_plateau(p);
-    as->sentinelle=constructeur_noeud(dim*dim-(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p)))) );
-    feed_arbre_solveur_rec(p,as->sentinelle,dim*dim-(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p)))),0);
+    unsigned int dim=Dimention_plateau(p)*Dimention_plateau(p)-(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p))));
+    as->sentinelle=constructeur_noeud(p,dim);
+    // printf("Construction de la sentinelle de taille %u\n",dim );
+    // printf("Plateau de la sentinelle :\n");
+    affichage_plateau(as->sentinelle->plateau);
+    feed_arbre_solveur_rec(p,as->sentinelle,dim-1,0);
     return as;
 }
 
 void feed_arbre_solveur_rec(Plateau p,Noeud nd,unsigned int possibilites,int joueur){
-    if (!Existe_Gangnant(p)
-        &&
-        possibilites>0
+    if (
+        // !Existe_Gangnant(p)
+        // &&
+        possibilites>=0
     ) {
         unsigned int nb_fils=0;
         for (unsigned int i = 0; i < Dimention_plateau(p); i++) {
             for (unsigned int j = 0; j < Dimention_plateau(p); j++) {
                 if(Case_Vide(p,Coord(i,j))){
-                    nd->fils[nb_fils]=constructeur_noeud(possibilites);
-                    nd->nb_fils=possibilites;
-                    nd->fils[nb_fils]->plateau=copie_de_plateau(p);
+                    nd->fils[nb_fils]=constructeur_noeud(copie_de_plateau(p),possibilites);
+
                     if(joueur==1){
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur1(nd->fils[nb_fils]->plateau),Coord(i,j));
-                        joueur=0;
+                        // affichage_plateau(nd->fils[nb_fils]->plateau);
+                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,0);
+                        // joueur=0;
                     }
                     else{
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur2(nd->fils[nb_fils]->plateau),Coord(i,j));
-                        joueur=1;
+                        // affichage_plateau(nd->fils[nb_fils]->plateau);
+                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,1);
+                        // joueur=1;
                     }
-                    feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,joueur);
-
+                    // printf("possibilites :%u \n",possibilites );
+                    // affichage_plateau(nd->fils[nb_fils]->plateau);
+                    // feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,joueur);
                     nb_fils++;
                 }
             }
@@ -135,14 +146,17 @@ void affichage_plateau(Plateau p){
 
 
 void affichage_as_rec(Noeud nd){
-    affichage_plateau(nd->plateau);
-    for (unsigned int i = 0; i < 1; i++) {
-        affichage_as_rec(nd->fils[i]);
+
+    if(nd->nb_fils>=0){
+        affichage_plateau(nd->plateau);
+        for (unsigned int i = 0; i < nd->nb_fils; i++) {
+             affichage_as_rec(nd->fils[i]);
+        }
     }
 }
 void affichage_as(Arbre_solveur as){
-    for (unsigned int i = 0; i < as->sentinelle->nb_fils; i++) {
-        affichage_as_rec(as->sentinelle->fils[i]);
-    }
+    printf("AFFICHAGE RECURSIF\n" );
+    affichage_as_rec(as->sentinelle);
+
 
 }
