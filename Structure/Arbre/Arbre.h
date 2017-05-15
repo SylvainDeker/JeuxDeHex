@@ -1,13 +1,13 @@
 /*!
-   \file Solveur.h
-   \brief Solveur.h
+   \file Arbre.h
+   \brief Arbre.h
    \author Sylvain DEKER
    \date 11/05/2017
 */
 #define _POSIX_C_SOURCE 1
 
-#ifndef _SOLVEUR_H_
-#define _SOLVEUR_H_
+#ifndef _ARBRE_H_
+#define _ARBRE_H_
     #include <stdio.h>
     #include <stdlib.h>
     #include <stdbool.h>

@@ -1,12 +1,12 @@
 /*!
-   \file Soveur.c
+   \file Arbre.c
    \brief
    \author Sylvain DEKER
    \date 14/05/2017
 */
 
 #define _POSIX_C_SOURCE 1
-#include "Solveur.h"
+#include "Arbre.h"
 
 typedef struct _noeud{
     unsigned int nb_fils;

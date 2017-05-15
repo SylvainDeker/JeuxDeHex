@@ -1,4 +1,4 @@
-NAME=Solveur
+NAME=Arbre
 FLAG= -Wall #-std=c99 -ansi
 
 F_BIN=./
