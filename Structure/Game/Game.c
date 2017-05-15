@@ -8,25 +8,31 @@
 #define _POSIX_C_SOURCE 1
 #include "../Plateau/Plateau.h"
 #include "../Sauvegarde/Sauvegarde.h"
-#define TAILLE_PLAT 8
+
+
 
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
 bool afficher_menu(int *c, Plateau p, char* name1, char* name2);
-
+void saveOrNot(Plateau p);
 int main(int argc, char const *argv[]) {
+
     int c = 0;
+    char tocontinue;
     bool legalMove = false;
     bool choice = false;
+    int sizeBoard = 0;
     char name1[256];
     char name2[256];
     int x;
     int y;
     Joueur un=contructeur_Joueur();
     Joueur deux=contructeur_Joueur();
-
-    Plateau p=constructeur_plateau(TAILLE_PLAT,un,deux);
+    system("clear");
+    printf("\tWhat is the size of the board you want to play on ? Size : ");
+    scanf("%d",&sizeBoard);
+    Plateau p=constructeur_plateau(sizeBoard,un,deux);
 
     do {
       choice = afficher_menu(&c, p, name1, name2);
@@ -34,12 +40,14 @@ int main(int argc, char const *argv[]) {
     system("clear");
     srand((long int)p);
     switch (c) {
-      //case 2 : RESTAURATION NE MARCHE PAS
+      case 2 :
+        
       case 3 :
         while (!Existe_Gangnant(p)) {
+
           printf("====================== JOUEUR %s ======================\n\n\n",name1);
           afficher_plateau(p);
-          //ajouter random pick beginner
+
           while (legalMove == false) {
 
             printf("\tCoordonnées du pion à placer (x,y) : \n");
@@ -77,6 +85,17 @@ int main(int argc, char const *argv[]) {
           }
           legalMove = false;
           bilan(p);
+
+
+          printf("\n\t[Enter] to continue or [q] to quit : ");
+          scanf("%s", &tocontinue);
+
+
+          if (tocontinue == 'q') {
+            saveOrNot(p);
+            return 0;
+          }
+          system("clear");
         }
         break;
 
@@ -119,7 +138,7 @@ bool afficher_menu(int *c, Plateau p, char* name1, char* name2){
           printf("\tPLAYER 2 : %s\n", name2);
 
           break;
-        case 4 :
+        case 4 : //WIP
           printf("\tWhat is the name of the player ? ");
           scanf("%s", name1);
           break;
@@ -151,7 +170,21 @@ bool afficher_menu(int *c, Plateau p, char* name1, char* name2){
 
 }
 
+void saveOrNot(Plateau p){
+  char save;
+  char savefile[60];
+  char description[2000];
+  printf("\tDo you want to save the game ? (y or n)");
+  scanf("%s",&save);
+  if (save == 'y') {
+    printf("\tWhat is the name of the savefile ? Name : ");
+    scanf("%s",savefile);
+    printf("\tDescription of the game : ");
+    scanf("%s", description);
+    sauvegarder_partie(p,savefile,description);
+  }
 
+}
 
 
 
