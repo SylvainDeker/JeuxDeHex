@@ -32,10 +32,11 @@ Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     return nd;
 }
 
+
 Arbre_solveur constructeur_arbre_solveur(Plateau p){
     Arbre_solveur as=(Arbre_solveur)malloc(sizeof(struct _arbre_possibilites));
     unsigned int dim=Dimention_plateau(p)*Dimention_plateau(p)-(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p))));
-    as->sentinelle=constructeur_noeud(p,dim);
+    as->sentinelle=constructeur_noeud(copie_de_plateau(p),dim);
     // printf("Construction de la sentinelle de taille %u\n",dim );
     // printf("Plateau de la sentinelle :\n");
     affichage_plateau(as->sentinelle->plateau);
@@ -119,12 +120,32 @@ Plateau copie_de_plateau(Plateau p){
 }
 
 
+void freed_noeud(Noeud nd){
 
+    freed_all(nd->plateau);
+    free(nd->fils);
+    free(nd);
+}
+
+void freed_noeud_rec(Noeud nd){
+
+
+        for (size_t i = 0; i < nd->nb_fils; i++) {
+            freed_noeud_rec(nd->fils[i]);
+        }
+        freed_noeud(nd);
+
+}
+
+void freed_arbre_solveur(Arbre_solveur as){
+    freed_noeud_rec(as->sentinelle);
+    free(as);
+}
 
 
 void affichage_plateau(Plateau p){
     assert(p);
-    printf("================================================\n" );
+    printf("=======================\n" );
     for (int i = 0; i < Dimention_plateau(p); i++) {
         for (size_t h = 0; h < i; h++) {
             printf("  " );
@@ -140,18 +161,15 @@ void affichage_plateau(Plateau p){
         }
         printf("\\\n" );
     }
-    printf("================================================\n" );
+    printf("----------------------\n" );
 }
 
 
 
 void affichage_as_rec(Noeud nd){
-
-    if(nd->nb_fils>=0){
-        affichage_plateau(nd->plateau);
-        for (unsigned int i = 0; i < nd->nb_fils; i++) {
-             affichage_as_rec(nd->fils[i]);
-        }
+    affichage_plateau(nd->plateau);
+    for (unsigned int i = 0; i < nd->nb_fils; i++) {
+         affichage_as_rec(nd->fils[i]);
     }
 }
 void affichage_as(Arbre_solveur as){

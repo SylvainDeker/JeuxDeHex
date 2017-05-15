@@ -7,6 +7,7 @@
 
 #define _POSIX_C_SOURCE 1
 #include "Solveur.h"
+
 #define TAILLE_PLAT 2
 
 
@@ -53,7 +54,7 @@ int main(int argc, char const *argv[]) {
     poser_un_pion(p,patrick,Coord(0,0));
     Arbre_solveur arbr_s=constructeur_arbre_solveur(p);
     affichage_as(arbr_s);
-
+    freed_arbre_solveur(arbr_s);
     freed_all(p);
 
 
