@@ -47,21 +47,24 @@ int main(int argc, char const *argv[]) {
                     printf("Création d'un plateau de taille %d\n",dim );
                     break;
                 case 'g':
+                    assert(plateau);
                     printf("Envoie de la grille -> Recuperer donnée dans la pipeline c_vers_java \n");
                     envoyer_grille(plateau);
                     break;
                 case 'u':
+                    assert(plateau);
                     printf("Undo\n" );
                     undo(&plateau,1);
                     break;
                 case 's':
+                    assert(plateau);
                     /*Atetion Respecter les espaces*/
                     sscanf(requete,"s( %s , %s )",fichier,desc);
                     printf("Sauvegarde dans %s \n",fichier );
                     sauvegarder_partie(plateau,fichier,desc);
                     break;
                 case 'p':
-
+                    assert(plateau);
                     sscanf(requete,"p(%d,%d,%d)",&j,&x,&y);
                     if(j==1)poser_un_pion(plateau,Joueur1(plateau),Coord(x,y));
                     if(j==2)poser_un_pion(plateau,Joueur2(plateau),Coord(x,y));
@@ -78,13 +81,23 @@ int main(int argc, char const *argv[]) {
                     quiter=true;
                     break;
                 case 'w':
+                    assert(plateau);
                     printf("Demande si il existe un Gagnant -> Recuperer donnée dans la pipeline c_vers_java \n" );
                     envoyer_existe_gagnant(plateau);
                     break;
                 case 'e':
+                    assert(plateau);
                     sscanf(requete,"e(%d,%d)",&x,&y);
                     printf("Demande si il existe un pion sur %d,%d -> Recuperer donnée dans la pipeline c_vers_java \n",x,y );
                     envoyer_joueur_case(plateau,Coord(x,y));
+                    break;
+                case 'b':
+                    assert(plateau);
+                    printf("Demande du nombre case libre restante \n" );
+                    envoyer_nombre_place_libre(plateau);
+                    break;
+                default:
+                    fprintf(stderr, "Entree invalide\n");
             }
         }
 

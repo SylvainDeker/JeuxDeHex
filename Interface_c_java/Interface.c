@@ -93,3 +93,17 @@ int envoyer_joueur_case(Plateau p,Coordonnee c){
 
     return 0;
 }
+
+int envoyer_nombre_place_libre(Plateau p){
+
+    FILE*c_vers_java=fopen("c_vers_java","w");
+    if(c_vers_java){
+        unsigned int t=Dimention_plateau(p)*Dimention_plateau(p)- ( liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p)))  );
+        fprintf(c_vers_java, "%u\n",t );
+        fclose(c_vers_java);
+    }
+    else return -1;
+
+    return 0;
+
+}

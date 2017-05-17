@@ -22,6 +22,6 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p);
 Plateau copie_de_plateau(Plateau p);
 void freed_arbre_solveur(Arbre_solveur as);
 void affichage_as(Arbre_solveur as);
-
+unsigned int tentative_gagnante(Arbre_solveur as,Joueur j);
 
 #endif

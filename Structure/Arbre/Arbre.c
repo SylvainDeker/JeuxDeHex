@@ -16,13 +16,14 @@ typedef struct _noeud{
 
 struct _arbre_possibilites{
     Noeud sentinelle;
-    // unsigned int nb_possibilite_gagnante_j1;
-    // unsigned int nb_possibilite_gagnante_j2;
+    Plateau p;
+    unsigned int nb_possibilite_gagnante_j1;
+    unsigned int nb_possibilite_gagnante_j2;
 };
 
 void affichage_plateau(Plateau p);
 
-void feed_arbre_solveur_rec(Plateau p,Noeud nd,unsigned int possibilites,int joueur);
+void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur);
 
 Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     Noeud nd=(Noeud)malloc(sizeof(struct _noeud));
@@ -37,14 +38,24 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p){
     Arbre_solveur as=(Arbre_solveur)malloc(sizeof(struct _arbre_possibilites));
     unsigned int dim=Dimention_plateau(p)*Dimention_plateau(p)-(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p))));
     as->sentinelle=constructeur_noeud(copie_de_plateau(p),dim);
-    // printf("Construction de la sentinelle de taille %u\n",dim );
-    // printf("Plateau de la sentinelle :\n");
+    as->p=p;
+    as->nb_possibilite_gagnante_j1=0;
+    as->nb_possibilite_gagnante_j2=0;
     affichage_plateau(as->sentinelle->plateau);
-    feed_arbre_solveur_rec(p,as->sentinelle,dim-1,0);
+    feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,0);
     return as;
 }
+unsigned int tentative_gagnante(Arbre_solveur as,Joueur j){
+    if(j==Joueur1(as->p)) return as->nb_possibilite_gagnante_j1;
+    else return as->nb_possibilite_gagnante_j2;
 
-void feed_arbre_solveur_rec(Plateau p,Noeud nd,unsigned int possibilites,int joueur){
+}
+
+void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur){
+
+
+
+
     if (
         // !Existe_Gangnant(p)
         // &&
@@ -58,21 +69,24 @@ void feed_arbre_solveur_rec(Plateau p,Noeud nd,unsigned int possibilites,int jou
 
                     if(joueur==1){
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur1(nd->fils[nb_fils]->plateau),Coord(i,j));
-                        // affichage_plateau(nd->fils[nb_fils]->plateau);
-                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,0);
+                        if(Existe_Gangnant(nd->fils[nb_fils]->plateau))
+                            (as->nb_possibilite_gagnante_j1)++;
+
+                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,0);
                         // joueur=0;
                     }
                     else{
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur2(nd->fils[nb_fils]->plateau),Coord(i,j));
-                        // affichage_plateau(nd->fils[nb_fils]->plateau);
-                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,1);
+                        if(Existe_Gangnant(nd->fils[nb_fils]->plateau))
+                            (as->nb_possibilite_gagnante_j2)++;
+
+                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,1);
                         // joueur=1;
                     }
-                    // printf("possibilites :%u \n",possibilites );
-                    // affichage_plateau(nd->fils[nb_fils]->plateau);
-                    // feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,nd->fils[nb_fils],possibilites-1,joueur);
+
                     nb_fils++;
                 }
+
             }
         }
     }

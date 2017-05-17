@@ -13,7 +13,7 @@ unsigned int max(unsigned int a,unsigned b);
 
 void undo(Plateau *p,unsigned int nb_undo){
     unsigned int taille_listes=liste_taille(Historique_Joueur(Joueur1(*p)))+liste_taille(Historique_Joueur(Joueur2(*p)));
-    assert(taille_listes-nb_undo >= 0);
+    assert( taille_listes >= nb_undo );
     ListeItr itr_historique_joueur1,itr_historique_joueur2;
 
     itr_historique_joueur1=constructeur_liste_iterateur(Historique_Joueur(Joueur1(*p)),FIFO);

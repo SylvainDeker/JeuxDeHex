@@ -31,4 +31,5 @@ clean:
 
 run: all
 	valgrind ${F_EXEC}TEST_${NAME}
+	# ./TEST_${NAME}
 	make clean

@@ -22,6 +22,7 @@
     int envoyer_grille(Plateau p);
     int envoyer_existe_gagnant(Plateau p);
     int envoyer_joueur_case(Plateau p,Coordonnee c);
+    int envoyer_nombre_place_libre(Plateau p);
 
 
 #endif

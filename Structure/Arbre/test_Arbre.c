@@ -8,13 +8,22 @@
 #define _POSIX_C_SOURCE 1
 #include "Arbre.h"
 
-#define TAILLE_PLAT 2
+#define TAILLE_PLAT 3
+
+/// T = 9    1
+// T = 16    8
+// T = 25   18
+//T=36      32
+//T=49      44
+//T=64      56
+
 
 
 void afficher_plateau(Plateau p);
 void bilan(Plateau p);
 
 int main(int argc, char const *argv[]) {
+
     Joueur patrick=contructeur_Joueur();
     Joueur robert=contructeur_Joueur();
     Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
@@ -51,9 +60,14 @@ int main(int argc, char const *argv[]) {
     //freed_all(pnew);
 
     printf("=============================TEST DE constructeur_arbre_solveur()=================================\n" );
-    // poser_un_pion(p,patrick,Coord(0,0));
+    poser_un_pion(p,patrick,Coord(0,0));
+    poser_un_pion(p,patrick,Coord(1,1));
+    poser_un_pion(p,patrick,Coord(2,2));
     Arbre_solveur arbr_s=constructeur_arbre_solveur(p);
     affichage_as(arbr_s);
+    printf(" Tentative_gagnante du Joueur1 : %u \n",tentative_gagnante(arbr_s,Joueur1(p)) );
+    printf(" Tentative_gagnante du Joueur2 : %u \n",tentative_gagnante(arbr_s,Joueur2(p)) );
+    bilan(p);
     freed_arbre_solveur(arbr_s);
     freed_all(p);
 
