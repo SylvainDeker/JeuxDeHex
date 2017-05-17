@@ -1,0 +1,15 @@
+\hex
+\dim 6
+\board desc
+W W W W W W/B
+B . . . . . . B
+  B . . . . . . B
+    B . . . . . . B
+      B . . . . . o B
+        B . . . . . . B
+          B . . . . . . B
+            B/W W W W W W 
+\game
+\play o 3 5
+\endgame
+\endhex

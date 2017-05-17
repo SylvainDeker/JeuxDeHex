@@ -47,17 +47,19 @@ int main(int argc, char const *argv[]) {
                     printf("Création d'un plateau de taille %d\n",dim );
                     break;
                 case 'g':
+                    printf("Envoie de la grille -> Recuperer donnée dans la pipeline c_vers_java \n");
                     envoyer_grille(plateau);
-                    printf("Affichage de la grille\n");
                     break;
                 case 'u':
+                    printf("Undo\n" );
                     undo(&plateau,1);
                     break;
-                // case 's':
-                //
-                //     sscanf(requete,"s(%s,%s)",fichier,desc);
-                //     sauvegarder_partie(plateau,fichier,desc);
-                //     break;
+                case 's':
+                    /*Atetion Respecter les espaces*/
+                    sscanf(requete,"s( %s , %s )",fichier,desc);
+                    printf("Sauvegarde dans %s \n",fichier );
+                    sauvegarder_partie(plateau,fichier,desc);
+                    break;
                 case 'p':
 
                     sscanf(requete,"p(%d,%d,%d)",&j,&x,&y);
@@ -65,18 +67,26 @@ int main(int argc, char const *argv[]) {
                     if(j==2)poser_un_pion(plateau,Joueur2(plateau),Coord(x,y));
                     printf("Pose du pion %d, sur (%d,%d)\n",j,x,y );
                     break;
+                case 't':
+                    printf("Fin de la partie\n" );
+                    if(plateau!=NULL){
+                        freed_all(plateau);
+                        plateau=NULL;
+                    }
+                    break;
                 case 'q':
                     quiter=true;
                     break;
+                case 'w':
+                    printf("Demande si il existe un Gagnant -> Recuperer donnée dans la pipeline c_vers_java \n" );
+                    envoyer_existe_gagnant(plateau);
 
 
             }
         }
 
     }
-    if(plateau!=NULL){
-        freed_all(plateau);
-    }
+
 
     free(requete);
     free(fichier);
