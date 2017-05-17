@@ -18,8 +18,9 @@
     #include "../Structure/Plateau/Plateau.h"
 
 
-    void lecture_flux(FILE*pipeline);
-    int envoyer_data(Plateau p);
+int lecture_requette(char * ordre);
+    int envoyer_grille(Plateau p);
+    int envoyer_existe_gagnant(Plateau p);
 
 
 #endif

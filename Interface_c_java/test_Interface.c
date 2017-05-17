@@ -10,13 +10,16 @@
 #define TAILLE_PLAT 8
 
 int main(int argc, char const *argv[]) {
-    FILE *fifo=fopen("java_vers_c","r");
-    lecture_flux(fifo);
-    fclose(fifo);
 
-    // Joueur patrick=contructeur_Joueur();
-    // Joueur robert=contructeur_Joueur();
-    // Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
-    // envoyer_data(p);
+
+    Joueur patrick=contructeur_Joueur();
+    Joueur robert=contructeur_Joueur();
+    Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
+    // envoyer_grille(p);//faire "cat c_vers_java" dans un autre terminal pour debloquer
+    // envoyer_existe_gagnant(p); //faire "cat c_vers_java" dans un autre terminal pour debloquer
+    char *ordre=(char*)malloc(sizeof(char)*255);
+    lecture_requette(ordre);
+    printf("Ordre recu %s\n",ordre ); // echo "a" > java_vers_c
+
     return 0;
 }
