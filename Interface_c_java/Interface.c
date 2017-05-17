@@ -71,5 +71,25 @@ int envoyer_existe_gagnant(Plateau p){
     else return -1;
 
     return 0;
+}
 
+
+int envoyer_joueur_case(Plateau p,Coordonnee c){
+
+    FILE*c_vers_java=fopen("c_vers_java","w");
+    if(c_vers_java){
+        if(Groupe_de_la_Case(Case_de_la_Coordonnee(p,c))){
+            if(Joueur_du_groupe(Groupe_de_la_Case(Case_de_la_Coordonnee(p,c)))==Joueur1(p))
+                fprintf(c_vers_java, "1" );
+            else
+                fprintf(c_vers_java, "2" );
+        }
+        else
+            fprintf(c_vers_java, "0" );
+        fprintf(c_vers_java, "\n" );
+        fclose(c_vers_java);
+    }
+    else return -1;
+
+    return 0;
 }

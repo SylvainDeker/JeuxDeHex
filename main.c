@@ -80,13 +80,18 @@ int main(int argc, char const *argv[]) {
                 case 'w':
                     printf("Demande si il existe un Gagnant -> Recuperer donnée dans la pipeline c_vers_java \n" );
                     envoyer_existe_gagnant(plateau);
-
-
+                    break;
+                case 'e':
+                    sscanf(requete,"e(%d,%d)",&x,&y);
+                    printf("Demande si il existe un pion sur %d,%d -> Recuperer donnée dans la pipeline c_vers_java \n",x,y );
+                    envoyer_joueur_case(plateau,Coord(x,y));
             }
         }
 
     }
-
+    if(plateau!=NULL){
+        freed_all(plateau);
+    }
 
     free(requete);
     free(fichier);

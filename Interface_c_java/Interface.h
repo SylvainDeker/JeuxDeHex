@@ -21,6 +21,7 @@
     int lecture_requete(char * ordre);
     int envoyer_grille(Plateau p);
     int envoyer_existe_gagnant(Plateau p);
+    int envoyer_joueur_case(Plateau p,Coordonnee c);
 
 
 #endif

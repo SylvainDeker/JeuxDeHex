@@ -245,6 +245,7 @@ Liste Historique_Joueur(Joueur j){
 
 Case poser_un_pion(Plateau p, Joueur j,Coordonnee c){
     assert(p->cellule[c.x][c.y]->groupe==NULL);//Check emplacement libre
+    assert(c.x >=0 && c.x<p->dim && c.y>=0 && c.y<p->dim );
     //Ajout a l'historique
     ajout_liste(j->list_historique_case,Case_de_la_Coordonnee(p,c));
     Liste voisin=constructeur_liste();
