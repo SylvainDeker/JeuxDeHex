@@ -14,11 +14,11 @@
     #include <assert.h>
     #include "../Structure/Sauvegarde/Sauvegarde.h"
     #include "../Structure/Coordonnee/Coordonnee.h"
-    // #include "../Structure/Liste/Liste.h"
+    #include "../Structure/Liste/Liste.h"
     #include "../Structure/Plateau/Plateau.h"
 
 
-int lecture_requette(char * ordre);
+    int lecture_requete(char * ordre);
     int envoyer_grille(Plateau p);
     int envoyer_existe_gagnant(Plateau p);
 

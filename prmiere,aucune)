@@ -1,0 +1,14 @@
+\hex
+\dim 5
+\board 
+W W W W W/B
+B . . . . . B
+  B . . . . . B
+    B . . . * . B
+      B . . . . . B
+        B . . . . . B
+          B/W W W W W 
+\game
+\play * 2 3
+\endgame
+\endhex

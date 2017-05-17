@@ -18,8 +18,8 @@ int main(int argc, char const *argv[]) {
     // envoyer_grille(p);//faire "cat c_vers_java" dans un autre terminal pour debloquer
     // envoyer_existe_gagnant(p); //faire "cat c_vers_java" dans un autre terminal pour debloquer
     char *ordre=(char*)malloc(sizeof(char)*255);
-    lecture_requette(ordre);
-    printf("Ordre recu %s\n",ordre ); // echo "a" > java_vers_c
+    lecture_requete(ordre); // echo "blablabla" > java_vers_c
+    printf("Ordre recu %s\n",ordre );
 
     return 0;
 }

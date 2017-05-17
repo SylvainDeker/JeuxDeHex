@@ -7,7 +7,6 @@
 
 #define _POSIX_C_SOURCE 1
 #include "Interface.h"
-#define TAILLE_REQUETTE 5
 
 
 
@@ -17,7 +16,8 @@
 
 
 
-int lecture_requette(char * ordre){
+
+int lecture_requete(char * ordre){
     int c;
     FILE*c_vers_java=fopen("java_vers_c","r");
     if(c_vers_java){
