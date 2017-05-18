@@ -9,7 +9,7 @@
 #define _POSIX_C_SOURCE 1
 #include "Arbre.h"
 
-#define TAILLE_PLAT 2
+#define TAILLE_PLAT 3
 
 /// T = 9    1
 // T = 16    8
@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
     srand(20);
     int x=0,y=0;
 
-    for (size_t i = 0; i < 1; i++) {
+    for (size_t i = 0; i < 2; i++) {
     // while(!Existe_Gangnant(p)){
 
         while (!Case_Vide(p,Coord(x,y)) ){
@@ -49,7 +49,7 @@ int main(int argc, char const *argv[]) {
         if(!Existe_Gangnant(p))
             poser_un_pion(p,Joueur2(p),Coord(x,y));
 
-        
+
     }
 
     printf("=============================TEST DE copie_plus_un_pion()=================================\n" );
@@ -64,8 +64,10 @@ int main(int argc, char const *argv[]) {
 
     Arbre_solveur arbr_s=constructeur_arbre_solveur(p);
     affichage_as(arbr_s);
-    printf(" Tentative_gagnante du Joueur1 : %u \n",tentative_gagnante(arbr_s,Joueur1(p)) );
-    printf(" Tentative_gagnante du Joueur2 : %u \n",tentative_gagnante(arbr_s,Joueur2(p)) );
+    application_minmax(arbr_s);
+    affichage_minmax(arbr_s);
+    printf(" Tentative_gagnante du Joueur1 : %u \n",potentiel_gagnant_joueur1(arbr_s) );
+    printf(" Tentative_gagnante du Joueur2 : %u \n",potentiel_gagnant_joueur2(arbr_s) );
     bilan(p);
     freed_arbre_solveur(arbr_s);
     freed_all(p);

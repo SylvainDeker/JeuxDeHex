@@ -7,6 +7,7 @@
 
 #define _POSIX_C_SOURCE 1
 #include "Interface.h"
+#define LIMITE_FONCTIONELLE 8
 
 
 
@@ -100,6 +101,34 @@ int envoyer_nombre_place_libre(Plateau p){
     if(c_vers_java){
         unsigned int t=Dimention_plateau(p)*Dimention_plateau(p)- ( liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p)))  );
         fprintf(c_vers_java, "%u\n",t );
+        fclose(c_vers_java);
+    }
+    else return -1;
+
+    return 0;
+
+}
+
+
+int envoyer_potentiel_gagnant(Plateau p){
+
+
+    FILE*c_vers_java=fopen("c_vers_java","w");
+    if(c_vers_java){
+        int j1=-1,j2=-1;
+        if(Dimention_plateau(p)*Dimention_plateau(p)-
+            (liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p))) )<LIMITE_FONCTIONELLE
+        ){
+
+            Arbre_solveur as=constructeur_arbre_solveur(p);
+
+            j1=potentiel_gagnant_joueur1(as);
+            j2=potentiel_gagnant_joueur2(as);
+
+            freed_arbre_solveur(as);
+        }
+
+        fprintf(c_vers_java, "%d,%d\n",j1,j2 );
         fclose(c_vers_java);
     }
     else return -1;

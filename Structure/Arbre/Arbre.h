@@ -17,12 +17,15 @@
     #include "../Coordonnee/Coordonnee.h"
     #include "../Liste/Liste.h"
 
-typedef struct _arbre_possibilites*Arbre_solveur;
+    typedef struct _arbre_possibilites*Arbre_solveur;
 
-Arbre_solveur constructeur_arbre_solveur(Plateau p);
-Plateau copie_de_plateau(Plateau p);
-void freed_arbre_solveur(Arbre_solveur as);
-void affichage_as(Arbre_solveur as);
-unsigned int tentative_gagnante(Arbre_solveur as,Joueur j);
+    Arbre_solveur constructeur_arbre_solveur(Plateau p);
+    Plateau copie_de_plateau(Plateau p);
+    void freed_arbre_solveur(Arbre_solveur as);
+    void affichage_as(Arbre_solveur as);
+    int potentiel_gagnant_joueur2(Arbre_solveur);
+    int potentiel_gagnant_joueur1(Arbre_solveur);
+    void application_minmax(Arbre_solveur as);
+    void affichage_minmax(Arbre_solveur);
 
 #endif

@@ -16,6 +16,8 @@
     #include "../Structure/Coordonnee/Coordonnee.h"
     #include "../Structure/Liste/Liste.h"
     #include "../Structure/Plateau/Plateau.h"
+    #include "../Structure/Arbre/Arbre.h"
+    #include "../Structure/Undo/Undo.h"
 
 
     int lecture_requete(char * ordre);
@@ -23,6 +25,6 @@
     int envoyer_existe_gagnant(Plateau p);
     int envoyer_joueur_case(Plateau p,Coordonnee c);
     int envoyer_nombre_place_libre(Plateau p);
-
+    int envoyer_potentiel_gagnant(Plateau p);
 
 #endif

@@ -13,6 +13,8 @@ typedef struct _noeud{
     Plateau plateau;
     struct _noeud ** fils;
     bool est_une_feuille;
+    int poids_j1;
+    int poids_j2;
 }*Noeud;
 
 struct _arbre_possibilites{
@@ -29,12 +31,21 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
 Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     Noeud nd=(Noeud)malloc(sizeof(struct _noeud));
     nd->nb_fils=nb_fils;
+    nd->poids_j1=-1;
+    nd->poids_j2=-1;
     nd->plateau=p;
     nd->fils=(Noeud*)malloc(sizeof(Noeud)*nb_fils);
     nd->est_une_feuille=false;
     return nd;
 }
 
+int potentiel_gagnant_joueur1(Arbre_solveur as){
+    return as->nb_possibilite_gagnante_j1;
+}
+
+int potentiel_gagnant_joueur2(Arbre_solveur as){
+    return as->nb_possibilite_gagnante_j2;
+}
 
 
 Arbre_solveur constructeur_arbre_solveur(Plateau p){
@@ -44,24 +55,16 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p){
     as->p=p;
     as->nb_possibilite_gagnante_j1=0;
     as->nb_possibilite_gagnante_j2=0;
-    affichage_plateau(as->sentinelle->plateau);
+
     if(liste_taille(Historique_Joueur(Joueur1(p)))<=liste_taille(Historique_Joueur(Joueur2(p))))
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,0);
     else
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,1);
     return as;
 }
-unsigned int tentative_gagnante(Arbre_solveur as,Joueur j){
-    if(j==Joueur1(as->p)) return as->nb_possibilite_gagnante_j1;
-    else return as->nb_possibilite_gagnante_j2;
 
-}
 
 void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur){
-
-
-
-
     if (
         // !Existe_Gangnant(p)
         // &&
@@ -77,6 +80,7 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur1(nd->fils[nb_fils]->plateau),Coord(i,j));
                         if(Existe_Gangnant(nd->fils[nb_fils]->plateau)){
                             nd->fils[nb_fils]->est_une_feuille=true;
+                            nd->fils[nb_fils]->poids_j1=possibilites;
                             (as->nb_possibilite_gagnante_j1)++;
                         }
                         else
@@ -87,6 +91,7 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur2(nd->fils[nb_fils]->plateau),Coord(i,j));
                         if(Existe_Gangnant(nd->fils[nb_fils]->plateau)){
                             nd->fils[nb_fils]->est_une_feuille=true;
+                            nd->fils[nb_fils]->poids_j2=possibilites;
                             (as->nb_possibilite_gagnante_j2)++;
                         }
                         else
@@ -101,6 +106,56 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
         }
     }
 }
+
+void application_minmax_rec(Arbre_solveur as,Noeud nd,int *j1,int *j2){
+    int j1max=0,j2max=0;
+    int r_j1max,r_j2max;
+
+    if( nd->est_une_feuille ){
+        *j1=nd->poids_j1;
+        *j2=nd->poids_j2;
+        printf("j1=%d,j2=%d\n",nd->poids_j1,nd->poids_j2);
+    }
+    else{
+        for (size_t i = 0; i < nd->nb_fils; i++) {
+            application_minmax_rec(as, nd->fils[i],&r_j1max,&r_j2max);
+            if( j1max <  r_j1max )j1max=r_j1max;
+            if( j2max <  r_j2max )j2max=r_j2max;
+
+        }
+        *j1=j1max;
+        *j2=j2max;
+    }
+}
+
+
+void application_minmax(Arbre_solveur as){
+    int j1,j2;
+    application_minmax_rec(as,as->sentinelle,&j1,&j2);
+    as->sentinelle->poids_j1=j1;
+    as->sentinelle->poids_j2=j2;
+}
+
+void affichage_minmax_rec(Noeud nd){
+    if(nd->est_une_feuille==false){
+        for (size_t i = 0; i < nd->nb_fils; i++) {
+            affichage_minmax_rec(nd->fils[i]);
+
+        }
+
+    }
+    printf("j1=%d,j2=%d\n",nd->poids_j1,nd->poids_j2);
+}
+
+
+void affichage_minmax(Arbre_solveur as){
+    printf("ffichage MINMAX\n" );
+    affichage_minmax_rec(as->sentinelle);
+
+}
+
+
+
 
 
 Plateau copie_de_plateau(Plateau p){

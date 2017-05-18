@@ -14,6 +14,8 @@
 #include "Structure/Plateau/Plateau.h"
 #include "Structure/Sauvegarde/Sauvegarde.h"
 #include "Structure/Undo/Undo.h"
+#include "Structure/Arbre/Arbre.h"
+
 #include "Interface_c_java/Interface.h"
 
 #define TAILLE_REQ 255
@@ -95,6 +97,12 @@ int main(int argc, char const *argv[]) {
                     assert(plateau);
                     printf("Demande du nombre case libre restante \n" );
                     envoyer_nombre_place_libre(plateau);
+                    break;
+                case 'f':
+                    assert(plateau);
+                    printf("Demande de donnée \"potentiel gagnant\"\n");
+                    envoyer_potentiel_gagnant(plateau);
+                    printf("Terminé.\n" );
                     break;
                 default:
                     fprintf(stderr, "Entree invalide\n");
