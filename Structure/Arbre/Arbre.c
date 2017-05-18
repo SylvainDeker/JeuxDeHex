@@ -12,6 +12,7 @@ typedef struct _noeud{
     unsigned int nb_fils;
     Plateau plateau;
     struct _noeud ** fils;
+    bool est_une_feuille;
 }*Noeud;
 
 struct _arbre_possibilites{
@@ -30,8 +31,10 @@ Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     nd->nb_fils=nb_fils;
     nd->plateau=p;
     nd->fils=(Noeud*)malloc(sizeof(Noeud)*nb_fils);
+    nd->est_une_feuille=false;
     return nd;
 }
+
 
 
 Arbre_solveur constructeur_arbre_solveur(Plateau p){
@@ -42,7 +45,10 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p){
     as->nb_possibilite_gagnante_j1=0;
     as->nb_possibilite_gagnante_j2=0;
     affichage_plateau(as->sentinelle->plateau);
+    if(liste_taille(Historique_Joueur(Joueur1(p)))<=liste_taille(Historique_Joueur(Joueur2(p))))
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,0);
+    else
+    feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,1);
     return as;
 }
 unsigned int tentative_gagnante(Arbre_solveur as,Joueur j){
@@ -67,20 +73,24 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
                 if(Case_Vide(p,Coord(i,j))){
                     nd->fils[nb_fils]=constructeur_noeud(copie_de_plateau(p),possibilites);
 
-                    if(joueur==1){
+                    if(joueur==0){
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur1(nd->fils[nb_fils]->plateau),Coord(i,j));
-                        if(Existe_Gangnant(nd->fils[nb_fils]->plateau))
+                        if(Existe_Gangnant(nd->fils[nb_fils]->plateau)){
+                            nd->fils[nb_fils]->est_une_feuille=true;
                             (as->nb_possibilite_gagnante_j1)++;
-
-                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,0);
+                        }
+                        else
+                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,1);
                         // joueur=0;
                     }
                     else{
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur2(nd->fils[nb_fils]->plateau),Coord(i,j));
-                        if(Existe_Gangnant(nd->fils[nb_fils]->plateau))
+                        if(Existe_Gangnant(nd->fils[nb_fils]->plateau)){
+                            nd->fils[nb_fils]->est_une_feuille=true;
                             (as->nb_possibilite_gagnante_j2)++;
-
-                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,1);
+                        }
+                        else
+                        feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,0);
                         // joueur=1;
                     }
 
@@ -143,12 +153,12 @@ void freed_noeud(Noeud nd){
 
 void freed_noeud_rec(Noeud nd){
 
-
+    if(nd->est_une_feuille==false){
         for (size_t i = 0; i < nd->nb_fils; i++) {
             freed_noeud_rec(nd->fils[i]);
         }
-        freed_noeud(nd);
-
+    }
+    freed_noeud(nd);
 }
 
 void freed_arbre_solveur(Arbre_solveur as){
@@ -181,9 +191,13 @@ void affichage_plateau(Plateau p){
 
 
 void affichage_as_rec(Noeud nd){
+
     affichage_plateau(nd->plateau);
-    for (unsigned int i = 0; i < nd->nb_fils; i++) {
-         affichage_as_rec(nd->fils[i]);
+    if(nd->est_une_feuille==false){
+
+        for (unsigned int i = 0; i < nd->nb_fils; i++) {
+             affichage_as_rec(nd->fils[i]);
+        }
     }
 }
 void affichage_as(Arbre_solveur as){

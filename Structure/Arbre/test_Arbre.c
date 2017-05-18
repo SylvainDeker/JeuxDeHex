@@ -1,3 +1,4 @@
+
 /*!
    \file test_Arbre.c
    \brief test_Arbre.c
@@ -8,7 +9,7 @@
 #define _POSIX_C_SOURCE 1
 #include "Arbre.h"
 
-#define TAILLE_PLAT 3
+#define TAILLE_PLAT 2
 
 /// T = 9    1
 // T = 16    8
@@ -28,29 +29,29 @@ int main(int argc, char const *argv[]) {
     Joueur robert=contructeur_Joueur();
     Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
 
-    // srand((long int)p);
-    // int x=0,y=0;
-    //
-    // for (size_t i = 0; i < 1; i++) {
-    // // while(!Existe_Gangnant(p)){
-    //
-    //     while (!Case_Vide(p,Coord(x,y)) ){
-    //         x=rand()%Dimention_plateau(p);
-    //         y=rand()%Dimention_plateau(p);
-    //     }
-    //     poser_un_pion(p, Joueur1(p), Coord(x,y) );
-    //     // afficher_plateau(p);
-    //     // bilan(p);
-    //     while (!Case_Vide(p,Coord(x,y)) ){
-    //         x=rand()%Dimention_plateau(p);
-    //         y=rand()%Dimention_plateau(p);
-    //     }
-    //     if(!Existe_Gangnant(p))
-    //         poser_un_pion(p,Joueur2(p),Coord(x,y));
-    //
-    //     afficher_plateau(p);
-    //     bilan(p);
-    // }
+    srand(20);
+    int x=0,y=0;
+
+    for (size_t i = 0; i < 1; i++) {
+    // while(!Existe_Gangnant(p)){
+
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        poser_un_pion(p, Joueur1(p), Coord(x,y) );
+        // afficher_plateau(p);
+        // bilan(p);
+        while (!Case_Vide(p,Coord(x,y)) ){
+            x=rand()%Dimention_plateau(p);
+            y=rand()%Dimention_plateau(p);
+        }
+        if(!Existe_Gangnant(p))
+            poser_un_pion(p,Joueur2(p),Coord(x,y));
+
+        
+    }
+
     printf("=============================TEST DE copie_plus_un_pion()=================================\n" );
     // Plateau pnew=copie_de_plateau(p);
     //
@@ -60,9 +61,7 @@ int main(int argc, char const *argv[]) {
     //freed_all(pnew);
 
     printf("=============================TEST DE constructeur_arbre_solveur()=================================\n" );
-    poser_un_pion(p,patrick,Coord(0,0));
-    poser_un_pion(p,patrick,Coord(1,1));
-    poser_un_pion(p,patrick,Coord(2,2));
+
     Arbre_solveur arbr_s=constructeur_arbre_solveur(p);
     affichage_as(arbr_s);
     printf(" Tentative_gagnante du Joueur1 : %u \n",tentative_gagnante(arbr_s,Joueur1(p)) );
