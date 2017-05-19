@@ -88,7 +88,7 @@ int main(int argc, char const *argv[]) {
                 case 'r':
 
                     printf("Restauration\n" );
-                    sscanf(requete,"p( %s )",fichier);
+                    sscanf(requete,"r( %s )",fichier);
                     j1=contructeur_Joueur();
                     j2=contructeur_Joueur();
 
