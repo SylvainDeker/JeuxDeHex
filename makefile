@@ -65,7 +65,6 @@ clean:
 	make clean -C ${D_ABR}
 	make clean -C ${D_JAVA}
 
-
 run: all
 	mkfifo java_vers_c
 	mkfifo c_vers_java
@@ -73,7 +72,7 @@ run: all
 	make run -C ${D_JAVA}
 	make clean
 
-terminal: all
+terminal: clean all
 	mkfifo java_vers_c
 	mkfifo c_vers_java
 	xterm ./${EXEC} &
