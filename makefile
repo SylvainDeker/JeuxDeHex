@@ -2,6 +2,7 @@ NAME=main
 EXEC=JeuxDeHex
 FLAG= -Wall #-std=c99 -ansi
 
+#c
 #Nom des elements
 CRD=Coordonnee
 LST=Liste
@@ -27,10 +28,13 @@ F_SVG=${D_SVG}/${SVG}
 F_UND=${D_UND}/${UND}
 F_ABR=${D_ABR}/${ABR}
 
+#java
+D_JAVA=./JavaApplicationInterfaceC
+F_JAVA=${D_JAVA}/LaunchGame
+
 
 all: structure.o main.o
-	mkfifo java_vers_c
-	mkfifo c_vers_java
+
 	gcc -o ${EXEC} ${NAME}.o ${F_CRD}.o ${F_LST}.o ${F_PLT}.o ${F_SVG}.o ${F_ABR}.o ${F_UND}.o Interface_c_java/Interface.o  ${FLAG}
 
 structure.o:
@@ -41,10 +45,12 @@ structure.o:
 	make structure.o -C ${D_UND}
 	make structure.o -C ${D_ABR}
 
-	make structure.o -C Interface_c_java/
+	make class -C ${D_JAVA}
 
 main.o: ${F_CRD}.h ${F_LST}.h ${F_ABR}.h ${F_PLT}.h ${F_SVG}.h ${F_UND}.h Interface_c_java/Interface.h
 	gcc -o ${NAME}.o -c ${NAME}.c ${FLAG}
+
+
 
 clean:
 	rm -f *.o
@@ -57,10 +63,12 @@ clean:
 	make clean -C ${D_SVG}
 	make clean -C ${D_UND}
 	make clean -C ${D_ABR}
+	make clean -C ${D_JAVA}
+
 
 run: all
-	valgrind ./${EXEC}
+	mkfifo java_vers_c
+	mkfifo c_vers_java
+	./${EXEC} &
+	make run -C ${D_JAVA}
 	make clean
-
-java: clean all
-	./${EXEC}
