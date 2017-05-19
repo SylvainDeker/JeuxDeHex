@@ -72,3 +72,10 @@ run: all
 	./${EXEC} &
 	make run -C ${D_JAVA}
 	make clean
+
+terminal: all
+	mkfifo java_vers_c
+	mkfifo c_vers_java
+	xterm ./${EXEC} &
+	make run -C ${D_JAVA}
+	make clean
