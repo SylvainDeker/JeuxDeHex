@@ -138,10 +138,7 @@ void insersion_du_graphique(Plateau p,FILE*fichier_sauvegarde){
 
 
 
-bool restaurer_partie(const char * nom_fichier,Plateau *p){
-
-    Joueur j1=contructeur_Joueur();
-    Joueur j2=contructeur_Joueur();
+bool restaurer_partie(const char * nom_fichier,Plateau *p,Joueur *j1,Joueur *j2){
 
     unsigned int dim;
 
@@ -149,7 +146,7 @@ bool restaurer_partie(const char * nom_fichier,Plateau *p){
     if(fichier_sauvegarde){
         // Recuperation de la dimention
         fscanf(fichier_sauvegarde, "\\hex\n\\dim %u\n",&dim);
-        *p=constructeur_plateau(dim,j1,j2);
+        *p=constructeur_plateau(dim,*j1,*j2);
         //pour passé la descrition de longueur variable
         while(fgetc(fichier_sauvegarde)!='\n');
         //Pour passé la représentation graphique
@@ -172,8 +169,8 @@ bool restaurer_partie(const char * nom_fichier,Plateau *p){
         int y;
         //Restructuration du jeu
             while(fscanf(fichier_sauvegarde,"\\play %c %d %d\n",&joueur,&x,&y)){
-                if(joueur=='*') poser_un_pion(*p,j1,Coord(x,y));
-                else poser_un_pion(*p,j2,Coord(x,y));
+                if(joueur=='*') poser_un_pion(*p,*j1,Coord(x,y));
+                else poser_un_pion(*p,*j2,Coord(x,y));
             }
         fclose(fichier_sauvegarde);
     }

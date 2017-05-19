@@ -134,5 +134,4 @@ int envoyer_potentiel_gagnant(Plateau p){
     else return -1;
 
     return 0;
-
 }

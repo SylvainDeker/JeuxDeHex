@@ -44,33 +44,19 @@ int main(int argc, char const *argv[]) {
     }
     sauvegarder_partie(p,"save1.txt","Mon premier test");
 
-
-
-
-
-
     freed_all(p);
     printf("========================TEST DE RESTAURATION====================================\n" );
 
-
     Plateau p2;
-    restaurer_partie("save1.txt",&p2);
+    Joueur j1=contructeur_Joueur();
+    Joueur j2=contructeur_Joueur();
+    restaurer_partie("save1.txt",&p2,&j1,&j2);
 
 
     afficher_plateau(p2);
     bilan(p2);
 
     freed_all(p2);
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 }

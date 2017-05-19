@@ -30,10 +30,10 @@
        \pre fichier formaté avec la fonction sauvegarder_partie()
        \return 1 si la restauration s'est bien passé, 0 sinon
     */
-    bool restaurer_partie(const char * nom_fichier,Plateau *out);
+    bool restaurer_partie(const char * nom_fichier,Plateau *p,Joueur *j1,Joueur *j2);
 
 
 
-    
+
 
 #endif

@@ -38,7 +38,6 @@ int main(int argc, char const *argv[]) {
         if(lecture_requete(requete)!=0)fprintf(stderr, "Errereur de lecture de la Requete\n" );
         else {
 
-            // printf("%s\n",requete );
             switch (requete[0]) {
                 case 'n':
                     j1=contructeur_Joueur();
@@ -77,11 +76,25 @@ int main(int argc, char const *argv[]) {
                     if(plateau!=NULL){
                         freed_all(plateau);
                         plateau=NULL;
+                        j1=NULL;
+                        j2=NULL;
                     }
                     break;
                 case 'q':
+                    printf("Quiter \n" );
                     quiter=true;
                     break;
+
+                case 'r':
+
+                    printf("Restauration\n" );
+                    sscanf(requete,"p( %s )",fichier);
+                    j1=contructeur_Joueur();
+                    j2=contructeur_Joueur();
+
+                    restaurer_partie(fichier,&plateau,&j1,&j2);
+                    break;
+
                 case 'w':
                     assert(plateau);
                     printf("Demande si il existe un Gagnant -> Recuperer donnée dans la pipeline c_vers_java \n" );

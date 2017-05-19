@@ -61,3 +61,6 @@ clean:
 run: all
 	valgrind ./${EXEC}
 	make clean
+
+java: clean all
+	./${EXEC}
