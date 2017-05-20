@@ -1,0 +1,11 @@
+\hex
+\dim 2
+\board quick
+W W/B
+B * . B
+  B . . B
+    B/W W 
+\game
+\play * 0 0
+\endgame
+\endhex

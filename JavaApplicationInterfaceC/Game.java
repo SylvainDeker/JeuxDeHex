@@ -62,9 +62,24 @@ public class Game {
         return read;
     }
 
+    public void save() throws IOException{
+      System.out.print("What is the name of the savefile ? Name : ");
+      String savefile = inputKeyboard();
+      System.out.print("A quick description of the game : ");
+      String desc = inputKeyboard();
+
+      sendToC("s( "+savefile+" , "+desc+" )\n");
+      System.out.println("Press [Enter] please...");
+      //Wait for enter key
+      System.in.read();
+      quit();
+    }
 
 
+    public void quit() throws IOException{
 
+      sendToC("q\n");
+    }
 
 
     public void letsPlay() throws IOException {
@@ -72,8 +87,7 @@ public class Game {
         String x;
         String y;
         boolean validMove;
-
-        while (existsWinner() == 0){
+        while (true){
             for (int i = 1; i < 3;i++){
                 validMove = false;
                 System.out.println("=================== JOUEUR "+this.joueurs[i-1].getName()+" ===================");
@@ -92,7 +106,7 @@ public class Game {
                         placePawn(Integer.toString(i),x,y);
                         validMove = true;
                     }else{
-                        System.out.println("Square already used, choose another please !");
+                        System.out.println("Square already used, choose another one please !");
                     }
                 }
 
@@ -103,15 +117,24 @@ public class Game {
                         break;
                     case "q":
                         System.out.println("Goodbye !");
-                        sendToC("q\n");
+                        quit();
                         return;
                     case "s":
-                        //gérer la sauvegarde;
-                        break;
+                        save();
+                        return;
                     default : break;
                 }
+
+                if (existsWinner() != 0) {
+                System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
+
+                quit();
+                return;
             }
+            }
+
         }
+
 
 
     }
@@ -132,7 +155,7 @@ public class Game {
                 this.joueurs[0] = new Joueur(inputKeyboard());
                 System.out.print("What is the name of the second player ? Name : ");
                 this.joueurs[1] = new Joueur(inputKeyboard());
-                System.out.println("What is the size of the board ? Size :  ");
+                System.out.print("What is the size of the board ? Size : ");
                 size = inputKeyboard();
 
                 sendToC("n("+size+")\n");
@@ -145,9 +168,21 @@ public class Game {
                 letsPlay();
                 break;
             case "2" :
-                /*System.out.print("What is the name of the savefile ? Name : ");
+                System.out.print("What is the name of the savefile ? Name : ");
                 savefile = inputKeyboard();
-                f.write("");*/
+                sendToC("r( "+savefile+" )\n");
+                System.out.println("Press [Enter] please...");
+                //Wait for enter key
+                System.in.read();
+                sendToC("g\n");
+
+                char[] board = receiveFromC();
+                this.plateau = new Plateau(Character.getNumericValue(board[0]));
+                System.out.print("What is the name of the first player ? Name : ");
+                this.joueurs[0] = new Joueur(inputKeyboard());
+                System.out.print("What is the name of the second player ? Name : ");
+                this.joueurs[1] = new Joueur(inputKeyboard());
+                letsPlay();
                 break;
             default :
                 System.out.println("Please choose a valid option");
