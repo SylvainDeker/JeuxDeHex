@@ -121,12 +121,12 @@ int main(int argc, char const *argv[]) {
                     printf("Demande du nombre case libre restante \n" );
                     envoyer_nombre_place_libre(plateau);
                     break;
-                case 'f':
-                    assert(plateau);
-                    printf("Demande de donnée \"potentiel gagnant\"\n");
-                    envoyer_potentiel_gagnant(plateau);
-                    printf("Terminé.\n" );
-                    break;
+                // case 'f':
+                //     assert(plateau);
+                //     printf("Demande de donnée \"potentiel gagnant\"\n");
+                //     envoyer_potentiel_gagnant(plateau);
+                //     printf("Terminé.\n" );
+                //     break;
                 default:
                     fprintf(stderr, "Entree invalide\n");
             }

@@ -18,7 +18,7 @@
     #include "../Liste/Liste.h"
 
     typedef struct _arbre_possibilites*Arbre_solveur;
-    typedef struct _noeud*Noeud;
+    typedef struct _solveur*Solveur;
 
     Arbre_solveur constructeur_arbre_solveur(Plateau p);
     Plateau copie_de_plateau(Plateau p);
@@ -28,9 +28,5 @@
     int potentiel_gagnant_joueur1(Arbre_solveur);
     void application_minmax(Arbre_solveur as);
     void affichage_minmax(Arbre_solveur);
-    Noeud sentinelle_arbre_solveur(Arbre_solveur as);
-    Noeud *tableau_fils_noeud(Noeud nd);
-    unsigned int nb_fils_noeud(Noeud nd);
-    int poids_j1_noeud(Noeud nd);
-    int poids_j2_noeud(Noeud nd);
+
 #endif
