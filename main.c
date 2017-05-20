@@ -92,7 +92,17 @@ int main(int argc, char const *argv[]) {
                     j1=contructeur_Joueur();
                     j2=contructeur_Joueur();
 
-                    restaurer_partie(fichier,&plateau,&j1,&j2);
+                    int res=restaurer_partie(fichier,&plateau,&j1,&j2);
+                    if(res){
+                        envoyer_chaine("1\n");
+                    }
+                    else{
+                        envoyer_chaine("0\n");
+                        j1=NULL;
+                        j2=NULL;
+                        plateau=NULL;
+                    }
+
                     break;
 
                 case 'w':

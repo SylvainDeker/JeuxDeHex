@@ -9,16 +9,18 @@ COORDONNEE=../Structure/Coordonnee/Coordonnee
 LISTE=../Structure/Liste/Liste
 PLATEAU=../Structure/Plateau/Plateau
 SAUVEGARDE=../Structure/Sauvegarde/Sauvegarde
+ARBRE=../Structure/Arbre/Arbre
 
 
 all: structure.o test_structure.o
 	make structure.o -C ../Structure/Coordonnee
 	make structure.o -C ../Structure/Plateau
 	make structure.o -C ../Structure/Sauvegarde
-	gcc -o TEST_${NAME} ${SAUVEGARDE}.o ${COORDONNEE}.o ${LISTE}.o ${PLATEAU}.o ${F_BIN}${NAME}.o ${F_BIN}test_${NAME}.o ${FLAG}
+	make structure.o -C ../Structure/Arbre
+	gcc -o TEST_${NAME} ${SAUVEGARDE}.o ${ARBRE}.o ${COORDONNEE}.o ${LISTE}.o ${PLATEAU}.o ${F_BIN}${NAME}.o ${F_BIN}test_${NAME}.o ${FLAG}
 
 
-structure.o: ${NAME}.h ${SAUVEGARDE}.h ${COORDONNEE}.h ${LISTE}.h ${LISTE}.h
+structure.o: ${NAME}.h ${SAUVEGARDE}.h ${COORDONNEE}.h ${LISTE}.h ${LISTE}.h ${ARBRE}.h
 
 	gcc -o ${F_BIN}${NAME}.o -c ${NAME}.c ${FLAG}
 

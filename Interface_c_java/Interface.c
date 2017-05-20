@@ -10,14 +10,6 @@
 #define LIMITE_FONCTIONELLE 8
 
 
-
-
-
-
-
-
-
-
 int lecture_requete(char * ordre){
     int c;
     FILE*c_vers_java=fopen("java_vers_c","r");
@@ -33,7 +25,17 @@ int lecture_requete(char * ordre){
 return 0;
 
 }
+int envoyer_chaine(char*word){
 
+    FILE*c_vers_java=fopen("c_vers_java","w");
+    if(c_vers_java){
+        fprintf(c_vers_java, "%s",word);
+        fclose(c_vers_java);
+    }
+    else return -1;
+
+    return 0;
+}
 
 int envoyer_grille(Plateau p){
     FILE*c_vers_java=fopen("c_vers_java","w");
@@ -49,7 +51,6 @@ int envoyer_grille(Plateau p){
                 }
                 else
                     fprintf(c_vers_java, "0" );
-
             }
         }
         fprintf(c_vers_java, "\n" );
