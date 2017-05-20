@@ -110,7 +110,7 @@ public class Game {
                     }
                 }
 
-                System.out.print("[ENTER] to continue, s to save or q to quit : ");
+                System.out.print("[ENTER] to continue, [u] to undo, [s] to save or [q] to quit : ");
                 continueOrSave = inputKeyboard();
                 switch (continueOrSave){
                     case "":
@@ -122,72 +122,110 @@ public class Game {
                     case "s":
                         save();
                         return;
+                    case "u":
+                        System.out.println("Your last play will be canceled! [ENTER] to confirm");
+                        String choice = inputKeyboard();
+                        if (choice == "") {
+                          sendToC("u\n");
+                          System.out.println("FAIT");
+                        }
                     default : break;
                 }
 
                 if (existsWinner() != 0) {
-                System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
+                  System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
 
-                quit();
-                return;
+                  quit();
+                  return;
+                }
             }
-            }
-
         }
+
+    }
+
+
+
+
+    public void restore() throws IOException{
+        String savefile;
+        char[] returnValue = new char[50];
+        returnValue[0] = '0';
+
+        while(returnValue[0] == '0'){
+          System.out.print("What is the name of the savefile ? Name : ");
+          savefile = inputKeyboard();
+          sendToC("r( "+savefile+" )\n");
+
+          returnValue = receiveFromC();
+          if (returnValue[0] == '0') {
+            System.out.println("File does not exist, specify another : ");
+          }
+        }
+
+        System.out.println("Press [Enter] please...");
+        //Wait for enter key
+        System.in.read();
+        sendToC("g\n");
+        //AJOUTER SI FICHIER EXISTE PAS
+        char[] board = receiveFromC();
+        this.plateau = new Plateau(Character.getNumericValue(board[0]));
+        System.out.print("What is the name of the first player ? Name : ");
+        this.joueurs[0] = new Joueur(inputKeyboard());
+        System.out.print("What is the name of the second player ? Name : ");
+        this.joueurs[1] = new Joueur(inputKeyboard());
+
 
 
 
     }
+
+    public void newgame() throws IOException{
+        String size;
+        System.out.print("What is the name of the first player ? Name : ");
+        this.joueurs[0] = new Joueur(inputKeyboard());
+        System.out.print("What is the name of the second player ? Name : ");
+        this.joueurs[1] = new Joueur(inputKeyboard());
+        System.out.print("What is the size of the board ? Size : ");
+        size = inputKeyboard();
+
+        sendToC("n("+size+")\n");
+
+        System.out.println("Press [Enter] please...");
+        //Wait for enter key
+        System.in.read();
+        this.plateau = new Plateau(Integer.parseInt(size));
+    }
+
+
+
+
     public void menuGame() throws IOException, InterruptedException {
         String choice;
-        String size;
-        String savefile;
-        String s;
+        boolean validChoice = false;
 
         System.out.println("1 - New Game");
         System.out.println("2 - Load game");
         System.out.print("What do you want to do ? Choice : ");
         choice = inputKeyboard();
-        switch (choice){
+        while(validChoice == false){
+            switch (choice){
 
-            case "1":
-                System.out.print("What is the name of the first player ? Name : ");
-                this.joueurs[0] = new Joueur(inputKeyboard());
-                System.out.print("What is the name of the second player ? Name : ");
-                this.joueurs[1] = new Joueur(inputKeyboard());
-                System.out.print("What is the size of the board ? Size : ");
-                size = inputKeyboard();
-
-                sendToC("n("+size+")\n");
-
-                System.out.println("Press [Enter] please...");
-                //Wait for enter key
-                System.in.read();
-                this.plateau = new Plateau(Integer.parseInt(size));
-
-                letsPlay();
-                break;
-            case "2" :
-                System.out.print("What is the name of the savefile ? Name : ");
-                savefile = inputKeyboard();
-                sendToC("r( "+savefile+" )\n");
-                System.out.println("Press [Enter] please...");
-                //Wait for enter key
-                System.in.read();
-                sendToC("g\n");
-
-                char[] board = receiveFromC();
-                this.plateau = new Plateau(Character.getNumericValue(board[0]));
-                System.out.print("What is the name of the first player ? Name : ");
-                this.joueurs[0] = new Joueur(inputKeyboard());
-                System.out.print("What is the name of the second player ? Name : ");
-                this.joueurs[1] = new Joueur(inputKeyboard());
-                letsPlay();
-                break;
-            default :
-                System.out.println("Please choose a valid option");
-                break;
+                case "1":
+                    validChoice = true;
+                    newgame();
+                    letsPlay();
+                    break;
+                case "2" :
+                  validChoice = true;
+                    restore();
+                    letsPlay();
+                    break;
+                default :
+                    System.out.println("Please choose a valid option");
+                    break;
+            }
         }
+
     }
 
 }
