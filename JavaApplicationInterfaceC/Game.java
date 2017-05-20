@@ -155,10 +155,10 @@ public class Game {
           System.out.print("What is the name of the savefile ? Name : ");
           savefile = inputKeyboard();
           sendToC("r( "+savefile+" )\n");
-          
+
           returnValue = receiveFromC();
           if (returnValue[0] == '0') {
-            System.out.print("File does not exist, specify another : ");
+            System.out.println("File does not exist, specify another : ");
           }
         }
 

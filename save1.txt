@@ -1,11 +1,12 @@
 \hex
 \dim 2
-\board quick
+\board azerzer
 W W/B
 B * . B
-  B . . B
+  B . * B
     B/W W 
 \game
 \play * 0 0
+\play * 1 1
 \endgame
 \endhex
