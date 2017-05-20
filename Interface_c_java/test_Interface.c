@@ -12,14 +12,18 @@
 int main(int argc, char const *argv[]) {
 
 
-    Joueur patrick=contructeur_Joueur();
-    Joueur robert=contructeur_Joueur();
-    Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
-    // envoyer_grille(p);//faire "cat c_vers_java" dans un autre terminal pour debloquer
-    // envoyer_existe_gagnant(p); //faire "cat c_vers_java" dans un autre terminal pour debloquer
-    char *ordre=(char*)malloc(sizeof(char)*255);
-    lecture_requete(ordre); // echo "blablabla" > java_vers_c
-    printf("Ordre recu %s\n",ordre );
+    // Joueur patrick=contructeur_Joueur();
+    // Joueur robert=contructeur_Joueur();
+    // Plateau p=constructeur_plateau(TAILLE_PLAT,patrick,robert);
+    // // envoyer_grille(p);//faire "cat c_vers_java" dans un autre terminal pour debloquer
+    // // envoyer_existe_gagnant(p); //faire "cat c_vers_java" dans un autre terminal pour debloquer
+    // char *ordre=(char*)malloc(sizeof(char)*255);
+    // lecture_requete(ordre); // echo "blablabla" > java_vers_c
+    // printf("Ordre recu %s\n",ordre );
+
+
+    envoyer_chaine("0\n");
+    
 
     return 0;
 }
