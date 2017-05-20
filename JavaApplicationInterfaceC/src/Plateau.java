@@ -1,3 +1,4 @@
+import javax.sound.midi.Soundbank;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,33 +13,42 @@ public class Plateau {
         this.size = size;
     }
 
-    public void printBoard(String s){
+    public void printBoard(char[] s){
         char ch;
-        for (int i = 2;i<this.getSize()+2;i++){
+        int cpt = 0;
+        System.out.println(s);
+        for (int i = 2;i<(this.getSize()*this.getSize())+2;i++){
 
-            for (int h = 0;h < i; h++)
-                System.out.print("  ");
-            for (int j = 0;j<this.getSize();j++){
-                ch = s.charAt(i+j);
-                switch (ch){
-                    case '0':
-                        System.out.print("\\  .  ");
-                        break;
-                    case '1':
-                        System.out.print("\\  1  ");
-                        break;
-                    case '2':
-                        System.out.print("\\  2  ");
-                        break;
-                    default:
-                        break;
-
+            if((i-2)%this.getSize() == 0 && i != 2) {
+                System.out.print("\\\n\n");
+                cpt++;
+                for (int h = 0; h < cpt; h++) {
+                    System.out.print("    ");
                 }
             }
 
-            System.out.println("\\\n");
+            ch = s[i];
+
+            switch (ch){
+                case '0':
+                    System.out.print("\\  .  ");
+                    break;
+                case '1':
+                    System.out.print("\\  1  ");
+                    break;
+                case '2':
+                    System.out.print("\\  2  ");
+                    break;
+                default:
+                    break;
+
+            }
+
         }
-    }
+        System.out.println("\\\n");
+
+        }
+
 
 
     public String getBoard() throws IOException {

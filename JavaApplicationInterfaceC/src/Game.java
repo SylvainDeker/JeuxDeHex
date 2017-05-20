@@ -12,14 +12,14 @@ public class Game {
     public String inputKeyboard() throws IOException {
 
         Scanner sc = new Scanner(System.in);
-        String input = sc.next();
+        String input = sc.nextLine();
         return input;
     }
 
     public boolean squareFree(String x, String y) throws IOException {
         sendToC("e("+x+","+y+")\n");
-        String message = receiveFromC();
-        return (message == "0");
+        char message[] = receiveFromC();
+        return (message[0] == '0');
     }
 
     public void placePawn(String j,String x, String y) throws IOException {
@@ -31,31 +31,35 @@ public class Game {
     public int existsWinner() throws IOException {
 
         sendToC("w\n");
-        String mess = receiveFromC();
-        if (mess == "0"){
+
+        char mess[] = receiveFromC();
+
+        if (mess[0] == '0'){
             return 0;
-        }else if (mess == "1"){
+        }else if (mess[0] == '1'){
             return 1;
-        }else{
+        }else if(mess[0] == '2'){
             return 2;
         }
+        return -1;
     }
 
 
     public void sendToC(String message) throws IOException {
         FileWriter fOut = new FileWriter("../java_vers_c");
         fOut.write(message);
-        fOut.flush();
+        //fOut.flush();
         fOut.close();
     }
 
-    public String receiveFromC() throws IOException {
+    public char[] receiveFromC() throws IOException {
         char read[] = new char[50];
         FileReader fIn = new FileReader("../c_vers_java");
         fIn.read(read);
+
         fIn.close();
-        String message = new String(read);
-        return message;
+
+        return read;
     }
 
 
@@ -64,29 +68,49 @@ public class Game {
 
 
     public void letsPlay() throws IOException {
-
+        String continueOrSave;
         String x;
         String y;
+        boolean validMove;
 
-        while (true){
+        while (existsWinner() == 0){
             for (int i = 1; i < 3;i++){
-                System.out.println("=================== JOUEUR"+this.joueurs[i-1].getName()+" ===================");
+                validMove = false;
+                System.out.println("=================== JOUEUR "+this.joueurs[i-1].getName()+" ===================");
                 sendToC("g\n");
+
                 this.plateau.printBoard(receiveFromC());
-                System.out.println("Coordinates of the pawn to place (x,y) : ");
-                System.out.print("x : ");
-                x = inputKeyboard();
-                System.out.print("y : ");
-                y = inputKeyboard();
-                squareFree(x,y);
+                while (validMove == false){
+                    //ajouter gestion des pions deja placé
+                    System.out.println("Coordinates of the pawn to place (x,y) : ");
+                    System.out.print("x : ");
+                    x = inputKeyboard();
+                    System.out.print("y : ");
+                    y = inputKeyboard();
 
-                placePawn(Integer.toString(i),x,y);
+                    if (squareFree(x,y)){
+                        placePawn(Integer.toString(i),x,y);
+                        validMove = true;
+                    }else{
+                        System.out.println("Square already used, choose another please !");
+                    }
+                }
 
+                System.out.print("[ENTER] to continue, s to save or q to quit : ");
+                continueOrSave = inputKeyboard();
+                switch (continueOrSave){
+                    case "":
+                        break;
+                    case "q":
+                        System.out.println("Goodbye !");
+                        sendToC("q\n");
+                        return;
+                    case "s":
+                        //gérer la sauvegarde;
+                        break;
+                    default : break;
+                }
             }
-
-
-
-
         }
 
 
@@ -98,7 +122,7 @@ public class Game {
         String s;
 
         System.out.println("1 - New Game");
-        System.out.println("2 - Restore game");
+        System.out.println("2 - Load game");
         System.out.print("What do you want to do ? Choice : ");
         choice = inputKeyboard();
         switch (choice){
