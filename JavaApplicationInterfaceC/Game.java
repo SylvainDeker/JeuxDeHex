@@ -48,7 +48,7 @@ public class Game {
     public void sendToC(String message) throws IOException {
         FileWriter fOut = new FileWriter("../java_vers_c");
         fOut.write(message);
-        //fOut.flush();
+        fOut.flush();
         fOut.close();
     }
 
