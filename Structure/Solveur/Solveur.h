@@ -25,5 +25,6 @@
     Coordonnee obtenir_coordonnee_prochain_coup_gagnant(Solveur sv);
 
     void freed_solveur(Solveur slv);
+    void jouer_prochain_coup(Solveur sv);
 
 #endif

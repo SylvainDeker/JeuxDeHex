@@ -146,17 +146,18 @@ int main(int argc, char const *argv[]) {
                     assert(plateau);
                     assert(as==NULL);
                     assert(slv==NULL);
-
+                    printf("Construction du Solveur ... Peut prendre du temps\n" );
                     sscanf(requete,"i(%d)",&x);
                     as =constructeur_arbre_solveur(plateau);
                     slv=constructeur_solveur(plateau,as,x);
                     break;
                 case 'v':
-                    // Coordonnee c=obtenir_coordonnee_prochain_coup_gagnant(slv);
-                    envoyer_coordonnee(obtenir_coordonnee_prochain_coup_gagnant(slv));
+                    printf("La machinne joue\n" );
+                    jouer_prochain_coup(slv);
                     break;
                 case 'k':
                     assert(slv);
+                    printf("Recupération du dernier coup joué\n" );
                     sscanf(requete,"k(%d,%d)",&x,&y);
                     prochain_coup_adversaire(slv,Coord(x,y));
                     break;

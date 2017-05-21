@@ -67,6 +67,14 @@ void prochain_coup_adversaire(Solveur sv,Coordonnee c){
     sv->noeud_courant=tab[i];
 }
 
+void jouer_prochain_coup(Solveur sv){
+    Coordonnee c=obtenir_coordonnee_prochain_coup_gagnant(sv);
+    if(sv->joueur_gagnant==1){
+        poser_un_pion(sv->plateau_reference,Joueur1(sv->plateau_reference),c);
+    }
+    else
+        poser_un_pion(sv->plateau_reference,Joueur2(sv->plateau_reference),c);
+}
 
 
 void freed_solveur(Solveur slv){
