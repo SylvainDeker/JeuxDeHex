@@ -223,17 +223,15 @@ public class Game {
       System.in.read();
       this.plateau = new Plateau(Integer.parseInt(size));
 
-      if (playerTurn == "1") {
-        //HFirst();
-      }else{
-        IAFirst();
-      }
+
+      letsPlayHvsAI(playerTurn);
+
 
     }
 
 
 
-    public void IAFirst() throws IOException{
+    public void letsPlayHvsAI(String a) throws IOException{
       String continueOrSave;
       String x;
       String y;
@@ -242,7 +240,9 @@ public class Game {
       sendToC("i(1)\n");
       while (true){
           for (int i = 1; i < 3;i++){
-              //i = i+1;
+              if (a.equals("1")) {
+                i = i+1;
+              }
               if (i == 1) { //tour IA
                 validMove = false;
                 System.out.println("=================== JOUEUR "+this.joueurs[1].getName()+" ===================");
@@ -254,9 +254,7 @@ public class Game {
 
                 sendToC("v\n");
 
-                System.out.println("Press [Enter] please...");
-                //Wait for enter key
-                System.in.read();
+
 
                 System.out.println("Press [Enter] please...");
                 //Wait for enter key
