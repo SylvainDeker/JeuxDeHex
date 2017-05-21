@@ -82,7 +82,7 @@ public class Game {
     }
 
 
-    public void letsPlay() throws IOException {
+    public void letsPlayHvsH() throws IOException {
         String continueOrSave;
         String x;
         String y;
@@ -123,11 +123,14 @@ public class Game {
                         save();
                         return;
                     case "u":
-                        System.out.println("Your last play will be canceled! [ENTER] to confirm");
+                        System.out.println("Your last play will be canceled! [y] to confirm, [n] to cancel");
                         String choice = inputKeyboard();
-                        if (choice == "") {
-                          sendToC("u\n");
+                        if (choice.equals("y")) {
                           System.out.println("FAIT");
+                          sendToC("u\n");
+                        }else{
+                          System.out.println("Canceling...");
+
                         }
                     default : break;
                 }
@@ -179,7 +182,7 @@ public class Game {
 
     }
 
-    public void newgame() throws IOException{
+    public void newGameHvsH() throws IOException{
         String size;
         System.out.print("What is the name of the first player ? Name : ");
         this.joueurs[0] = new Joueur(inputKeyboard());
@@ -212,13 +215,13 @@ public class Game {
 
                 case "1":
                     validChoice = true;
-                    newgame();
-                    letsPlay();
+                    newGameHvsH();
+                    letsPlayHvsH();
                     break;
                 case "2" :
                   validChoice = true;
                     restore();
-                    letsPlay();
+                    letsPlayHvsH();
                     break;
                 default :
                     System.out.println("Please choose a valid option");
