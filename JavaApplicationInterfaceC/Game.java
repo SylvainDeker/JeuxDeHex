@@ -205,7 +205,7 @@ public class Game {
     public void menuGame() throws IOException, InterruptedException {
         String choice;
         boolean validChoice = false;
-
+        boolean validChoiceLvl2 = false;
         System.out.println("1 - New Game");
         System.out.println("2 - Load game");
         System.out.print("What do you want to do ? Choice : ");
@@ -215,8 +215,24 @@ public class Game {
 
                 case "1":
                     validChoice = true;
-                    newGameHvsH();
-                    letsPlayHvsH();
+                    System.out.println("1 - Human vs Human");
+                    System.out.println("2 - Human vs Machine");
+                    System.out.print("What do you want to do ? Choice : ");
+                    choice = inputKeyboard();
+                    while(validChoiceLvl2 == false){
+                      switch(choice){
+                        case "1":
+                            validChoiceLvl2 = true;
+                            newGameHvsH();
+                            letsPlayHvsH();
+                            break;
+                        case "2":
+                          //HvsIA
+                          break;
+                      }
+                    }
+
+
                     break;
                 case "2" :
                   validChoice = true;
