@@ -58,6 +58,9 @@ Coordonnee coordonnee_noeud(Noeud nd){
     return nd->c;
 }
 
+bool est_une_feuille_noeud(Noeud nd){
+    return nd->est_une_feuille;
+}
 
 Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     Noeud nd=(Noeud)malloc(sizeof(struct _noeud));
