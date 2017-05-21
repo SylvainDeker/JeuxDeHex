@@ -238,29 +238,35 @@ public class Game {
       String x;
       String y;
       boolean validMove;
+
       sendToC("i(1)\n");
       while (true){
           for (int i = 1; i < 3;i++){
-              i = i+1;
+              //i = i+1;
               if (i == 1) { //tour IA
-
                 validMove = false;
-                System.out.println("=================== JOUEUR "+this.joueurs[i-1].getName()+" ===================");
+                System.out.println("=================== JOUEUR "+this.joueurs[1].getName()+" ===================");
 
                 sendToC("g\n");
                 this.plateau.printBoard(receiveFromC());
 
-                sendToC("k\n");
-                String IAPlay = receiveFromC();
-                System.out.println("The AI played on ")
-                sendToC("v\n")
 
+
+                sendToC("v\n");
+
+                System.out.println("Press [Enter] please...");
+                //Wait for enter key
+                System.in.read();
+
+                System.out.println("Press [Enter] please...");
+                //Wait for enter key
+                System.in.read();
 
 
               }else{
 
                 validMove = false;
-                System.out.println("=================== JOUEUR "+this.joueurs[i-1].getName()+" ===================");
+                System.out.println("=================== JOUEUR "+this.joueurs[0].getName()+" ===================");
 
                 sendToC("g\n");
 
@@ -275,6 +281,7 @@ public class Game {
 
                     if (squareFree(x,y)){
                         placePawn(Integer.toString(i),x,y);
+                        sendToC("k\n");
                         validMove = true;
                     }else{
                         System.out.println("Square already used, choose another one please !");
