@@ -136,3 +136,16 @@ int envoyer_potentiel_gagnant(Plateau p){
 
     return 0;
 }
+
+
+
+int envoyer_coordonnee(Coordonnee c){
+    FILE*c_vers_java=fopen("c_vers_java","w");
+    if(c_vers_java){
+        fprintf(c_vers_java, "c(%d,%d)\n",c.x,c.y );
+        fclose(c_vers_java);
+    }
+    else return -1;
+
+    return 0;
+}

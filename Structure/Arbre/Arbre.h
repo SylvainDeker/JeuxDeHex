@@ -33,4 +33,5 @@
     unsigned int nb_fils_noeud(Noeud nd);
     int poids_j1_noeud(Noeud nd);
     int poids_j2_noeud(Noeud nd);
+    Coordonnee coordonnee_noeud(Noeud nd);
 #endif

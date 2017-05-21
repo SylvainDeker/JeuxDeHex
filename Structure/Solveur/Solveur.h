@@ -21,6 +21,9 @@
     typedef struct _solveur*Solveur;
     Solveur constructeur_solveur(Plateau plateau_reference,Arbre_solveur as,int joueur_gagnant);
 
+    void prochain_coup_adversaire(Solveur sv,Coordonnee c);
     Coordonnee obtenir_coordonnee_prochain_coup_gagnant(Solveur sv);
+
+    void freed_solveur(Solveur slv);
 
 #endif

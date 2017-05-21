@@ -15,6 +15,7 @@
 #include "Structure/Sauvegarde/Sauvegarde.h"
 #include "Structure/Undo/Undo.h"
 #include "Structure/Arbre/Arbre.h"
+#include "Structure/Solveur/Solveur.h"
 
 #include "Interface_c_java/Interface.h"
 
@@ -23,7 +24,7 @@
 int main(int argc, char const *argv[]) {
 
 
-    bool quiter=false;
+    bool quitter=false;
     char *requete=malloc(sizeof(char)*TAILLE_REQ);
     char*fichier=malloc(sizeof(char)*TAILLE_REQ);
     char*desc=malloc(sizeof(char)*TAILLE_REQ);
@@ -32,9 +33,10 @@ int main(int argc, char const *argv[]) {
     int j,x,y;
 
     int dim;
+    Arbre_solveur as =NULL;
+    Solveur slv=NULL;
 
-
-    while (!quiter) {
+    while (!quitter) {
         if(lecture_requete(requete)!=0)fprintf(stderr, "Errereur de lecture de la Requete\n" );
         else {
 
@@ -79,10 +81,18 @@ int main(int argc, char const *argv[]) {
                         j1=NULL;
                         j2=NULL;
                     }
+                    if(as!=NULL){
+                        freed_arbre_solveur(as);
+                        as=NULL;
+                    }
+                    if(slv!=NULL){
+                        freed_solveur(slv);
+                        slv=NULL;
+                    }
                     break;
                 case 'q':
-                    printf("Quiter \n" );
-                    quiter=true;
+                    printf("quitter \n" );
+                    quitter=true;
                     break;
 
                 case 'r':
@@ -121,12 +131,36 @@ int main(int argc, char const *argv[]) {
                     printf("Demande du nombre case libre restante \n" );
                     envoyer_nombre_place_libre(plateau);
                     break;
-                // case 'f':
-                //     assert(plateau);
-                //     printf("Demande de donnée \"potentiel gagnant\"\n");
-                //     envoyer_potentiel_gagnant(plateau);
-                //     printf("Terminé.\n" );
-                //     break;
+                case 'f':
+                    assert(plateau);
+                    printf("Demande de donnée \"potentiel gagnant\"\n");
+                    envoyer_potentiel_gagnant(plateau);
+                    printf("Terminé.\n" );
+                    break;
+                case 'o':
+                    assert(plateau);
+                    printf("Demande à l'ordinateur de jouer\n" );
+                    sscanf(requete,"o(%d)",&x);
+                    break;
+                case 'i':
+                    assert(plateau);
+                    assert(as==NULL);
+                    assert(slv==NULL);
+
+                    sscanf(requete,"i(%d)",&x);
+                    as =constructeur_arbre_solveur(plateau);
+                    slv=constructeur_solveur(plateau,as,x);
+                    break;
+                case 'v':
+                    // Coordonnee c=obtenir_coordonnee_prochain_coup_gagnant(slv);
+                    envoyer_coordonnee(obtenir_coordonnee_prochain_coup_gagnant(slv));
+                    break;
+                case 'k':
+                    assert(slv);
+                    sscanf(requete,"k(%d,%d)",&x,&y);
+                    prochain_coup_adversaire(slv,Coord(x,y));
+                    break;
+
                 default:
                     fprintf(stderr, "Entree invalide\n");
             }
@@ -135,6 +169,14 @@ int main(int argc, char const *argv[]) {
     }
     if(plateau!=NULL){
         freed_all(plateau);
+    }
+    if(as!=NULL){
+        freed_arbre_solveur(as);
+        as=NULL;
+    }
+    if(slv!=NULL){
+        freed_solveur(slv);
+        slv=NULL;
     }
 
     free(requete);

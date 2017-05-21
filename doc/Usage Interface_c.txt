@@ -1,0 +1,27 @@
+Les Commandes entrantes sont à ecrire sur java_vers_c et les Résultats sont mis sur c_vers_java
+
+=======================================================
+Construction d'une grille:
+
+    Commande : "n(%u)"
+    %u est un entier > 1
+    Il faut libérer la grille avant de quitter le programme.
+
+    Resultat : pas de resultat
+========================================================
+Liberer la mémoire :
+
+    Commande : "t"
+    Cette commande libere :
+        - Le plateau (s'il existe)
+        - L'arbre Solveur (s'il existe)
+        - Le Solveur (s'il existe)
+    Lancer cette commande meme si les elements ne sont pas créer ne pose aucun probleme
+
+    Resultat : pas de resultat
+========================================================
+Quitter le programme:
+    Commande : "q"
+    Quitte le programme (Irréversible toute les  données sont perdu si elles ne sont enregistrés préalableable avec la commande Sauvegarder une partie)
+
+    Resultat : pas de resultat

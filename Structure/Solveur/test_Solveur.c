@@ -40,8 +40,6 @@ int main(int argc, char const *argv[]) {
             y=rand()%Dimention_plateau(p);
         }
         poser_un_pion(p, Joueur1(p), Coord(x,y) );
-        // afficher_plateau(p);
-        // bilan(p);
         while (!Case_Vide(p,Coord(x,y)) ){
             x=rand()%Dimention_plateau(p);
             y=rand()%Dimention_plateau(p);
@@ -49,6 +47,8 @@ int main(int argc, char const *argv[]) {
         if(!Existe_Gangnant(p))
             poser_un_pion(p,Joueur2(p),Coord(x,y));
 
+        afficher_plateau(p);
+        // bilan(p);
 
     }
 
@@ -62,15 +62,38 @@ int main(int argc, char const *argv[]) {
 
     printf("=============================TEST DE constructeur_arbre_solveur()=================================\n" );
 
+    afficher_plateau(p);
 
-
+    //Init
     Arbre_solveur as =constructeur_arbre_solveur(p);
     Solveur slv=constructeur_solveur(p,as,1);
+    
+    //Joueir 1
+    Coordonnee cd=obtenir_coordonnee_prochain_coup_gagnant(slv);
+    printf("Prochain coup: %d, %d\n",cd.x,cd.y );
+    poser_un_pion(p, Joueur2(p), cd );
+    afficher_plateau(p);
+    printf("gagnant : %p\n",Existe_Gangnant(p) );
+
+    //Joueur2
+    poser_un_pion(p, Joueur1(p), Coord(1,1) );
+    prochain_coup_adversaire(slv,Coord(1,1));
+    afficher_plateau(p);
+    printf("gagnant : %p\n",Existe_Gangnant(p) );
+
+    //Joueur1
+
+    cd=obtenir_coordonnee_prochain_coup_gagnant(slv);
+    printf("Prochain coup: %d, %d\n",cd.x,cd.y );
+    poser_un_pion(p, Joueur2(p), cd );
+    afficher_plateau(p);
+    printf("gagnant : %p\n",Existe_Gangnant(p) );
 
 
 
-
-
+    // afficher_plateau(p);
+    freed_arbre_solveur(as);
+    freed_solveur(slv);
     freed_all(p);
 
 
