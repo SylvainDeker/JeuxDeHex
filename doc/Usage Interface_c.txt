@@ -25,3 +25,30 @@ Quitter le programme:
     Quitte le programme (Irréversible toute les  données sont perdu si elles ne sont enregistrés préalableable avec la commande Sauvegarder une partie)
 
     Resultat : pas de resultat
+========================================================
+Construire le Solveur:
+    Commande : "i(1)" ou "i(2)"
+    -   i(1) la machinne joue le joueur 1 (donc le joueur qui commence)
+    -   i(2) la machinne joue le joueur 2
+    Attention cette commande doit etre lancé au tour du de la machine
+    - Si la machine commence : Lancer la commande Solveur , La machine Joue, puis c'est à lautre adversaire
+    - Si la machine ne commence pas : L'adversaire joue , puis lancer la commande Solveur puis faire jouer la machinne
+
+    Pour faire jouer la machinne il faut utiliser la commande "v"
+    Pour faire connaitre les Coordonnees du pion inséré par le joueur réel il faut utiliser la commande "k(%d,%d)"
+    Resultat : pas de résultat
+==========================================================
+Obternir les coordonnees du prochaine coup:
+
+    Commande : "v"
+    Atetion: il faut que cette commande soit appliquer un fois maximun par tour du de la machine (Elle fait office "d'incrément")
+
+    Resultat : "c(%d,%d)"
+==========================================================
+Pour Envoyer le pion qui vient d'etre posé par l'adversaire:
+
+    Commande: "k(%d,%d)"
+    Avec les Coordonnee x et y
+    Atetion: il faut que cette commande soit appliquer un fois maximun par tour du de la machine (Elle fait office "d'incrément")
+
+    Resultat : pas de resultat
