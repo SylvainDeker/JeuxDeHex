@@ -1,3 +1,4 @@
+
 /*!
    \file Arbre.c
    \brief
@@ -8,14 +9,16 @@
 #define _POSIX_C_SOURCE 1
 #include "Arbre.h"
 
-typedef struct _noeud{
+struct _noeud{
     unsigned int nb_fils;
     Plateau plateau;
     struct _noeud ** fils;
     bool est_une_feuille;
     int poids_j1;
     int poids_j2;
-}*Noeud;
+    Coordonnee c;
+    int j;//1 ou 2
+};
 
 struct _arbre_possibilites{
     Noeud sentinelle;
@@ -24,9 +27,37 @@ struct _arbre_possibilites{
     unsigned int nb_possibilite_gagnante_j2;
 };
 
+
 void affichage_plateau(Plateau p);
 
 void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur);
+
+
+Noeud sentinelle_arbre_solveur(Arbre_solveur as){
+
+    return as->sentinelle;
+}
+Noeud* tableau_fils_noeud(Noeud nd){
+    if(nd->est_une_feuille)
+        return NULL;
+    else
+        return nd->fils;
+}
+unsigned int nb_fils_noeud(Noeud nd){
+    return nd->nb_fils;
+}
+int poids_j1_noeud(Noeud nd){
+    return nd->poids_j1;
+}
+
+int poids_j2_noeud(Noeud nd){
+    return nd->poids_j2;
+}
+
+Coordonnee coordonnee_noeud(Noeud nd){
+    return nd->c;
+}
+
 
 Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     Noeud nd=(Noeud)malloc(sizeof(struct _noeud));
@@ -66,8 +97,6 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p){
 
 void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur){
     if (
-        // !Existe_Gangnant(p)
-        // &&
         possibilites>=0
     ) {
         unsigned int nb_fils=0;
@@ -75,8 +104,9 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
             for (unsigned int j = 0; j < Dimention_plateau(p); j++) {
                 if(Case_Vide(p,Coord(i,j))){
                     nd->fils[nb_fils]=constructeur_noeud(copie_de_plateau(p),possibilites);
-
+                    nd->fils[nb_fils]->c=Coord(i,j);
                     if(joueur==0){
+                        nd->fils[nb_fils]->j=1;
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur1(nd->fils[nb_fils]->plateau),Coord(i,j));
                         if(Existe_Gangnant(nd->fils[nb_fils]->plateau)){
                             nd->fils[nb_fils]->est_une_feuille=true;
@@ -88,6 +118,7 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
                         // joueur=0;
                     }
                     else{
+                        nd->fils[nb_fils]->j=2;
                         poser_un_pion(nd->fils[nb_fils]->plateau,Joueur2(nd->fils[nb_fils]->plateau),Coord(i,j));
                         if(Existe_Gangnant(nd->fils[nb_fils]->plateau)){
                             nd->fils[nb_fils]->est_une_feuille=true;
@@ -112,9 +143,15 @@ void application_minmax_rec(Arbre_solveur as,Noeud nd,int *j1,int *j2){
     int r_j1max,r_j2max;
 
     if( nd->est_une_feuille ){
-        *j1=nd->poids_j1;
-        *j2=nd->poids_j2;
-        printf("j1=%d,j2=%d\n",nd->poids_j1,nd->poids_j2);
+        if(nd->j==1){
+            *j1=nd->poids_j1+10;
+            *j2=0;
+        }
+        if(nd->j==2){
+            *j1=0;
+            *j2=nd->poids_j2+10;
+        }
+        // printf("j1=%d,j2=%d\n",nd->poids_j1,nd->poids_j2);
     }
     else{
         for (size_t i = 0; i < nd->nb_fils; i++) {
@@ -127,6 +164,10 @@ void application_minmax_rec(Arbre_solveur as,Noeud nd,int *j1,int *j2){
         *j2=j2max;
     }
 }
+
+
+
+
 
 
 void application_minmax(Arbre_solveur as){
@@ -153,8 +194,6 @@ void affichage_minmax(Arbre_solveur as){
     affichage_minmax_rec(as->sentinelle);
 
 }
-
-
 
 
 

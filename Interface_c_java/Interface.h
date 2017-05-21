@@ -27,5 +27,6 @@
     int envoyer_nombre_place_libre(Plateau p);
     int envoyer_potentiel_gagnant(Plateau p);
     int envoyer_chaine(char*word);
+    int envoyer_coordonnee(Coordonnee c);
 
 #endif
