@@ -16,7 +16,6 @@ public class Plateau {
     public void printBoard(char[] s){
         char ch;
         int cpt = 0;
-        System.out.println(s);
         for (int i = 2;i<(this.getSize()*this.getSize())+2;i++){
 
             if((i-2)%this.getSize() == 0 && i != 2) {

@@ -202,6 +202,135 @@ public class Game {
 
 
 
+
+
+
+    public void NewGameHvsIA() throws IOException{
+      String playerTurn;
+      String size;
+      System.out.print("Do you want to play first or second ? (1 or 2) Answer : ");
+      playerTurn = inputKeyboard();
+      System.out.print("What is the name of the player ? Name : ");
+      this.joueurs[0] = new Joueur(inputKeyboard());
+      this.joueurs[1] = new Joueur("IA");
+      System.out.print("What is the size of the board ? Size : ");
+      size = inputKeyboard();
+
+      sendToC("n("+size+")\n");
+
+      System.out.println("Press [Enter] please...");
+      //Wait for enter key
+      System.in.read();
+      this.plateau = new Plateau(Integer.parseInt(size));
+
+      if (playerTurn == "1") {
+        //HFirst();
+      }else{
+        IAFirst();
+      }
+
+    }
+
+
+
+    public void IAFirst() throws IOException{
+      String continueOrSave;
+      String x;
+      String y;
+      boolean validMove;
+      sendToC("i(1)\n");
+      while (true){
+          for (int i = 1; i < 3;i++){
+              i = i+1;
+              if (i == 1) { //tour IA
+
+                validMove = false;
+                System.out.println("=================== JOUEUR "+this.joueurs[i-1].getName()+" ===================");
+
+                sendToC("g\n");
+                this.plateau.printBoard(receiveFromC());
+
+                sendToC("k\n");
+                String IAPlay = receiveFromC();
+                System.out.println("The AI played on ")
+                sendToC("v\n")
+
+
+
+              }else{
+
+                validMove = false;
+                System.out.println("=================== JOUEUR "+this.joueurs[i-1].getName()+" ===================");
+
+                sendToC("g\n");
+
+                this.plateau.printBoard(receiveFromC());
+                while (validMove == false){
+                    //ajouter gestion des pions deja placé
+                    System.out.println("Coordinates of the pawn to place (x,y) : ");
+                    System.out.print("x : ");
+                    x = inputKeyboard();
+                    System.out.print("y : ");
+                    y = inputKeyboard();
+
+                    if (squareFree(x,y)){
+                        placePawn(Integer.toString(i),x,y);
+                        validMove = true;
+                    }else{
+                        System.out.println("Square already used, choose another one please !");
+                    }
+                }
+
+                System.out.print("[ENTER] to continue, [u] to undo, [s] to save or [q] to quit : ");
+                continueOrSave = inputKeyboard();
+                switch (continueOrSave){
+                    case "":
+                        break;
+                    case "q":
+                        System.out.println("Goodbye !");
+                        quit();
+                        return;
+                    case "s":
+                        save();
+                        return;
+                    case "u":
+                        System.out.println("Your last play will be canceled! [y] to confirm, [n] to cancel");
+                        String choice = inputKeyboard();
+                        if (choice.equals("y")) {
+                          System.out.println("FAIT");
+                          sendToC("u\n");
+                        }else{
+                          System.out.println("Canceling...");
+
+                        }
+                    default : break;
+                }
+              }
+
+
+              if (existsWinner() != 0) {
+                System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
+
+                quit();
+                return;
+              }
+          }
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void menuGame() throws IOException, InterruptedException {
         String choice;
         boolean validChoice = false;
@@ -227,8 +356,10 @@ public class Game {
                             letsPlayHvsH();
                             break;
                         case "2":
-                          //HvsIA
-                          break;
+                            validChoiceLvl2 = true;
+                            NewGameHvsIA();
+                            break;
+                        default: break;
                       }
                     }
 
