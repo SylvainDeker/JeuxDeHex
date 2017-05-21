@@ -60,11 +60,14 @@ void prochain_coup_adversaire(Solveur sv,Coordonnee c){
     Noeud * tab=tableau_fils_noeud(sv->noeud_courant);
     int i=0;
     bool found=false;
-    while ( !found &&i<nb_fils_noeud(sv->noeud_courant)) {
-        if(coordonnee_noeud(tab[i]).x==c.x&&coordonnee_noeud(tab[i]).y==c.y)found=true;
-        else i++;
+    if(!est_une_feuille_noeud(sv->noeud_courant)){
+
+        while ( !found &&i<nb_fils_noeud(sv->noeud_courant)) {
+            if(coordonnee_noeud(tab[i]).x==c.x&&coordonnee_noeud(tab[i]).y==c.y)found=true;
+            else i++;
+        }
+        sv->noeud_courant=tab[i];
     }
-    sv->noeud_courant=tab[i];
 }
 
 void jouer_prochain_coup(Solveur sv){
