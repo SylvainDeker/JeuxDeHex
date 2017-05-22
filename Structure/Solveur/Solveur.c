@@ -16,6 +16,13 @@ struct _solveur{
 
 };
 
+/*!
+   \brief Constructeur du solveur
+   \param Plateau plateau
+   \param Arbre_solveur as
+   \param int joueur_gagnant est les joueur joué par l'ordinateur
+   \return Solveur
+*/
 
 Solveur constructeur_solveur(Plateau plateau_reference,Arbre_solveur as,int joueur_gagnant){
 
@@ -29,7 +36,11 @@ Solveur constructeur_solveur(Plateau plateau_reference,Arbre_solveur as,int joue
     return sv;
 }
 
-
+/*!
+   \brief Fonction permetant d'obtenir les Coordonnee du prochaine coups (machine)
+   \param Solveur
+   \return Coordonnee
+*/
 Coordonnee obtenir_coordonnee_prochain_coup_gagnant(Solveur sv){
     Noeud * tab=tableau_fils_noeud(sv->noeud_courant);
     Noeud pertinant=tab[0];
@@ -55,7 +66,11 @@ Coordonnee obtenir_coordonnee_prochain_coup_gagnant(Solveur sv){
     return coordonnee_noeud(pertinant);
 }
 
-
+/*!
+   \brief Recupere le prochain coups donné par l'advessire
+   \param Solveur sv
+   \param Coordonnee c
+*/
 void prochain_coup_adversaire(Solveur sv,Coordonnee c){
     Noeud * tab=tableau_fils_noeud(sv->noeud_courant);
     int i=0;
@@ -70,6 +85,13 @@ void prochain_coup_adversaire(Solveur sv,Coordonnee c){
     }
 }
 
+/*!
+   \brief Fonction pour faire jouer la machinne
+   \param Solveur sv
+   \pre "Pre-conditions"
+   \post "Post-conditions"
+   \return "Return of the function"
+*/
 void jouer_prochain_coup(Solveur sv){
     Coordonnee c=obtenir_coordonnee_prochain_coup_gagnant(sv);
     if(sv->joueur_gagnant==1){
@@ -80,6 +102,10 @@ void jouer_prochain_coup(Solveur sv){
 }
 
 
+/*!
+   \brief Libérateur du Solveur
+   \param Solveurthe function"
+*/
 void freed_solveur(Solveur slv){
     // freed_arbre_solveur(slv->as);
     free(slv);

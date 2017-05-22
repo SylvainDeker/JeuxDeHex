@@ -67,7 +67,7 @@ int main(int argc, char const *argv[]) {
     //Init
     Arbre_solveur as =constructeur_arbre_solveur(p);
     Solveur slv=constructeur_solveur(p,as,1);
-    
+
     //Joueir 1
     Coordonnee cd=obtenir_coordonnee_prochain_coup_gagnant(slv);
     printf("Prochain coup: %d, %d\n",cd.x,cd.y );
