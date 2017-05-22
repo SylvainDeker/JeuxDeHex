@@ -13,6 +13,15 @@ void insersion_des_placements(Plateau p,FILE*fichier_sauvegarde,unsigned int nom
 unsigned int max(unsigned int a,unsigned b);
 void insersion_du_graphique(Plateau p,FILE*fichier_sauvegarde);
 
+
+
+/*!
+   \brief Permet de sauver une partie dans un fichier_sauvegarde
+   \param Plateau p
+   \param Nom du fichier_sauvegarde
+   \param Description arbitraire (faculatative)
+   \return 0 si la sauvegrade n'à pas pu s'effectuer, != 0 sinon
+*/
 bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description){
     unsigned int dim=Dimention_plateau(p);
     FILE*fichier_sauvegarde=fopen(nom_fichier,"w");
@@ -54,7 +63,14 @@ bool sauvegarder_partie(Plateau p,const char*nom_fichier,const char*description)
     return (bool)fichier_sauvegarde;
 }
 
-
+/*!
+   \brief Fonction pour la sauvegarde, permet d'inserer les placements selon le formatage demandé
+   \param Plateau p
+   \param FILE * fichier_sauvegarde
+   \param unsigned int nombre_de_placement_a_ne_pas_placer
+   \return "Return of the function"
+   \Warn Fonction uniquement pour la suavegarde
+*/
 void insersion_des_placements(Plateau p,FILE*fichier_sauvegarde,unsigned int nombre_de_placement_a_ne_pas_placer){
     ListeItr itr_historique_joueur1,itr_historique_joueur2;
 
@@ -89,14 +105,12 @@ void insersion_des_placements(Plateau p,FILE*fichier_sauvegarde,unsigned int nom
     freed_liste_iterateur(itr_historique_joueur2);
 }
 
-
-
-
-
-
-
-
-
+/*!
+   \brief Permet l'ecriture de la grille selon le format demandé
+   \param Plateau p
+   \pre FILE * fichier_sauvegarde
+  \Warn Uniquement pour la sauvegarde
+*/
 void insersion_du_graphique(Plateau p,FILE*fichier_sauvegarde){
     unsigned int dim=Dimention_plateau(p);
     /*
@@ -137,7 +151,14 @@ void insersion_du_graphique(Plateau p,FILE*fichier_sauvegarde){
 }
 
 
-
+/*!
+   \brief Permet la construction d'un partie à partir  d'un fichier de sauvegarde
+   \param Nom du fichier;
+   \param Plateau *p (Le plateau ne doit pas etre construit pour l'appel)
+   \parem Joueur *j1 (Le Joueur doit etre construit précedament mais vide)
+   \parem Joueur *j2 (Le Joueur doit etre construit précedament mais vide)
+   \return 0 si restauration impossible, !=0 sinon
+*/
 bool restaurer_partie(const char * nom_fichier,Plateau *p,Joueur *j1,Joueur *j2){
 
     unsigned int dim;
@@ -177,7 +198,12 @@ bool restaurer_partie(const char * nom_fichier,Plateau *p,Joueur *j1,Joueur *j2)
     return (bool)fichier_sauvegarde;
 }
 
-
+/*!
+   \brief Determine de max entre deux valeurs
+   \param unsigned int a
+   \param unsigned int b
+   \return unsigned in max
+*/
 unsigned int max(unsigned int a,unsigned b){
     unsigned int m;
     if(a>b)m=a;
