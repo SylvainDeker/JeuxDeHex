@@ -9,7 +9,11 @@
 #include "Interface.h"
 #define LIMITE_FONCTIONELLE 8
 
-
+/*!
+   \brief Fonction permetant de lire les instruction du programme java
+   \param [out] ordre
+   \return 0 si lecture reussi, -1 sinon
+*/
 int lecture_requete(char * ordre){
     int c;
     FILE*c_vers_java=fopen("java_vers_c","r");
@@ -23,8 +27,13 @@ int lecture_requete(char * ordre){
     }
     else return -1;
 return 0;
-
 }
+
+/*!
+   \brief Permet d'envoyer une information sous forme d'une chaine de caractère formaté au au programme java
+   \param Chaine
+   \return 0 si envoi reussi -1 sinon
+*/
 int envoyer_chaine(char*word){
 
     FILE*c_vers_java=fopen("c_vers_java","w");
@@ -37,6 +46,11 @@ int envoyer_chaine(char*word){
     return 0;
 }
 
+/*!
+   \brief Permet d'envoyer le plateau sous forme d'une chaine de caractère formaté au au programme java
+   \param Chaine
+   \return 0 si envoi reussi -1 sinon
+*/
 int envoyer_grille(Plateau p){
     FILE*c_vers_java=fopen("c_vers_java","w");
     if(c_vers_java){
@@ -61,6 +75,12 @@ int envoyer_grille(Plateau p){
     return 0;
 }
 
+
+/*!
+   \brief Permet d'envoyer un potentiel gagnant sous forme d'une chaine de caractère formaté au au programme java
+   \param Chaine
+   \return 0 si envoi reussi -1 sinon
+*/
 int envoyer_existe_gagnant(Plateau p){
     FILE*c_vers_java=fopen("c_vers_java","w");
     if(c_vers_java){
@@ -76,6 +96,12 @@ int envoyer_existe_gagnant(Plateau p){
 }
 
 
+/*!
+   \brief Permet au programme java savoir si un pion est présent sur une case et si oui lequel
+   \param Plateau
+   \param Coordonnee
+   \return 0 si envoi reussi -1 sinon
+*/
 int envoyer_joueur_case(Plateau p,Coordonnee c){
 
     FILE*c_vers_java=fopen("c_vers_java","w");
@@ -96,6 +122,12 @@ int envoyer_joueur_case(Plateau p,Coordonnee c){
     return 0;
 }
 
+
+/*!
+   \brief Permet d'envoyer au programme java le nombre la place libre restantes
+   \param Plateau
+   \return 0 si envoi reussi -1 sinon
+*/
 int envoyer_nombre_place_libre(Plateau p){
 
     FILE*c_vers_java=fopen("c_vers_java","w");
@@ -110,9 +142,13 @@ int envoyer_nombre_place_libre(Plateau p){
 
 }
 
+/*!
+   \brief Permet d'envoyer au programme java le ganant si il existe
+   \param Plateau
+   \return 0 si envoi reussi -1 sinon
+*/
 
 int envoyer_potentiel_gagnant(Plateau p){
-
 
     FILE*c_vers_java=fopen("c_vers_java","w");
     if(c_vers_java){
@@ -138,7 +174,11 @@ int envoyer_potentiel_gagnant(Plateau p){
 }
 
 
-
+/*!
+   \brief Permet d'envoyer au programme des Coordonnee formaté
+   \param Coordonnee c
+   \return 0 si bien envoyé , -1 sinon
+*/
 int envoyer_coordonnee(Coordonnee c){
     FILE*c_vers_java=fopen("c_vers_java","w");
     if(c_vers_java){
