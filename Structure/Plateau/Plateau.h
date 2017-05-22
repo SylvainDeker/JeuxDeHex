@@ -1,6 +1,6 @@
 /*!
    \file Plateau.h
-   \brief Plateau.h
+   \brief Structure de Donnée de Joueur, Groupe, Plateau, Case.
    \author Sylvain DEKER
    \date 1/05/2017
 */
