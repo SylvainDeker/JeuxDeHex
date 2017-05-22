@@ -1,6 +1,7 @@
 /*!
    \file Undo.c
-   \brief Undo.c
+   \brief Reconstruction d'un plateau et recopie des valeurs jusqu'a l'avant derniere. Ce chois se justifi par le fait que la structure Plateau contient les groupe qui sont construit au fur et à mesure et fusionné si besoin
+        Un retrait de pion "chirugical" dans ce cas demanderai un scan complet du plateau à plusieur reprise, Il est donc plus interessant d'en reconstruire un autre
    \author Sylvain DEKER
    \date 13/05/2017
 */
@@ -10,6 +11,13 @@
 
 
 unsigned int max(unsigned int a,unsigned b);
+
+/*!
+   \brief Permet de revenir en arriere
+   \param Plateau *p
+   \pre au moin un pion posé
+   \pose reprise d'un etat précedant
+*/
 
 void undo(Plateau *p,unsigned int nb_undo){
     unsigned int taille_listes=liste_taille(Historique_Joueur(Joueur1(*p)))+liste_taille(Historique_Joueur(Joueur2(*p)));
