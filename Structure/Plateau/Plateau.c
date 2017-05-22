@@ -176,13 +176,18 @@ void ajouter_groupe_a_un_joueur(Joueur j,Groupe g){
    \brief Ajout Manuel d'une Case ca à un Groupe g
    \param Groupe g
    \param Case ca
-
-   \return "Return of the function"
 */
 void ajouter_case_a_un_groupe(Groupe g,Case ca){
     ajout_liste(g->list_case,ca);
 }
 
+/*!
+   \brief Permet de determiner le joueur associé à la case
+   \param "Param description"
+   \pre "Pre-conditions"
+   \post "Post-conditions"
+   \return "Return of the function"
+*/
 Joueur joueur_de_case(Case ca){
     assert(ca->groupe);
     return ca->groupe->joueur;
