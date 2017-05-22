@@ -63,9 +63,9 @@ int main(int argc, char const *argv[]) {
     printf("=============================TEST DE constructeur_arbre_solveur()=================================\n" );
 
     Arbre_solveur arbr_s=constructeur_arbre_solveur(p);
-    affichage_as(arbr_s);
+    // affichage_as(arbr_s);
     application_minmax(arbr_s);
-    affichage_minmax(arbr_s);
+    // affichage_minmax(arbr_s);
     printf(" Tentative_gagnante du Joueur1 : %u \n",potentiel_gagnant_joueur1(arbr_s) );
     printf(" Tentative_gagnante du Joueur2 : %u \n",potentiel_gagnant_joueur2(arbr_s) );
     bilan(p);
