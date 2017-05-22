@@ -63,22 +63,22 @@ public class Game {
     }
 
     public void save() throws IOException{
-      System.out.print("What is the name of the savefile ? Name : ");
-      String savefile = inputKeyboard();
-      System.out.print("A quick description of the game : ");
-      String desc = inputKeyboard();
+        System.out.print("What is the name of the savefile ? Name : ");
+        String savefile = inputKeyboard();
+        System.out.print("A quick description of the game : ");
+        String desc = inputKeyboard();
 
-      sendToC("s( "+savefile+" , "+desc+" )\n");
-      System.out.println("Press [Enter] please...");
-      //Wait for enter key
-      System.in.read();
-      quit();
+        sendToC("s( "+savefile+" , "+desc+" )\n");
+        System.out.println("Press [Enter] please...");
+        //Wait for enter key
+        System.in.read();
+        quit();
     }
 
 
     public void quit() throws IOException{
 
-      sendToC("q\n");
+        sendToC("q\n");
     }
 
 
@@ -126,20 +126,20 @@ public class Game {
                         System.out.println("Your last play will be canceled! [y] to confirm, [n] to cancel");
                         String choice = inputKeyboard();
                         if (choice.equals("y")) {
-                          System.out.println("FAIT");
-                          sendToC("u\n");
+                            System.out.println("FAIT");
+                            sendToC("u\n");
                         }else{
-                          System.out.println("Canceling...");
+                            System.out.println("Canceling...");
 
                         }
                     default : break;
                 }
 
                 if (existsWinner() != 0) {
-                  System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
+                    System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
 
-                  quit();
-                  return;
+                    quit();
+                    return;
                 }
             }
         }
@@ -155,14 +155,14 @@ public class Game {
         returnValue[0] = '0';
 
         while(returnValue[0] == '0'){
-          System.out.print("What is the name of the savefile ? Name : ");
-          savefile = inputKeyboard();
-          sendToC("r( "+savefile+" )\n");
+            System.out.print("What is the name of the savefile ? Name : ");
+            savefile = inputKeyboard();
+            sendToC("r( "+savefile+" )\n");
 
-          returnValue = receiveFromC();
-          if (returnValue[0] == '0') {
-            System.out.println("File does not exist, specify another : ");
-          }
+            returnValue = receiveFromC();
+            if (returnValue[0] == '0') {
+                System.out.println("File does not exist, specify another : ");
+            }
         }
 
         System.out.println("Press [Enter] please...");
@@ -206,25 +206,25 @@ public class Game {
 
 
     public void NewGameHvsIA() throws IOException{
-      String playerTurn;
-      String size;
-      System.out.print("Do you want to play first or second ? (1 or 2) Answer : ");
-      playerTurn = inputKeyboard();
-      System.out.print("What is the name of the player ? Name : ");
-      this.joueurs[0] = new Joueur(inputKeyboard());
-      this.joueurs[1] = new Joueur("IA");
-      System.out.print("What is the size of the board ? Size : ");
-      size = inputKeyboard();
+        String playerTurn;
+        String size;
+        System.out.print("Do you want to play first or second ? (1 or 2) Answer : ");
+        playerTurn = inputKeyboard();
+        System.out.print("What is the name of the player ? Name : ");
+        this.joueurs[0] = new Joueur(inputKeyboard());
+        this.joueurs[1] = new Joueur("IA");
+        System.out.print("What is the size of the board ? Size : ");
+        size = inputKeyboard();
 
-      sendToC("n("+size+")\n");
+        sendToC("n("+size+")\n");
 
-      System.out.println("Press [Enter] please...");
-      //Wait for enter key
-      System.in.read();
-      this.plateau = new Plateau(Integer.parseInt(size));
+        System.out.println("Press [Enter] please...");
+        //Wait for enter key
+        System.in.read();
+        this.plateau = new Plateau(Integer.parseInt(size));
 
 
-      letsPlayHvsAI(playerTurn);
+        letsPlayHvsAI(playerTurn);
 
 
     }
@@ -232,36 +232,59 @@ public class Game {
 
 
     public void letsPlayHvsAI(String a) throws IOException{
-      String continueOrSave;
-      String x;
-      String y;
-      boolean validMove;
+        String continueOrSave;
+        String x = "";
+        String y = "";
+        boolean validMove;
+        int i = 0;
+        int cptI = 0;
 
-      sendToC("i(1)\n");
-      while (true){
-          for (int i = 1; i < 3;i++){
-              if (a.equals("1")) {
-                i = i+1;
-              }
-              if (i == 1) { //tour IA
-                validMove = false;
-                System.out.println("=================== JOUEUR "+this.joueurs[1].getName()+" ===================");
+        if (a.equals("1")) {
+            i = 1;
+        }else{
+            i=2;
+            sendToC("i(1)\n");
+
+        }
+
+        while (true){
+
+            System.out.println("i = "+i);
+            if (i == 2) { //tour IA
+
+                System.out.println("=================== "+this.joueurs[1].getName()+" ===================");
 
                 sendToC("g\n");
                 this.plateau.printBoard(receiveFromC());
 
-
-
-                sendToC("v\n");
-
-
+                if(a.equals("1") && cptI == 0){
+                    sendToC("i(2)\n");
+                    cptI++;
+                }
 
                 System.out.println("Press [Enter] please...");
                 //Wait for enter key
                 System.in.read();
 
+                if (a.equals("2")) {
+                    cptI++;
+                }
+                if (cptI >= 2 ) {
+                    sendToC("k("+x+","+y+")\n");
+                }
 
-              }else{
+                System.out.println("Press [Enter] please...");
+                //Wait for enter key
+                System.in.read();
+
+                sendToC("v\n");
+                cptI++;
+
+
+
+
+
+            }else{
 
                 validMove = false;
                 System.out.println("=================== JOUEUR "+this.joueurs[0].getName()+" ===================");
@@ -279,11 +302,11 @@ public class Game {
 
                     if (squareFree(x,y)){
                         placePawn(Integer.toString(i),x,y);
-                        sendToC("k\n");
                         validMove = true;
                     }else{
                         System.out.println("Square already used, choose another one please !");
                     }
+
                 }
 
                 System.out.print("[ENTER] to continue, [u] to undo, [s] to save or [q] to quit : ");
@@ -302,25 +325,26 @@ public class Game {
                         System.out.println("Your last play will be canceled! [y] to confirm, [n] to cancel");
                         String choice = inputKeyboard();
                         if (choice.equals("y")) {
-                          System.out.println("FAIT");
-                          sendToC("u\n");
+                            System.out.println("DONE");
+                            sendToC("u\n");
                         }else{
-                          System.out.println("Canceling...");
-
+                            System.out.println("Canceling...");
                         }
+                        break;
                     default : break;
                 }
-              }
+            }
 
 
-              if (existsWinner() != 0) {
+            if (existsWinner() != 0) {
                 System.out.println("Bravo au joueur "+this.joueurs[i-1].getName()+" !");
 
                 quit();
                 return;
-              }
-          }
-      }
+            }
+            i = (i%2)+1;
+
+        }
     }
 
 
@@ -340,11 +364,13 @@ public class Game {
         String choice;
         boolean validChoice = false;
         boolean validChoiceLvl2 = false;
-        System.out.println("1 - New Game");
-        System.out.println("2 - Load game");
-        System.out.print("What do you want to do ? Choice : ");
-        choice = inputKeyboard();
+
+
         while(validChoice == false){
+          System.out.println("1 - New Game");
+          System.out.println("2 - Load game");
+          System.out.print("What do you want to do ? Choice : ");
+          choice = inputKeyboard();
             switch (choice){
 
                 case "1":
@@ -354,24 +380,25 @@ public class Game {
                     System.out.print("What do you want to do ? Choice : ");
                     choice = inputKeyboard();
                     while(validChoiceLvl2 == false){
-                      switch(choice){
-                        case "1":
-                            validChoiceLvl2 = true;
-                            newGameHvsH();
-                            letsPlayHvsH();
-                            break;
-                        case "2":
-                            validChoiceLvl2 = true;
-                            NewGameHvsIA();
-                            break;
-                        default: break;
-                      }
+                        switch(choice){
+                            case "1":
+                                validChoiceLvl2 = true;
+                                newGameHvsH();
+                                letsPlayHvsH();
+                                System.out.println("ouloulou");
+                                break;
+                            case "2":
+                                validChoiceLvl2 = true;
+                                NewGameHvsIA();
+                                break;
+                            default: break;
+                        }
                     }
 
 
                     break;
                 case "2" :
-                  validChoice = true;
+                    validChoice = true;
                     restore();
                     letsPlayHvsH();
                     break;
