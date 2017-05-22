@@ -28,40 +28,83 @@ struct _arbre_possibilites{
 };
 
 
-void affichage_plateau(Plateau p);
+// void affichage_plateau(Plateau p);
+
 
 void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur);
 
 
+/*!
+   \brief La sentinnelle de l'arbre est sa racine
+   \param Arbre_solveur as
+   \return Noeuds
+*/
 Noeud sentinelle_arbre_solveur(Arbre_solveur as){
-
     return as->sentinelle;
 }
+
+/*!
+   \brief Retourne le tableau de fils represeant toutes les possibilité (toutes le branches) du Noeud
+   \param Noeuds
+   \return "Return of the function"
+*/
+
 Noeud* tableau_fils_noeud(Noeud nd){
     if(nd->est_une_feuille)
         return NULL;
     else
         return nd->fils;
 }
+/*!
+   \brief Determine le nombre de fils d'un Noeud
+   \param Noud nd
+   \return unsigned int
+*/
 unsigned int nb_fils_noeud(Noeud nd){
     return nd->nb_fils;
 }
+
+/*!
+   \brief Connaitre le poids du Joueur à un nnoeud donnée
+   \param Noeud
+   \return int le poids
+*/
 int poids_j1_noeud(Noeud nd){
     return nd->poids_j1;
 }
 
+/*!
+   \brief Connaitre le poids du Joueur 2 à un noeud donnée
+   \param Noeud
+   \return int le poids
+*/
 int poids_j2_noeud(Noeud nd){
     return nd->poids_j2;
 }
-
+/*!
+   \brief Revoie les Coordonnee de la case sur lequelle il y a eu des changements
+   \param Noeud nd
+   \return Coordonnee
+*/
 Coordonnee coordonnee_noeud(Noeud nd){
     return nd->c;
 }
 
+/*!
+   \brief Determine si un noeud est une feuille
+   \param Noeud
+   \return
+*/
 bool est_une_feuille_noeud(Noeud nd){
     return nd->est_une_feuille;
 }
 
+/*!
+   \brief Constructeur d'un Noeuds
+   \param Plateau p
+   \param unsigned int nb_fils
+   \return Noeuds
+*/
 Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     Noeud nd=(Noeud)malloc(sizeof(struct _noeud));
     nd->nb_fils=nb_fils;
@@ -72,16 +115,29 @@ Noeud constructeur_noeud(Plateau p,unsigned int nb_fils){
     nd->est_une_feuille=false;
     return nd;
 }
-
+/*!
+   \brief Determine un nombre representant les chance de gagné pour un Joueur
+   \param Arbre_solveur
+   \return int
+*/
 int potentiel_gagnant_joueur1(Arbre_solveur as){
     return as->nb_possibilite_gagnante_j1;
 }
 
+/*!
+   \brief Determine un nombre representant les chance de gagné pour un Joueur
+   \param Arbre_solveur
+   \return int
+*/
 int potentiel_gagnant_joueur2(Arbre_solveur as){
     return as->nb_possibilite_gagnante_j2;
 }
 
-
+/*!
+   \brief constructeur de l'arbre avec le Plateau p
+   \param Plateau p
+   \return Arbre_solveur
+*/
 Arbre_solveur constructeur_arbre_solveur(Plateau p){
     Arbre_solveur as=(Arbre_solveur)malloc(sizeof(struct _arbre_possibilites));
     unsigned int dim=Dimention_plateau(p)*Dimention_plateau(p)-(liste_taille(Historique_Joueur(Joueur1(p)))+liste_taille(Historique_Joueur(Joueur2(p))));
@@ -89,15 +145,23 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p){
     as->p=p;
     as->nb_possibilite_gagnante_j1=0;
     as->nb_possibilite_gagnante_j2=0;
-
-    if(liste_taille(Historique_Joueur(Joueur1(p)))!=liste_taille(Historique_Joueur(Joueur2(p))))
+    //On commence à construire l'arbre à partir du jeu dans l'etat présent, et on commence par tour du joueur suivant
+    if(liste_taille(Historique_Joueur(Joueur1(p)))==liste_taille(Historique_Joueur(Joueur2(p))))
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,0);
     else
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,1);
     return as;
 }
 
-
+/*!
+   \brief Fonction recusive permetant de remplir l'arbre avec toute les possibilté d'une grille à un état donnée
+   \param Plateau p
+   \param Arbre_solveur as
+   \param Noeuds nd noeud courant
+   \param Difference entre la dimansion d'une grille et le nombre pion deja posé
+   \param int joueur, On represente maintenant les joueurs par des numero pour un question de simplicité d'ecriture
+   \return "Return of the function"
+*/
 void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int possibilites,int joueur){
     if (
         possibilites>=0
@@ -105,7 +169,10 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
         unsigned int nb_fils=0;
         for (unsigned int i = 0; i < Dimention_plateau(p); i++) {
             for (unsigned int j = 0; j < Dimention_plateau(p); j++) {
+                //Parcours des cases vides
+
                 if(Case_Vide(p,Coord(i,j))){
+                    //Construction d'un noeud pour chaque possibilites
                     nd->fils[nb_fils]=constructeur_noeud(copie_de_plateau(p),possibilites);
                     nd->fils[nb_fils]->c=Coord(i,j);
                     if(joueur==0){
@@ -118,7 +185,7 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
                         }
                         else
                         feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,1);
-                        // joueur=0;
+
                     }
                     else{
                         nd->fils[nb_fils]->j=2;
@@ -130,23 +197,35 @@ void feed_arbre_solveur_rec(Plateau p,Arbre_solveur as,Noeud nd,unsigned int pos
                         }
                         else
                         feed_arbre_solveur_rec(nd->fils[nb_fils]->plateau,as,nd->fils[nb_fils],possibilites-1,0);
-                        // joueur=1;
                     }
-
                     nb_fils++;
                 }
+
+
 
             }
         }
     }
 }
 
+
+/*!
+   \brief Application Recursif de l'algorithme minmax
+   \param Arbre_solveur
+   \param Noeud nd
+   \param int *j1 poids minamx du joueur 1 sur un noeud
+   \param int *j2 poids minamx du joueur 1 sur un noeud
+   \info Le poids minmax des jours au niveau de ma feuille est calculé de facon suivante:
+        Si la feuille est gagnante par le joueur 1 alors le poids du Joueur1 prend 10 plus le nombre de case vide
+        Le Joueur2 à un poid de 0. La constante 10 est faite pour augement la Difference en en poids des deux joueurs
+*/
 void application_minmax_rec(Arbre_solveur as,Noeud nd,int *j1,int *j2){
     int j1max=0,j2max=0;
     int r_j1max,r_j2max;
 
     if( nd->est_une_feuille ){
         if(nd->j==1){
+            //Le poinds d'un feuille est le nombre de possibilité restantes du jeux
             *j1=nd->poids_j1+10;
             *j2=0;
         }
@@ -158,6 +237,7 @@ void application_minmax_rec(Arbre_solveur as,Noeud nd,int *j1,int *j2){
     }
     else{
         for (size_t i = 0; i < nd->nb_fils; i++) {
+            //Recherche des maximun
             application_minmax_rec(as, nd->fils[i],&r_j1max,&r_j2max);
             if( j1max <  r_j1max )j1max=r_j1max;
             if( j2max <  r_j2max )j2max=r_j2max;
@@ -168,11 +248,10 @@ void application_minmax_rec(Arbre_solveur as,Noeud nd,int *j1,int *j2){
     }
 }
 
-
-
-
-
-
+/*!
+   \brief Cette fonction sert d'appel à la fonction récursive
+   \param Arbre_solveur as
+*/
 void application_minmax(Arbre_solveur as){
     int j1,j2;
     application_minmax_rec(as,as->sentinelle,&j1,&j2);
@@ -180,26 +259,30 @@ void application_minmax(Arbre_solveur as){
     as->sentinelle->poids_j2=j2;
 }
 
-void affichage_minmax_rec(Noeud nd){
-    if(nd->est_une_feuille==false){
-        for (size_t i = 0; i < nd->nb_fils; i++) {
-            affichage_minmax_rec(nd->fils[i]);
+// void affichage_minmax_rec(Noeud nd){
+//     if(nd->est_une_feuille==false){
+//         for (size_t i = 0; i < nd->nb_fils; i++) {
+//             affichage_minmax_rec(nd->fils[i]);
+//
+//         }
+//
+//     }
+//     printf("j1=%d,j2=%d\n",nd->poids_j1,nd->poids_j2);
+// }
+//
+//
+// void affichage_minmax(Arbre_solveur as){
+//     printf("ffichage MINMAX\n" );
+//     affichage_minmax_rec(as->sentinelle);
+//
+// }
+//
 
-        }
-
-    }
-    printf("j1=%d,j2=%d\n",nd->poids_j1,nd->poids_j2);
-}
-
-
-void affichage_minmax(Arbre_solveur as){
-    printf("ffichage MINMAX\n" );
-    affichage_minmax_rec(as->sentinelle);
-
-}
-
-
-
+/*!
+   \brief Cette fonction sert à effectuer un copier du plateua pour pouvoir le duplique dans un arbre
+   \param Plateau p
+   \return Plateau
+*/
 Plateau copie_de_plateau(Plateau p){
 
     Joueur j1=contructeur_Joueur();
@@ -234,20 +317,27 @@ Plateau copie_de_plateau(Plateau p){
     }
     freed_liste_iterateur(itr_historique_joueur1);
     freed_liste_iterateur(itr_historique_joueur2);
-
-
     return pnew;
 
 }
 
 
+/*!
+   \brief libération d'un noeud
+   \param Noeuds
+*/
 void freed_noeud(Noeud nd){
 
     freed_all(nd->plateau);
     free(nd->fils);
     free(nd);
 }
+/*!
+   \brief Libération Noeud récursif
+   \brief libération d'un noeud
+   \param Noeuds
 
+*/
 void freed_noeud_rec(Noeud nd){
 
     if(nd->est_une_feuille==false){
@@ -257,49 +347,53 @@ void freed_noeud_rec(Noeud nd){
     }
     freed_noeud(nd);
 }
+/*!
+   \brief Libere l'arbre
+   \param Arbre Solveur
 
+*/
 void freed_arbre_solveur(Arbre_solveur as){
     freed_noeud_rec(as->sentinelle);
     free(as);
 }
 
-
-void affichage_plateau(Plateau p){
-    assert(p);
-    printf("=======================\n" );
-    for (int i = 0; i < Dimention_plateau(p); i++) {
-        for (size_t h = 0; h < i; h++) {
-            printf("  " );
-        }
-        for (int j = 0; j < Dimention_plateau(p); j++) {
-            if(!Case_Vide(p,Coord(i,j))){
-                if(Joueur_du_groupe( Groupe_de_la_Case( Case_de_la_Coordonnee(p,Coord(i,j)) ) )==Joueur1(p))
-                    printf("\\ o " );
-                else
-                    printf("\\ 1 " );
-            }
-            else printf("\\ . " );
-        }
-        printf("\\\n" );
-    }
-    printf("----------------------\n" );
-}
-
-
-
-void affichage_as_rec(Noeud nd){
-
-    affichage_plateau(nd->plateau);
-    if(nd->est_une_feuille==false){
-
-        for (unsigned int i = 0; i < nd->nb_fils; i++) {
-             affichage_as_rec(nd->fils[i]);
-        }
-    }
-}
-void affichage_as(Arbre_solveur as){
-    printf("AFFICHAGE RECURSIF\n" );
-    affichage_as_rec(as->sentinelle);
+//
+// void affichage_plateau(Plateau p){
+//     assert(p);
+//     printf("=======================\n" );
+//     for (int i = 0; i < Dimention_plateau(p); i++) {
+//         for (size_t h = 0; h < i; h++) {
+//             printf("  " );
+//         }
+//         for (int j = 0; j < Dimention_plateau(p); j++) {
+//             if(!Case_Vide(p,Coord(i,j))){
+//                 if(Joueur_du_groupe( Groupe_de_la_Case( Case_de_la_Coordonnee(p,Coord(i,j)) ) )==Joueur1(p))
+//                     printf("\\ o " );
+//                 else
+//                     printf("\\ 1 " );
+//             }
+//             else printf("\\ . " );
+//         }
+//         printf("\\\n" );
+//     }
+//     printf("----------------------\n" );
+// }
 
 
-}
+//
+// void affichage_as_rec(Noeud nd){
+//
+//     affichage_plateau(nd->plateau);
+//     if(nd->est_une_feuille==false){
+//
+//         for (unsigned int i = 0; i < nd->nb_fils; i++) {
+//              affichage_as_rec(nd->fils[i]);
+//         }
+//     }
+// }
+// void affichage_as(Arbre_solveur as){
+//     printf("AFFICHAGE RECURSIF\n" );
+//     affichage_as_rec(as->sentinelle);
+//
+//
+// }

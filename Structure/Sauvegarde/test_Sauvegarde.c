@@ -1,6 +1,6 @@
 /*!
    \file test_Sauvegarde.c
-   \brief test_Sauvegarde.c
+   \brief Exemple de construction d'un Plateau et de sauvegarde et restauration
    \author Sylvain DEKER
    \date 11/05/2017
 */
@@ -60,6 +60,21 @@ int main(int argc, char const *argv[]) {
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
