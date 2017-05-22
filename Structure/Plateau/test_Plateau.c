@@ -1,6 +1,6 @@
 /*!
    \file test_Plateau.c
-   \brief test_Plateau.c
+   \brief Exemple d'utilisation de la structure plateau avec ces tests
    \author Sylvain DEKER
    \date 1/05/2017
 */
@@ -79,7 +79,7 @@ void afficher_plateau(Plateau p){
 }
 
 
-
+//Fonction de visualisation et de test :
 
 //Tests !
 /*
@@ -96,7 +96,6 @@ Joueur 1      \ 1 \ 1 \ 1 \ o \ o \ . \ . \ o \
                                 Mur 2
                                 joueur 0
 */
-
 
 
 void bilan(Plateau p){
