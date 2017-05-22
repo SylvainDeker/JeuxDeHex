@@ -33,6 +33,9 @@ struct _case{
     Groupe groupe;
 };
 
+
+
+
 void freed_Joueur(Joueur j);
 void freed_plateau(Plateau p);
 void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l );
@@ -238,8 +241,6 @@ Joueur Joueur2(Plateau p){
 }
 Liste Historique_Joueur(Joueur j){
     return j->list_historique_case;
-
-
 }
 
 

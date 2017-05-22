@@ -59,4 +59,7 @@
 
 
 
+
+    Coordonnee Coord_pont(Coordonnee c,int num_pont_relatif);
+
 #endif

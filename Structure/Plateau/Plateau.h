@@ -21,6 +21,7 @@
     typedef struct _case * Case;
     typedef struct _groupe * Groupe;
     typedef struct _plateau * Plateau;
+    typedef struct _pont * Pont;
 
     /*!
        \brief Constructeur Joueur
