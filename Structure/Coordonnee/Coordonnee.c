@@ -96,3 +96,94 @@ Coordonnee Coord_voisin(Coordonnee c,int num_voisin_relatif){
 bool Coord_valide(Coordonnee c,unsigned int min,unsigned int max){
     return c.x>=min && c.x<max&&c.y>=min && c.y<max;
 }
+
+Coordonnee Coord_pont(Coordonnee c,int num_pont_relatif){
+    /*Il  existe 6 voisins maximun numeroté de 0 à 5*/
+    assert(num_pont_relatif<12);
+    assert(num_pont_relatif>=0);
+    Coordonnee voisin;
+
+    switch (num_pont_relatif) {
+        case 0:
+            /*Pont n°0*/
+            voisin.x=c.x-2;
+            voisin.y=c.y;
+            break;
+        case 1:
+            /*Pont n°1*/
+            voisin.x=c.x-2;
+            voisin.y=c.y+1;
+            break;
+        case 2:
+            /*Pont n°2*/
+            voisin.x=c.x-2;
+            voisin.y=c.y+2;
+            break;
+        case 3:
+
+            voisin.x=c.x-1;
+            voisin.y=c.y+2;
+            break;
+        case 4:
+
+            voisin.x=c.x;
+            voisin.y=c.y+2;
+            break;
+        case 5:
+
+            voisin.x=c.x+1;
+            voisin.y=c.y+1;
+            break;
+
+        case 6:
+
+            voisin.x=c.x+2;
+            voisin.y=c.y;
+            break;
+
+        case 7:
+
+            voisin.x=c.x+2;
+            voisin.y=c.y-1;
+            break;
+        case 8:
+
+            voisin.x=c.x+2;
+            voisin.y=c.y-2;
+            break;
+        case 9:
+
+            voisin.x=c.x+1;
+            voisin.y=c.y-2;
+            break;
+
+        case 10:
+
+            voisin.x=c.x;
+            voisin.y=c.y-2;
+            break;
+
+        case 11:
+
+            voisin.x=c.x-1;
+            voisin.y=c.y-1;
+            break;
+    }
+    return voisin;
+}
+
+//
+// Coordonnee Coord_pont_entre_deux_point(Coordonnee a,Coordonnee b){
+//     Coordonnee res=Coord(-1,-1);
+//     if(
+//         (a.x==b.x-2 && b.y>=a.y && b.y+2<=a.y)
+//         ||
+//         (a.x==b.x+2 && b.y<=a.y && b.y-2>=a.y)
+//         ||
+//         (a.x==b.x && (b.y==a.y+2 || (b.y==a.y-2) )
+//
+//
+//
+//
+//     )
+//     if()

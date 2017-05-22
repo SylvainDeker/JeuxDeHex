@@ -1,6 +1,6 @@
 /*!
    \file Plateau.h
-   \brief Plateau.h
+   \brief Structure de Donnée de Joueur, Groupe, Plateau, Case.
    \author Sylvain DEKER
    \date 1/05/2017
 */
@@ -21,6 +21,7 @@
     typedef struct _case * Case;
     typedef struct _groupe * Groupe;
     typedef struct _plateau * Plateau;
+    typedef struct _pont * Pont;
 
     /*!
        \brief Constructeur Joueur

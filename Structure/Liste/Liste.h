@@ -1,8 +1,10 @@
 /*!
    \file Liste.h
-   \brief Module Liste
+   \brief Structure de donnée Liste pouvant etre utilisé à la fois mode FILO et FIFO
    \author Sylvain DEKER
    \date 10/04/2017
+   \info Liste Simple, doublement chainée avec sentinelle
+        Le mode FIFO et FILO se distincte que au moment de la lecture des données soit avec retirer_liste(); soit avec l'itérateur liste_iterateur_courant();
 */
 
 #ifndef  _LISTE_H_
@@ -16,12 +18,13 @@
 #define FILO 'l'
 
 
-typedef struct _liste*Liste;
-typedef struct _list_itr*ListeItr;
+typedef struct _liste*Liste;//La liste
+typedef struct _list_itr*ListeItr;//Iterateur de la liste
 
 /*!
    \brief Constructeur da la liste
    \return Liste
+   \Warn Memoire doit etre libérée par la fonction freed_liste()
 */
 Liste constructeur_liste(void);
 
@@ -73,16 +76,57 @@ unsigned int liste_taille(Liste l);
 */
 Liste liste_fusion(Liste l1,Liste l2);
 
-
-
-
-ListeItr constructeur_liste_iterateur(Liste l,const char methode);
-void*liste_iterateur_courant(ListeItr i);
-ListeItr start_liste_iterateur(ListeItr i);
-ListeItr suivant_liste_iterateur(ListeItr i);
-bool fin_liste_iterateur(ListeItr i);
-void freed_liste_iterateur(ListeItr i);
+/*!
+   \brief Permet de supprimer un element designé
+   \param Liste l
+   \param poiteur sur l'element;
+   \post taille -1 si element trouvé
+   \return bool 1 si l'element est trouvé (et donc est supprimé), 0 sinon
+*/
 bool supprim_element_liste(Liste l,void *element);
+
+/*!
+   \brief Constructure de la structure de donnée Itérateur de la liste Liste selon la méthode choisie
+   \param Liste l
+   \param Choix de la methode FIFO ou FILO
+   \return poiteur vers la structure de donnée
+*/
+ListeItr constructeur_liste_iterateur(Liste l,const char methode);
+
+/*!
+   \brief Permet d'initaliser l'iterateur selon sa methode
+   \param Iterateur i
+   \return Retourne l'adresse de l'érateur
+*/
+ListeItr start_liste_iterateur(ListeItr i);
+
+/*!
+   \brief Permet de revoyer l'adresse du composant enregistré à la l'element courant
+   \param Iterateur
+   \return l'adresse (void*) vers le composant enregistré
+*/
+void*liste_iterateur_courant(ListeItr i);
+
+/*!
+   \brief Permet d'incrmenter l'Iterateur de la liste
+   \param Iterateur
+   \return Iterateur
+*/
+ListeItr suivant_liste_iterateur(ListeItr i);
+
+/*!
+   \brief Permet de sovoir si l'itérateur à parcourus tout les elements ou non
+   \param Iterateur
+   \return bool 1 = Liste entierrement parcourue, 0 sinon
+*/
+bool fin_liste_iterateur(ListeItr i);
+
+/*!
+   \brief Permet de liberer la mémoir prise par l'itérateur
+   \param Iterateur
+*/
+void freed_liste_iterateur(ListeItr i);
+
 
 
 #endif

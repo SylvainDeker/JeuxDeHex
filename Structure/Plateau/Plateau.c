@@ -1,11 +1,10 @@
 /*!
    \file Plateau.c
-   \brief Plateau.c
+   \brief Structure de Donnée de Joueur, Groupe, Plateau, Case.
    \author Sylvain DEKER
    \date 11/05/2017
 */
 
-//yolo
 #define _POSIX_C_SOURCE 1
 #include "Plateau.h"
 #define NB_JOUEUR 2
@@ -33,29 +32,48 @@ struct _case{
     Groupe groupe;
 };
 
+
+
+
 void freed_Joueur(Joueur j);
 void freed_plateau(Plateau p);
 void voisin_etant_du_joueur(Plateau p,Joueur j,Coordonnee c, Liste l );
 bool Case_Vide(Plateau p,Coordonnee c);
 void fusionner_groupe(Groupe g1, Groupe g2);
+void ajouter_groupe_a_un_joueur(Joueur j,Groupe g);
 
 ///////////////////////////////////Constructeur / Liberateur
+/*!
+   \brief Constructeur Joueur
+   \return Joueur
+*/
 Joueur contructeur_Joueur(){
     Joueur new=(Joueur)malloc(sizeof(struct _joueur));
-    new->list_groupe=constructeur_liste();
-    new->list_historique_case=constructeur_liste();
+    new->list_groupe=constructeur_liste();//Construction d'une Liste de Groupe
+    new->list_historique_case=constructeur_liste();//Construction d'une Liste de Case (sert d'historique pour la sauvegarde et la restauration)
     return new;
 }
+
+/*!
+   \brief Permet de libere la structure Joueur et les structure liste qu'il contient (mais ne libere pas le contenu des listes)
+   \param Joueur j
+*/
 void freed_Joueur(Joueur j){
     freed_liste(j->list_groupe);
     freed_liste(j->list_historique_case);
     free(j);
 }
 
-void ajouter_groupe_a_un_joueur(Joueur j,Groupe g){
-    ajout_liste(j->list_groupe,g);
-}
-
+/*!
+   \brief Constructeur de Groupe.
+        Un groupe est un enssemble de case regroupé selon les regles decrites dans Document spécification.
+        Un joueur possede plusieur groupe
+        Il ya au minimum une case dans un groupe
+   \param Joueur j Associé
+   \pre "Pre-conditions"
+   \post "Post-conditions"
+   \return "Return of the function"
+*/
 Groupe constructeur_groupe(Joueur j){
     Groupe new=(Groupe)malloc(sizeof(struct _groupe));
     new->list_case=constructeur_liste();
@@ -65,12 +83,20 @@ Groupe constructeur_groupe(Joueur j){
     return new;
 }
 
+/*!
+   \brief Libérateur de Groupe
+   \param Groupe p
+*/
 void freed_groupe(Groupe p){
     freed_liste(p->list_case);
-
     free(p);
 }
 
+/*!
+   \brief Constructeur d'un Case une Case est associé à une Coordonnee unique
+   \param Coordonnee
+   \return Case
+*/
 Case constructeur_case(Coordonnee c){
     Case new=(Case)malloc(sizeof(struct _case));
     new->c=c;
@@ -78,6 +104,13 @@ Case constructeur_case(Coordonnee c){
     return new;
 }
 
+/*!
+   \brief "Description"
+   \param "Param description"
+   \pre "Pre-conditions"
+   \post "Post-conditions"
+   \return "Return of the function"
+*/
 void freed_case(Case ca){
     free(ca);
 }
@@ -131,7 +164,21 @@ void freed_all(Plateau p){
 
 }
 ////////////////////////////////////////////////////////OPERATEURS LOCALS
+/*!
+   \brief Fonction "Raccourci" permet de rajouter manuellement un groupe à un joueur
+   \post Taille de liste des groupe ++ 1
+*/
+void ajouter_groupe_a_un_joueur(Joueur j,Groupe g){
+    ajout_liste(j->list_groupe,g);
+}
 
+/*!
+   \brief Ajout Manuel d'une Case ca à un Groupe g
+   \param Groupe g
+   \param Case ca
+
+   \return "Return of the function"
+*/
 void ajouter_case_a_un_groupe(Groupe g,Case ca){
     ajout_liste(g->list_case,ca);
 }
@@ -238,8 +285,6 @@ Joueur Joueur2(Plateau p){
 }
 Liste Historique_Joueur(Joueur j){
     return j->list_historique_case;
-
-
 }
 
 

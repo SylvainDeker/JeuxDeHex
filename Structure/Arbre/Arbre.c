@@ -90,7 +90,7 @@ Arbre_solveur constructeur_arbre_solveur(Plateau p){
     as->nb_possibilite_gagnante_j1=0;
     as->nb_possibilite_gagnante_j2=0;
 
-    if(liste_taille(Historique_Joueur(Joueur1(p)))<=liste_taille(Historique_Joueur(Joueur2(p))))
+    if(liste_taille(Historique_Joueur(Joueur1(p)))==liste_taille(Historique_Joueur(Joueur2(p))))
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,0);
     else
     feed_arbre_solveur_rec(p,as,as->sentinelle,dim-1,1);
