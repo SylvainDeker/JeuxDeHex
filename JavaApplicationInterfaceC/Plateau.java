@@ -66,16 +66,24 @@ public class Plateau {
             }
 
         }
+        /**
+         * At the end of the board print a \n and end
+         */
         System.out.println("\\\n");
 
         }
 
 
-
+        /**
+         * Get the code of the board from the c program
+         * @return the code of the board Ex : 2-0000 or 4-0000000000000000
+         * @throws IOException   [description]
+         */
     public String getBoard() throws IOException {
 
         char read[] = new char[50];
         FileWriter fOut = new FileWriter("../java_vers_c");
+        //
         fOut.write("g\n");
         fOut.close();
         FileReader fIn = new FileReader("../c_vers_java");
