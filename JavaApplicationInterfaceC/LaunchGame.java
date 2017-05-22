@@ -1,7 +1,7 @@
 import java.io.IOException;
 
 /**
- * Created by salimcherifi on 5/18/17.
+ * Main class : launch the game from the main menu
  */
 public class LaunchGame {
     public static void main(String args[]) throws IOException, InterruptedException {
