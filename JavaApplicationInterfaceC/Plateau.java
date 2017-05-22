@@ -77,22 +77,27 @@ public class Plateau {
         /**
          * Get the code of the board from the c program
          * @return the code of the board Ex : 2-0000 or 4-0000000000000000
-         * @throws IOException   [description]
+         * @throws IOException
          */
     public String getBoard() throws IOException {
 
         char read[] = new char[50];
         FileWriter fOut = new FileWriter("../java_vers_c");
-        //
+        //send the code to print the board
         fOut.write("g\n");
         fOut.close();
         FileReader fIn = new FileReader("../c_vers_java");
+        //Read the code
         fIn.read(read);
         fIn.close();
+        //Make a string out the char array
         String message = new String(read);
         return message;
     }
-
+    /**
+     * Return the size  of the board
+     * @return the size of the board
+     */
     public int getSize() {
         return size;
     }
